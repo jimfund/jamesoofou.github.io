@@ -14,11 +14,10 @@
                 /* Light Mode */
                 --bg-color: #ffffff;
                 --text-primary: #111111;
-                --text-secondary: #555555;
-                --text-tertiary: #999999; 
+                --text-secondary: #555555; 
                 --line-color: #f0f0f0;
                 --margin-edge: 40px;
-                --header-height: 100px;
+                --header-height: 100px; /* Defined height for layout logic */
             }
 
             .dark-mode {
@@ -26,7 +25,6 @@
                 --bg-color: #080808;
                 --text-primary: #f0f0f0;
                 --text-secondary: #999999;
-                --text-tertiary: #555555;
                 --line-color: #222222;
             }
 
@@ -41,7 +39,8 @@
                 overflow-x: hidden;
             }
 
-            /* --- Header --- */
+            /* --- Header: The Anchor --- */
+            /* Fixed position ensures it is always visible to act as the "Back" button */
             header {
                 position: fixed;
                 top: 0;
@@ -51,8 +50,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                z-index: 200;
-                background-color: var(--bg-color);
+                z-index: 200; /* Sits above everything */
+                background-color: var(--bg-color); /* Solid background to hide scrolling text */
                 transition: background-color 0.5s ease;
             }
 
@@ -62,7 +61,7 @@
                 text-transform: uppercase;
                 letter-spacing: 0.08em; 
                 line-height: 1;
-                cursor: pointer;
+                cursor: pointer; /* Reinforce clickability */
             }
 
             h1 a {
@@ -71,21 +70,26 @@
                 transition: opacity 0.2s ease;
             }
             
-            h1 a:hover { opacity: 0.7; }
+            /* Subtle hover effect to indicate it does something */
+            h1 a:hover {
+                opacity: 0.7; 
+            }
 
-            /* --- Layout --- */
+            /* --- The Vertical Axis --- */
             
             .viewport-container {
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: center; /* Center content vertically */
                 align-items: center;
                 padding: var(--margin-edge);
                 max-width: 1400px;
                 margin: 0 auto;
-                padding-top: var(--header-height);
+                padding-top: var(--header-height); /* Clear the fixed header */
             }
+
+            /* --- Middle: The Core --- */
 
             main {
                 width: 100%;
@@ -97,10 +101,8 @@
             }
 
             .statement-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                max-width: 700px; /* Widened slightly to accommodate dates */
+                text-align: center;
+                max-width: 640px;
                 animation: fadeIn 0.8s ease forwards;
             }
 
@@ -109,56 +111,34 @@
                 line-height: 1.4;
                 font-weight: 400;
                 font-style: italic;
-                text-align: center;
                 margin-bottom: 80px;
                 color: var(--text-primary);
             }
 
-            /* --- The Index List --- */
-
             .articles-nav {
                 display: flex;
                 flex-direction: column;
-                gap: 16px; 
-                width: 100%;
-                max-width: 550px; /* Constrains the width so eyes don't travel too far */
+                gap: 20px; 
+                align-items: center;
             }
 
             .article-link {
-                display: flex;
-                align-items: baseline; /* Aligns text perfectly on the line */
-                gap: 24px; /* Space between date and title */
+                font-family: 'Inter', sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                color: var(--text-primary);
                 text-decoration: none;
                 transition: all 0.2s ease;
-                opacity: 0.8;
-                padding: 4px 0;
-                border-bottom: 1px solid transparent; /* Keeps layout stable on hover */
+                opacity: 0.7;
             }
 
             .article-link:hover {
                 opacity: 1;
-                transform: translateX(5px); /* Subtle movement implies "Go" */
+                transform: scale(1.02);
             }
 
-            .index-date {
-                font-family: 'Inter', monospace; /* Monospace numbers for precision */
-                font-size: 13px;
-                color: var(--text-tertiary);
-                width: 100px; /* Fixed width creates the vertical column */
-                flex-shrink: 0;
-                text-align: right; /* Aligns date against the title */
-                letter-spacing: 0.05em;
-            }
-
-            .index-title {
-                font-family: 'Inter', sans-serif;
-                font-size: 16px;
-                font-weight: 500;
-                color: var(--text-primary);
-                letter-spacing: 0.01em;
-            }
-
-            /* --- Footer --- */
+            /* --- Bottom: The Tools --- */
 
             footer {
                 width: 100%;
@@ -166,7 +146,7 @@
                 justify-content: center; 
                 align-items: center;
                 padding-bottom: 3vh;
-                margin-top: auto;
+                margin-top: auto; /* Push to bottom if content is short */
                 gap: 24px;
             }
 
@@ -193,6 +173,7 @@
             .dark-mode .theme-btn .sun { display: block; }
             .dark-mode .theme-btn .moon { display: none; }
 
+
             /* --- Article Overlay --- */
             
             .article-overlay {
@@ -202,8 +183,9 @@
                 width: 100%;
                 height: 100vh;
                 background: var(--bg-color);
-                z-index: 100;
+                z-index: 100; /* Below Header (200), Above Content */
                 overflow-y: auto;
+                /* Padding top must equal header height + breathing room */
                 padding: calc(var(--header-height) + 40px) var(--margin-edge) 80px;
                 opacity: 0;
                 pointer-events: none;
@@ -261,7 +243,9 @@
                 text-decoration-color: var(--text-secondary);
             }
             
-            .content a:hover { text-decoration-color: var(--text-primary); }
+            .content a:hover {
+                text-decoration-color: var(--text-primary);
+            }
 
             .content img {
                 width: 100%;
@@ -286,42 +270,39 @@
                 :root { --header-height: 80px; }
                 h1 { font-size: 26px; }
                 .statement { font-size: 24px; margin-bottom: 50px; }
-                
-                /* On mobile, we stack the date and title to save space */
-                .article-link { flex-direction: column; gap: 4px; align-items: center; text-align: center; }
-                .index-date { text-align: center; width: auto; font-size: 11px; }
-                
+                .article-header h2 { font-size: 32px; }
                 .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
         </style>
     </head>
     <body>
 
+        <!-- Fixed Header (Always Visible) -->
         <header>
+            <!-- Clicking this acts as the "Home" or "Back" button -->
             <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
         </header>
 
         <div class="viewport-container">
             
+            <!-- Center: Mission & Index -->
             <main id="home-view">
                 <div class="statement-container">
                     <div class="statement">
-			Making the most of intelligence takeoff.
+                        Enjoying intelligence takeoff.
                     </div>
                     
                     <nav class="articles-nav">
                         
                         <a href="#" class="article-link" onclick="showArticle('math'); return false;">
-                            <!-- The Date Column -->
-                            <span class="index-date">06 Mar 2025</span>
-                            <!-- The Title Column -->
-                            <span class="index-title">Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</span>
+                            Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
                         </a>
                         
                     </nav>
                 </div>
             </main>
 
+            <!-- Bottom: Essentials -->
             <footer>
                 <a href="https://bsky.app/profile/jimfund.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
                     <svg width="20" height="20" viewBox="0 0 568 501" fill="currentColor">
@@ -400,6 +381,7 @@
              document.getElementById(id).classList.add('active');
              document.body.style.overflow = 'hidden';
              history.pushState(null, '', '#' + id);
+             // Reset scroll position when opening an article
              document.getElementById(id).scrollTop = 0;
          }
 
