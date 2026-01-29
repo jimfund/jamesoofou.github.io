@@ -4,282 +4,344 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>jimfund</title>
+        
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        
         <style>
             :root {
-                --bg-color: #fafafa;
-                --text-color: #222;
-                --text-muted: #888;
-                --text-hover: #555;
-                --link-color: #222;
-                --blockquote-border: #e0e0e0;
-                --blockquote-text: #555;
-                --shadow-color: rgba(0,0,0,0.1);
+                /* Light Mode */
+                --bg-color: #ffffff;
+                --text-primary: #111111;
+                --text-secondary: #555555;
+                --text-tertiary: #999999; 
+                --line-color: #f0f0f0;
+                --margin-edge: 40px;
+                --header-height: 100px;
             }
 
             .dark-mode {
-                --bg-color: #1a1a1a;
-                --text-color: #e0e0e0;
-                --text-muted: #888;
-                --text-hover: #bbb;
-                --link-color: #e0e0e0;
-                --blockquote-border: #444;
-                --blockquote-text: #aaa;
-                --shadow-color: rgba(0,0,0,0.4);
+                /* Dark Mode */
+                --bg-color: #080808;
+                --text-primary: #f0f0f0;
+                --text-secondary: #999999;
+                --text-tertiary: #555555;
+                --line-color: #222222;
             }
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            .article-view .content img {
-                max-width: 100%;
-                height: auto;
-                display: block;
-                margin: 1.5rem 0;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px var(--shadow-color);
-            }
-
-            .article-view .content blockquote {
-                margin: 1.5rem 0 1.5rem 0;
-                padding-left: 1.25rem;
-                border-left: 4px solid var(--blockquote-border);
-                color: var(--blockquote-text);
-                font-style: italic;
-            }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
 
             body {
-                font-family: 'EB Garamond', Georgia, serif;
-                font-size: 18px;
-                line-height: 1.6;
-                color: var(--text-color);
-                background: var(--bg-color);
-                padding: 3rem 1.5rem;
-                max-width: 600px;
-                margin: 0 auto;
-                transition: background-color 0.3s ease, color 0.3s ease;
+                background-color: var(--bg-color);
+                color: var(--text-primary);
+                font-family: 'Libre Baskerville', serif; 
+                transition: background-color 0.5s ease, color 0.5s ease;
+                min-height: 100vh;
+                overflow-x: hidden;
             }
 
+            /* --- Header --- */
             header {
-                margin-bottom: 3rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: var(--header-height);
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
+                z-index: 200;
+                background-color: var(--bg-color);
+                transition: background-color 0.5s ease;
             }
 
             h1 {
-                font-size: 1.5rem;
-                font-weight: 500;
-                letter-spacing: -0.02em;
+                font-size: 32px; 
+                font-weight: 700; 
+                text-transform: uppercase;
+                letter-spacing: 0.08em; 
+                line-height: 1;
+                cursor: pointer;
             }
 
             h1 a {
-                color: inherit;
+                color: var(--text-primary);
                 text-decoration: none;
+                transition: opacity 0.2s ease;
             }
+            
+            h1 a:hover { opacity: 0.7; }
 
-            h1 a:hover {
-                color: var(--text-hover);
-            }
-
-            .header-controls {
+            /* --- Layout --- */
+            
+            .viewport-container {
+                min-height: 100vh;
                 display: flex;
+                flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                gap: 0.75rem;
+                padding: var(--margin-edge);
+                max-width: 1400px;
+                margin: 0 auto;
+                padding-top: var(--header-height);
             }
 
-            .social-link {
-                color: var(--text-muted);
-                transition: color 0.2s ease;
+            main {
+                width: 100%;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                padding: 0.25rem;
+                justify-content: center;
+                flex-grow: 1;
             }
 
-            .social-link:hover {
-                color: var(--text-color);
+            .statement-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 700px; /* Widened slightly to accommodate dates */
+                animation: fadeIn 0.8s ease forwards;
             }
 
-            .theme-toggle {
+            .statement {
+                font-size: 32px;
+                line-height: 1.4;
+                font-weight: 400;
+                font-style: italic;
+                text-align: center;
+                margin-bottom: 80px;
+                color: var(--text-primary);
+            }
+
+            /* --- The Index List --- */
+
+            .articles-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 16px; 
+                width: 100%;
+                max-width: 550px; /* Constrains the width so eyes don't travel too far */
+            }
+
+            .article-link {
+                display: flex;
+                align-items: baseline; /* Aligns text perfectly on the line */
+                gap: 24px; /* Space between date and title */
+                text-decoration: none;
+                transition: all 0.2s ease;
+                opacity: 0.8;
+                padding: 4px 0;
+                border-bottom: 1px solid transparent; /* Keeps layout stable on hover */
+            }
+
+            .article-link:hover {
+                opacity: 1;
+                transform: translateX(5px); /* Subtle movement implies "Go" */
+            }
+
+            .index-date {
+                font-family: 'Inter', monospace; /* Monospace numbers for precision */
+                font-size: 13px;
+                color: var(--text-tertiary);
+                width: 100px; /* Fixed width creates the vertical column */
+                flex-shrink: 0;
+                text-align: right; /* Aligns date against the title */
+                letter-spacing: 0.05em;
+            }
+
+            .index-title {
+                font-family: 'Inter', sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--text-primary);
+                letter-spacing: 0.01em;
+            }
+
+            /* --- Footer --- */
+
+            footer {
+                width: 100%;
+                display: flex;
+                justify-content: center; 
+                align-items: center;
+                padding-bottom: 3vh;
+                margin-top: auto;
+                gap: 24px;
+            }
+
+            .social-icon, .theme-btn {
+                color: var(--text-secondary);
                 background: none;
                 border: none;
                 cursor: pointer;
-                padding: 0.25rem;
-                color: var(--text-muted);
-                transition: color 0.2s ease;
+                padding: 0;
                 display: flex;
                 align-items: center;
+                transition: color 0.3s ease;
+                opacity: 0.7;
             }
-
-            .theme-toggle:hover {
-                color: var(--text-color);
+            
+            .social-icon:hover, .theme-btn:hover { 
+                color: var(--text-primary); 
+                opacity: 1; 
             }
+            
+            .theme-btn .sun, .theme-btn .moon { width: 18px; height: 18px; }
+            .theme-btn .sun { display: none; }
+            .theme-btn .moon { display: block; }
+            .dark-mode .theme-btn .sun { display: block; }
+            .dark-mode .theme-btn .moon { display: none; }
 
-            .theme-toggle .sun {
+            /* --- Article Overlay --- */
+            
+            .article-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-color);
+                z-index: 100;
+                overflow-y: auto;
+                padding: calc(var(--header-height) + 40px) var(--margin-edge) 80px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
                 display: none;
             }
 
-            .theme-toggle .moon {
+            .article-overlay.active {
+                opacity: 1;
+                pointer-events: all;
                 display: block;
             }
 
-            .dark-mode .theme-toggle .sun {
+            .article-content-wrapper {
+                max-width: 680px;
+                margin: 0 auto;
+            }
+
+            .article-header {
+                text-align: center;
+                margin-bottom: 60px;
+                padding-bottom: 40px;
+                border-bottom: 1px solid var(--line-color);
+            }
+
+            .article-header h2 {
+                font-size: 42px;
+                font-weight: 700;
+                margin-bottom: 20px;
+                line-height: 1.2;
+                color: var(--text-primary);
+            }
+
+            .article-date {
+                font-family: 'Inter', monospace;
+                font-size: 13px;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+
+            .content {
+                font-size: 19px; 
+                line-height: 1.7;
+                color: var(--text-primary);
+            }
+            
+            .content p { margin-bottom: 28px; }
+            
+            .content a { 
+                color: var(--text-primary); 
+                text-decoration: underline; 
+                text-decoration-thickness: 1px;
+                text-underline-offset: 4px;
+                text-decoration-color: var(--text-secondary);
+            }
+            
+            .content a:hover { text-decoration-color: var(--text-primary); }
+
+            .content img {
+                width: 100%;
+                height: auto;
                 display: block;
+                margin: 40px 0;
+            }
+            
+            .content blockquote {
+                border-left: 3px solid var(--text-primary);
+                padding-left: 20px;
+                font-style: italic;
+                margin: 30px 0;
             }
 
-            .dark-mode .theme-toggle .moon {
-                display: none;
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
 
-            .articles {
-                list-style: none;
-            }
-
-            .article {
-                margin-bottom: 0.75rem;
-                display: flex;
-                gap: 1.5rem;
-                align-items: baseline;
-            }
-
-            .date {
-                color: var(--text-muted);
-                font-size: 0.9rem;
-                flex-shrink: 0;
-                width: 6rem;
-            }
-
-            .title {
-                color: var(--text-color);
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .title:hover {
-                color: var(--text-hover);
-            }
-
-            .article-view {
-                display: none;
-            }
-
-            .article-view.active {
-                display: block;
-            }
-
-            .article-view .article-date {
-                color: var(--text-muted);
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .article-view h2 {
-                font-size: 1.75rem;
-                font-weight: 500;
-                margin-bottom: 0.5rem;
-                letter-spacing: -0.02em;
-            }
-
-            .article-view .content {
-                margin-top: 2rem;
-            }
-
-            .article-view .content p {
-                margin-bottom: 1.25rem;
-            }
-
-            .article-view .content a {
-                color: var(--link-color);
-                text-decoration: underline;
-            }
-
-            .article-view .content a:hover {
-                color: var(--text-hover);
-            }
-
-            .home-view.hidden {
-                display: none;
-            }
-
-            .article-view .content ul {
-                margin-bottom: 1.25rem;
-                padding-left: 1.5rem;
-                list-style-type: disc;
-            }
-
-            .article-view .content li {
-                margin-bottom: 0.5rem;
-                padding-left: 0.25rem;
-            }
-
-            .article-view .content ul ul {
-                margin-bottom: 0;
-                margin-top: 0.5rem;
-                list-style-type: circle;
-            }
-
-            @media (max-width: 500px) {
-                .article {
-                    flex-direction: column;
-                    gap: 0.1rem;
-                    margin-bottom: 1.25rem;
-                }
-
-                .date {
-                    width: auto;
-                }
+            @media (max-width: 768px) {
+                :root { --header-height: 80px; }
+                h1 { font-size: 26px; }
+                .statement { font-size: 24px; margin-bottom: 50px; }
+                
+                /* On mobile, we stack the date and title to save space */
+                .article-link { flex-direction: column; gap: 4px; align-items: center; text-align: center; }
+                .index-date { text-align: center; width: auto; font-size: 11px; }
+                
+                .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
         </style>
     </head>
     <body>
+
         <header>
             <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
-            <div class="header-controls">
-                <a href="https://bsky.app/profile/jimfund.com" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
-                    <svg width="18" height="18" viewBox="0 0 568 501" fill="currentColor">
-			<path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" fill="#1185fe"/>
-                    </svg>
-                </a>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-                    <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-            </div>
         </header>
 
-        <main>
-            <div class="home-view">
-                <ul class="articles">
-                    
-                    <li class="article">
-                        <span class="date">06 Mar 2025</span>
-                        <a href="#" class="title" onclick="showArticle('math'); return false;">Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</a>
-                    </li>
-                    
-                </ul>
-            </div>
-
+        <div class="viewport-container">
             
-            <article class="article-view" id="math">
-                <h2>Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</h2>
-                <p class="article-date">06 Mar 2025</p>
+            <main id="home-view">
+                <div class="statement-container">
+                    <div class="statement">
+			Making the most of intelligence takeoff.
+                    </div>
+                    
+                    <nav class="articles-nav">
+                        
+                        <a href="#" class="article-link" onclick="showArticle('math'); return false;">
+                            <!-- The Date Column -->
+                            <span class="index-date">06 Mar 2025</span>
+                            <!-- The Title Column -->
+                            <span class="index-title">Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</span>
+                        </a>
+                        
+                    </nav>
+                </div>
+            </main>
+
+            <footer>
+                <a href="https://bsky.app/profile/jimfund.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                    <svg width="20" height="20" viewBox="0 0 568 501" fill="currentColor">
+                         <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z"/>
+                    </svg>
+                </a>
+                <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </footer>
+        </div>
+
+        
+        <div class="article-overlay" id="math">
+            <div class="article-content-wrapper">
+                <div class="article-header">
+                    <h2>Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</h2>
+                    <span class="article-date">06 Mar 2025</span>
+                </div>
                 <div class="content">
                     <p>A fully-autonomous mathematics researcher must do two things. It must solve open mathematics problems. And it must pose interesting mathematics problems within its reach to solve. I will argue that reasoning will scale to enable these two things.</p>
 
@@ -313,9 +375,9 @@
 
 <p>So, I have presented two arguments. One that reasoners will scale to solving open problems, and one that the reasoning traces can be used to train reasoners which autonomously pose novel problems. This kind of reasoner will be a fully-autonomous mathematics researcher.</p>
                 </div>
-            </article>
-            
-        </main>
+            </div>
+        </div>
+        
 
         <script>
          function toggleTheme() {
@@ -327,7 +389,6 @@
          function initTheme() {
              const savedTheme = localStorage.getItem('theme');
              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-             
              if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
                  document.body.classList.add('dark-mode');
              }
@@ -336,29 +397,24 @@
          initTheme();
 
          function showArticle(id) {
-             document.querySelector('.home-view').classList.add('hidden');
-             document.querySelectorAll('.article-view').forEach(el => el.classList.remove('active'));
              document.getElementById(id).classList.add('active');
+             document.body.style.overflow = 'hidden';
              history.pushState(null, '', '#' + id);
-             window.scrollTo(0, 0);
+             document.getElementById(id).scrollTop = 0;
          }
 
          function showHome() {
-             document.querySelectorAll('.article-view').forEach(el => el.classList.remove('active'));
-             document.querySelector('.home-view').classList.remove('hidden');
+             document.querySelectorAll('.article-overlay').forEach(el => el.classList.remove('active'));
+             document.body.style.overflow = '';
              history.pushState(null, '', window.location.pathname);
-             window.scrollTo(0, 0);
          }
 
          function handleHash() {
              const hash = window.location.hash.slice(1);
              if (hash && document.getElementById(hash)) {
-                 document.querySelector('.home-view').classList.add('hidden');
-                 document.querySelectorAll('.article-view').forEach(el => el.classList.remove('active'));
-                 document.getElementById(hash).classList.add('active');
+                 showArticle(hash);
              } else {
-                 document.querySelectorAll('.article-view').forEach(el => el.classList.remove('active'));
-                 document.querySelector('.home-view').classList.remove('hidden');
+                 showHome();
              }
          }
 
