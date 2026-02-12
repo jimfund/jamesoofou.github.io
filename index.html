@@ -111,11 +111,6 @@
                 flex-direction: column;
                 align-items: center;
                 padding: 32px 0;
-                border-bottom: 1px solid var(--line-color);
-            }
-
-            .article-entry:first-child {
-                border-top: 1px solid var(--line-color);
             }
 
             .article-entry a {
@@ -271,7 +266,7 @@
                 :root { --header-height: 80px; }
                 h1 { font-size: 26px; }
                 .article-entry a { font-size: 22px; }
-                .article-entry { padding: 26px 0; }
+                .article-entry { padding: 26px 0; min-width: unset; width: 100%; }
                 .article-header h2 { font-size: 32px; }
                 .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
