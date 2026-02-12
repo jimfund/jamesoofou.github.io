@@ -110,9 +110,8 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                padding: 20px 0;
+                padding: 32px 0;
                 border-bottom: 1px solid var(--line-color);
-                width: 320px;
             }
 
             .article-entry:first-child {
@@ -121,24 +120,24 @@
 
             .article-entry a {
                 font-family: 'Libre Baskerville', serif;
-                font-size: 18px;
+                font-size: 26px;
                 font-weight: 400;
                 color: var(--text-primary);
                 text-decoration: none;
                 transition: opacity 0.2s ease;
-                margin-bottom: 6px;
+                margin-bottom: 10px;
             }
 
             .article-entry a:hover {
-                opacity: 0.6;
+                opacity: 0.5;
             }
 
             .article-entry .date {
                 font-family: 'Inter', sans-serif;
-                font-size: 12px;
+                font-size: 11px;
                 color: var(--text-secondary);
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.12em;
             }
 
             /* --- Bottom: The Tools --- */
@@ -271,7 +270,8 @@
             @media (max-width: 768px) {
                 :root { --header-height: 80px; }
                 h1 { font-size: 26px; }
-                .article-entry { width: 260px; }
+                .article-entry a { font-size: 22px; }
+                .article-entry { padding: 26px 0; }
                 .article-header h2 { font-size: 32px; }
                 .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
