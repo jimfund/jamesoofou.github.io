@@ -17,7 +17,7 @@
                 --text-secondary: #555555; 
                 --line-color: #f0f0f0;
                 --margin-edge: 40px;
-                --header-height: 100px; /* Defined height for layout logic */
+                --header-height: 100px;
             }
 
             .dark-mode {
@@ -40,7 +40,6 @@
             }
 
             /* --- Header: The Anchor --- */
-            /* Fixed position ensures it is always visible to act as the "Back" button */
             header {
                 position: fixed;
                 top: 0;
@@ -50,8 +49,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                z-index: 200; /* Sits above everything */
-                background-color: var(--bg-color); /* Solid background to hide scrolling text */
+                z-index: 200;
+                background-color: var(--bg-color);
                 transition: background-color 0.5s ease;
             }
 
@@ -61,7 +60,7 @@
                 text-transform: uppercase;
                 letter-spacing: 0.08em; 
                 line-height: 1;
-                cursor: pointer; /* Reinforce clickability */
+                cursor: pointer;
             }
 
             h1 a {
@@ -70,7 +69,6 @@
                 transition: opacity 0.2s ease;
             }
             
-            /* Subtle hover effect to indicate it does something */
             h1 a:hover {
                 opacity: 0.7; 
             }
@@ -81,12 +79,12 @@
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                justify-content: center; /* Center content vertically */
+                justify-content: center;
                 align-items: center;
                 padding: var(--margin-edge);
                 max-width: 1400px;
                 margin: 0 auto;
-                padding-top: var(--header-height); /* Clear the fixed header */
+                padding-top: var(--header-height);
             }
 
             /* --- Middle: The Core --- */
@@ -100,42 +98,47 @@
                 flex-grow: 1;
             }
 
-            .statement-container {
-                text-align: center;
-                max-width: 640px;
-                animation: fadeIn 0.8s ease forwards;
-            }
-
-            .statement {
-                font-size: 32px;
-                line-height: 1.4;
-                font-weight: 400;
-                font-style: italic;
-                margin-bottom: 80px;
-                color: var(--text-primary);
-            }
-
             .articles-nav {
                 display: flex;
                 flex-direction: column;
-                gap: 20px; 
+                gap: 0;
                 align-items: center;
+                animation: fadeIn 0.8s ease forwards;
             }
 
-            .article-link {
-                font-family: 'Inter', sans-serif;
-                font-size: 16px;
-                font-weight: 500;
-                letter-spacing: 0.02em;
+            .article-entry {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                border-bottom: 1px solid var(--line-color);
+                width: 320px;
+            }
+
+            .article-entry:first-child {
+                border-top: 1px solid var(--line-color);
+            }
+
+            .article-entry a {
+                font-family: 'Libre Baskerville', serif;
+                font-size: 18px;
+                font-weight: 400;
                 color: var(--text-primary);
                 text-decoration: none;
-                transition: all 0.2s ease;
-                opacity: 0.7;
+                transition: opacity 0.2s ease;
+                margin-bottom: 6px;
             }
 
-            .article-link:hover {
-                opacity: 1;
-                transform: scale(1.02);
+            .article-entry a:hover {
+                opacity: 0.6;
+            }
+
+            .article-entry .date {
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
             }
 
             /* --- Bottom: The Tools --- */
@@ -146,7 +149,7 @@
                 justify-content: center; 
                 align-items: center;
                 padding-bottom: 3vh;
-                margin-top: auto; /* Push to bottom if content is short */
+                margin-top: auto;
                 gap: 24px;
             }
 
@@ -183,9 +186,8 @@
                 width: 100%;
                 height: 100vh;
                 background: var(--bg-color);
-                z-index: 100; /* Below Header (200), Above Content */
+                z-index: 100;
                 overflow-y: auto;
-                /* Padding top must equal header height + breathing room */
                 padding: calc(var(--header-height) + 40px) var(--margin-edge) 80px;
                 opacity: 0;
                 pointer-events: none;
@@ -269,7 +271,7 @@
             @media (max-width: 768px) {
                 :root { --header-height: 80px; }
                 h1 { font-size: 26px; }
-                .statement { font-size: 24px; margin-bottom: 50px; }
+                .article-entry { width: 260px; }
                 .article-header h2 { font-size: 32px; }
                 .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
@@ -279,31 +281,30 @@
 
         <!-- Fixed Header (Always Visible) -->
         <header>
-            <!-- Clicking this acts as the "Home" or "Back" button -->
             <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
         </header>
 
         <div class="viewport-container">
             
-            <!-- Center: Mission & Index -->
+            <!-- Center: Article Index -->
             <main id="home-view">
-                <div class="statement-container">
-                    <div class="statement">
-                        Enjoying intelligence takeoff.
-                    </div>
+                <nav class="articles-nav">
                     
-                    <nav class="articles-nav">
-                        
-                        <a href="#" class="article-link" onclick="showArticle('2026'); return false;">
+                    <div class="article-entry">
+                        <a href="#" onclick="showArticle('2026'); return false;">
                             2026
                         </a>
-                        
-                        <a href="#" class="article-link" onclick="showArticle('math'); return false;">
+                        <span class="date">12 Feb 2026</span>
+                    </div>
+                    
+                    <div class="article-entry">
+                        <a href="#" onclick="showArticle('math'); return false;">
                             Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
                         </a>
-                        
-                    </nav>
-                </div>
+                        <span class="date">06 Mar 2025</span>
+                    </div>
+                    
+                </nav>
             </main>
 
             <!-- Bottom: Essentials -->
@@ -407,7 +408,6 @@
              document.getElementById(id).classList.add('active');
              document.body.style.overflow = 'hidden';
              history.pushState(null, '', '#' + id);
-             // Reset scroll position when opening an article
              document.getElementById(id).scrollTop = 0;
          }
 
