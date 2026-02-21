@@ -262,6 +262,32 @@
 	     margin-bottom: 28px;
 	 }
 
+            .content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 30px 0;
+                font-family: 'Inter', sans-serif;
+                font-size: 15px;
+            }
+
+            .content th, .content td {
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid var(--line-color);
+            }
+
+            .content th {
+                font-weight: 600;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-secondary);
+            }
+
+            .content tr:last-child td {
+                border-bottom: none;
+            }
+
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
                 to { opacity: 1; transform: translateY(0); }
@@ -401,31 +427,31 @@
 
 <h2>Solving Open Math Problems</h2>
 
-<p>That reasoners will scale to solving interesting problems seems likely since such problems are verifiable (using autonomous proof checkers). Some disagree (<a href="https://www.lesswrong.com/posts/GADJFwHzNZKg2Ndti">here</a>’s a relevant LessWrong post), taking the position that solving open problems is fundamentally different to solving closed problems. LLMs, they argue, have the latent ability to solve these problems because the knowledge is present in the data they’re trained on. And, they argue, the reinforcement learning process by which inference-time reasoners are trained simply elicits this latent ability—but since no such latent ability exists when it comes to solving novel problems, there’s a fundamental difference between the two, and we have no reason to suppose that reasoners will scale to solving novel problems any time soon.</p>
+<p>That reasoners will scale to solving interesting problems seems likely since such problems are verifiable (using autonomous proof checkers). Some disagree (<a href="https://www.lesswrong.com/posts/GADJFwHzNZKg2Ndti">here</a>'s a relevant LessWrong post), taking the position that solving open problems is fundamentally different to solving closed problems. LLMs, they argue, have the latent ability to solve these problems because the knowledge is present in the data they're trained on. And, they argue, the reinforcement learning process by which inference-time reasoners are trained simply elicits this latent ability—but since no such latent ability exists when it comes to solving novel problems, there's a fundamental difference between the two, and we have no reason to suppose that reasoners will scale to solving novel problems any time soon.</p>
 
 <p>But this is just a matter of how one chooses to carve out nature. Just as the techniques required to solve closed problems are available in the corpora of human data on which LLMs are trained, so too are the more abstract techniques required to solve open problems. The main distinction between the two is not some fundamental difference in nature, but rather the time horizon over which each occurs. Applying the techniques required to solve closed problems takes minutes or hours. Applying the techniques required to solve open problems takes days or weeks (and perhaps up to, effectively, indefinitely longer).</p>
 
-<p>This chart describes which mathematics tasks AI can solve in terms of how long the task takes a skilled human to do. It’s based on <a href="https://www.lesswrong.com/posts/KFJ2LFogYqzfGB3uX/how-ai-takeover-might-happen-in-2-years?commentId=f5GvTksoZugnYdup9">extrapolative research</a> by METR.</p>
+<p>This chart describes which mathematics tasks AI can solve in terms of how long the task takes a skilled human to do. It's based on <a href="https://www.lesswrong.com/posts/KFJ2LFogYqzfGB3uX/how-ai-takeover-might-happen-in-2-years?commentId=f5GvTksoZugnYdup9">extrapolative research</a> by METR.</p>
 
 <img src="math-chart.webp" style="max-width: 100%; height: auto; display: block; margin: 20px 0;">
 
-<p>The fact that LLMs cannot yet apply the time-consuming techniques required to solve open problems is in fact largely uninformative given the time-horizon focused perspective which seems correct, and the informative evidence we do have (that the techniques which are within current-AI’s time horizons are successfully carried out by AI) suggests that we should expect that AI will be able to successfully carry out techniques which are within future-AI’s time horizons—assuming they’re not fundamentally different in kind.</p>
+<p>The fact that LLMs cannot yet apply the time-consuming techniques required to solve open problems is in fact largely uninformative given the time-horizon focused perspective which seems correct, and the informative evidence we do have (that the techniques which are within current-AI's time horizons are successfully carried out by AI) suggests that we should expect that AI will be able to successfully carry out techniques which are within future-AI's time horizons—assuming they're not fundamentally different in kind.</p>
 
 <h2>Posing Interesting Problems</h2>
 
 <p>The ability to solve open questions is not sufficient for fully autonomous research. The reasoner must also be able to self-direct—to pose problems which are at once interesting and reasonably likely to be within its reach to solve.</p>
 
-<p>One might ask: “Can we not simply use the argument we just used to demonstrate that reasoners will scale to solve open questions, to demonstrate also that they will scale to be able to pose problems? Is this too not just a matter of time-horizons?”. Unfortunately, we cannot. The problems which reasoners have been able to solve so far are verifiable tasks. Solving open problems is also a verifiable task, so is not of a fundamentally different kind, which is why our argument above held. But we have yet to demonstrate that self-direction in research is a task which we will be able to make verifiable. So, because we have not established that posing problems does not belong to that class of tasks at which today’s reasoning models do not perform well, we have more work to do yet.</p>
+<p>One might ask: "Can we not simply use the argument we just used to demonstrate that reasoners will scale to solve open questions, to demonstrate also that they will scale to be able to pose problems? Is this too not just a matter of time-horizons?". Unfortunately, we cannot. The problems which reasoners have been able to solve so far are verifiable tasks. Solving open problems is also a verifiable task, so is not of a fundamentally different kind, which is why our argument above held. But we have yet to demonstrate that self-direction in research is a task which we will be able to make verifiable. So, because we have not established that posing problems does not belong to that class of tasks at which today's reasoning models do not perform well, we have more work to do yet.</p>
 
-<p>I’m going to break down what solving open problems will involve, and show that the techniques involved include a limited kind of self-direction in finding problems to solve, and that by transitive property this limited self-direction is a verifiable task. Then I will show that this limited self-direction can be used as a source of synthetic data on which models can be trained, enabling indefinite, fully self-directed research.</p>
+<p>I'm going to break down what solving open problems will involve, and show that the techniques involved include a limited kind of self-direction in finding problems to solve, and that by transitive property this limited self-direction is a verifiable task. Then I will show that this limited self-direction can be used as a source of synthetic data on which models can be trained, enabling indefinite, fully self-directed research.</p>
 
-<p>Solving open problems requires novel insight. Novel insight realistically requires trial-and-error: one comes up with an idea and sees if it goes anywhere. The AI is coming up with various potential novel ideas, and, assuming that LLMs of this scale are not fundamentally incapable of this kind of skill, should form a strong intuition about what kind of ideas tend to lead to successfully solving problems. Now, this may be a kind of self-direction, but it’s not self-directed problem-posing. So, we’re not where we want to be quite yet.</p>
+<p>Solving open problems requires novel insight. Novel insight realistically requires trial-and-error: one comes up with an idea and sees if it goes anywhere. The AI is coming up with various potential novel ideas, and, assuming that LLMs of this scale are not fundamentally incapable of this kind of skill, should form a strong intuition about what kind of ideas tend to lead to successfully solving problems. Now, this may be a kind of self-direction, but it's not self-directed problem-posing. So, we're not where we want to be quite yet.</p>
 
-<p>But most open problems are more difficult than this. One can’t just come up with a single idea that gets one straight to the solution. Rather, one has to make progress incrementally. Find some small property which one didn’t notice in one’s initial attempt to solve the problem. Play around with the implications. Try to solve the problem again, make some incremental progress. Find some more properties. Some more implications. Gradually, by selecting the right sub-problems to work on, one works toward solving the given problem. This process requires an understanding of how to find the kinds of problems that are within one’s reach, and how to find problems which yield interesting implications. This is self-directed problem-posing, as an instrumental good to a verifiable task. So, by transitive property, this kind of self-directed problem-posing is a verifiable task.</p>
+<p>But most open problems are more difficult than this. One can't just come up with a single idea that gets one straight to the solution. Rather, one has to make progress incrementally. Find some small property which one didn't notice in one's initial attempt to solve the problem. Play around with the implications. Try to solve the problem again, make some incremental progress. Find some more properties. Some more implications. Gradually, by selecting the right sub-problems to work on, one works toward solving the given problem. This process requires an understanding of how to find the kinds of problems that are within one's reach, and how to find problems which yield interesting implications. This is self-directed problem-posing, as an instrumental good to a verifiable task. So, by transitive property, this kind of self-directed problem-posing is a verifiable task.</p>
 
 <p>But this is still just limited self-directed problem-posing. Yes, once the AI has a difficult problem given to it, it can do its best to pose problems the solutions to which will be instrumentally useful to solving the given problem. But it still requires a human-in-the-loop supplying the AI with its overall research direction.</p>
 
-<p>But the problem-solving model’s reasoning traces are synthetic data which describe the process of finding problems to solve which are within the reasoner’s reach and which have useful implications. This synthetic data can be used to train a reasoner to continuously pose and solve interesting problems. The details of this are left as an exercise for the reader.</p>
+<p>But the problem-solving model's reasoning traces are synthetic data which describe the process of finding problems to solve which are within the reasoner's reach and which have useful implications. This synthetic data can be used to train a reasoner to continuously pose and solve interesting problems. The details of this are left as an exercise for the reader.</p>
 
 <p>So, I have presented two arguments. One that reasoners will scale to solving open problems, and one that the reasoning traces can be used to train reasoners which autonomously pose novel problems. This kind of reasoner will be a fully-autonomous mathematics researcher.</p>
                 </div>
