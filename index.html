@@ -291,6 +291,13 @@
                 <nav class="articles-nav">
                     
                     <div class="article-entry">
+                        <a href="#" onclick="showArticle('2026-ii'); return false;">
+                            2026 II
+                        </a>
+                        <span class="date">21 Feb 2026</span>
+                    </div>
+                    
+                    <div class="article-entry">
                         <a href="#" onclick="showArticle('2026'); return false;">
                             2026
                         </a>
@@ -321,6 +328,47 @@
             </footer>
         </div>
 
+        
+        <div class="article-overlay" id="2026-ii">
+            <div class="article-content-wrapper">
+                <div class="article-header">
+                    <h2>2026 II</h2>
+                    <span class="article-date">21 Feb 2026</span>
+                </div>
+                <div class="content">
+                    <h2>2026 II</h2>
+
+<p>AI is not yet dramatically increasing AI researcher productivity. It cannot do the longer tasks involved in training frontier AI models. As a result, productivity is bottlenecked. Anthropic's CEO, Dario Amodei, estimates the company's total factor productivity boost from AI use is currently only about 15%–20%.</p>
+
+<p>But model time horizon is doubling every 2.5–3 months, so a number of tasks equal to the number already automated will be automated over the next 2.5–3 months (to speak roughly), and these tasks will be longer than those previously automated. And longer tasks have significantly greater impact on productivity. So, we should expect productivity to more than double as time horizon doubles. That is, the total factor productivity boost from AI will more than double every three months.</p>
+
+<p>This is a bit abstract and is making some unsupported assumptions. But it's in line with the estimates given by Amodei. He estimated that 6 months earlier the productivity boost was about 1.05. Two doubles from that is 1.2. And doubling time is decreasing as AI begins to saturate the benchmark of things that humans can do (and, increasingly, because of the uplift we're discussing).</p>
+
+<p>We have enough premises here to do some interesting calculations. So, let's take uplift as 1.2 as of the release of Anthropic's latest model, Claude Opus 4.6 (released Feb 5). And let's take the present time horizon doubling time as 2.86 months. And let's say that this will decrease rapidly (due to tendency to infinity and increased uplift). And let's remember that uplift scales superlinearly with time horizon so has a shorter doubling time. Increasingly shorter…</p>
+
+<p>This looks like a good recipe for a proximate fast takeoff. Practically, what it looks like is AI agents becoming increasingly capable of work which can be productively run in parallel with little diminishing returns, i.e. experiments; AI agents becoming increasingly able to do work which only the most specialised humans can do, so breaking knowledge/skill bottlenecks; AI agents becoming increasingly capable of making novel breakthroughs, i.e. being able to efficiently problem-solve over a greater area of problemspace; and significant algorithmic breakthroughs being made.</p>
+
+<p>Mathematically, my best guess is something like this:</p>
+
+<ul>
+  <li>uplift 1.2x as of feb 5</li>
+  <li>doubling time 2 months</li>
+  <li>doubling time decreasing rapidly</li>
+</ul>
+
+<table>
+  <tr><th>Date</th><th>Uplift</th><th>Doubling Time</th></tr>
+  <tr><td>Mar 1</td><td>1.27</td><td>53.5 days</td></tr>
+  <tr><td>Apr 1</td><td>1.41</td><td>46.2 days</td></tr>
+  <tr><td>May 1</td><td>1.67</td><td>40.1 days</td></tr>
+  <tr><td>Jun 1</td><td>2.19</td><td>34.6 days</td></tr>
+  <tr><td>Jul 1</td><td>3.28</td><td>30.0 days</td></tr>
+  <tr><td>Aug 1</td><td>5.93</td><td>25.9 days</td></tr>
+  <tr><td>Sep 1</td><td>13.06</td><td>22.4 days</td></tr>
+</table>
+                </div>
+            </div>
+        </div>
         
         <div class="article-overlay" id="2026">
             <div class="article-content-wrapper">
