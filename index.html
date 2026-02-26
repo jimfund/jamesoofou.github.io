@@ -11,7 +11,6 @@
         
         <style>
             :root {
-                /* Light Mode */
                 --bg-color: #ffffff;
                 --text-primary: #111111;
                 --text-secondary: #555555; 
@@ -21,7 +20,6 @@
             }
 
             .dark-mode {
-                /* Dark Mode */
                 --bg-color: #080808;
                 --text-primary: #f0f0f0;
                 --text-secondary: #999999;
@@ -39,7 +37,6 @@
                 overflow-x: hidden;
             }
 
-            /* --- Header: The Anchor --- */
             header {
                 position: fixed;
                 top: 0;
@@ -69,12 +66,8 @@
                 transition: opacity 0.2s ease;
             }
             
-            h1 a:hover {
-                opacity: 0.7; 
-            }
+            h1 a:hover { opacity: 0.7; }
 
-            /* --- The Vertical Axis --- */
-            
             .viewport-container {
                 min-height: 100vh;
                 display: flex;
@@ -86,8 +79,6 @@
                 margin: 0 auto;
                 padding-top: var(--header-height);
             }
-
-            /* --- Middle: The Core --- */
 
             main {
                 width: 100%;
@@ -106,6 +97,8 @@
                 animation: fadeIn 0.8s ease forwards;
             }
 
+            /* --- Standalone article entry (unchanged) --- */
+
             .article-entry {
                 display: flex;
                 flex-direction: column;
@@ -123,9 +116,7 @@
                 margin-bottom: 10px;
             }
 
-            .article-entry a:hover {
-                opacity: 0.5;
-            }
+            .article-entry a:hover { opacity: 0.5; }
 
             .article-entry .date {
                 font-family: 'Inter', sans-serif;
@@ -135,7 +126,138 @@
                 letter-spacing: 0.12em;
             }
 
-            /* --- Bottom: The Tools --- */
+            /* --- Series entry --- */
+
+            .series-entry {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 32px 0;
+            }
+
+            .series-toggle {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: pointer;
+                background: none;
+                border: none;
+                padding: 0;
+                /* inherit body font so the title renders correctly */
+                font-family: 'Libre Baskerville', serif;
+            }
+
+            .series-title {
+                font-family: 'Libre Baskerville', serif;
+                font-size: 26px;
+                font-weight: 400;
+                color: var(--text-primary);
+                text-decoration: none;
+                transition: opacity 0.2s ease;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .series-toggle:hover .series-title { opacity: 0.5; }
+
+            .series-indicator {
+                font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--text-secondary);
+                transition: transform 0.25s ease, opacity 0.2s ease;
+                display: inline-block;
+                line-height: 1;
+                /* nudge down slightly to optically align with baseline */
+                margin-top: 2px;
+            }
+
+            .series-entry.open .series-indicator {
+                transform: rotate(180deg);
+            }
+
+            .series-meta {
+                font-family: 'Inter', sans-serif;
+                font-size: 11px;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .series-tag {
+                color: var(--text-secondary);
+            }
+
+            .series-meta-sep {
+                opacity: 0.4;
+            }
+
+            /* --- Expandable dispatch list --- */
+
+            .series-dispatch-list {
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
+                opacity: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 0;
+            }
+
+            .series-entry.open .series-dispatch-list {
+                /* large enough to never clip; CSS can't animate to 'auto' */
+                max-height: 2000px;
+                opacity: 1;
+                margin-top: 20px;
+            }
+
+            .series-dispatch-list-inner {
+                width: 100%;
+                max-width: 340px;
+                border-top: 1px solid var(--line-color);
+                padding-top: 4px;
+            }
+
+            .dispatch-entry {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                padding: 14px 0;
+                border-bottom: 1px solid var(--line-color);
+                gap: 24px;
+            }
+
+            .dispatch-entry:last-child { border-bottom: none; }
+
+            .dispatch-entry a {
+                font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--text-primary);
+                text-decoration: none;
+                transition: opacity 0.2s ease;
+                white-space: nowrap;
+            }
+
+            .dispatch-entry a:hover { opacity: 0.5; }
+
+            .dispatch-entry .date {
+                font-family: 'Inter', sans-serif;
+                font-size: 10px;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                white-space: nowrap;
+            }
+
+            /* --- Footer --- */
 
             footer {
                 width: 100%;
@@ -169,7 +291,6 @@
             .theme-btn .moon { display: block; }
             .dark-mode .theme-btn .sun { display: block; }
             .dark-mode .theme-btn .moon { display: none; }
-
 
             /* --- Article Overlay --- */
             
@@ -239,9 +360,7 @@
                 text-decoration-color: var(--text-secondary);
             }
             
-            .content a:hover {
-                text-decoration-color: var(--text-primary);
-            }
+            .content a:hover { text-decoration-color: var(--text-primary); }
 
             .content img {
                 width: 100%;
@@ -257,10 +376,10 @@
                 margin: 30px 0;
             }
 
-	    .content ul, .content ol {
-	        padding-left: 1.5em;
-	        margin-bottom: 28px;
-	    }
+            .content ul, .content ol {
+                padding-left: 1.5em;
+                margin-bottom: 28px;
+            }
 
             .content table {
                 width: 100%;
@@ -284,9 +403,7 @@
                 color: var(--text-secondary);
             }
 
-            .content tr:last-child td {
-                border-bottom: none;
-            }
+            .content tr:last-child td { border-bottom: none; }
 
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
@@ -298,6 +415,8 @@
                 h1 { font-size: 26px; }
                 .article-entry a { font-size: 22px; }
                 .article-entry { padding: 26px 0; min-width: unset; width: 100%; }
+                .series-entry { padding: 26px 0; }
+                .series-title { font-size: 22px; }
                 .article-header h2 { font-size: 32px; }
                 .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
             }
@@ -305,44 +424,74 @@
     </head>
     <body>
 
-        <!-- Fixed Header (Always Visible) -->
         <header>
             <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
         </header>
 
         <div class="viewport-container">
             
-            <!-- Center: Article Index -->
             <main id="home-view">
                 <nav class="articles-nav">
                     
-                    <div class="article-entry">
-                        <a href="#" onclick="showArticle('2026-iv'); return false;">
-                            2026 IV
-                        </a>
-                        <span class="date">26 Feb 2026</span>
+                    
+
+                    
+                    
+                    <div class="series-entry" id="series-2026">
+                        <button class="series-toggle"
+                                onclick="toggleSeries('series-2026'); return false;"
+                                aria-expanded="false">
+                            <span class="series-title">
+                                2026
+                                <span class="series-indicator" aria-hidden="true">↓</span>
+                            </span>
+                            <span class="series-meta">
+                                <span class="series-tag">Dispatches</span>
+                                <span class="series-meta-sep">·</span>
+                                <span>4 entries</span>
+                                <span class="series-meta-sep">·</span>
+                                <span>26 Feb 2026</span>
+                            </span>
+                        </button>
+                        <div class="series-dispatch-list" role="list">
+                            <div class="series-dispatch-list-inner">
+                                
+                                <div class="dispatch-entry" role="listitem">
+                                    <a href="#" onclick="showArticle('2026-iv'); return false;">
+                                        2026 IV
+                                    </a>
+                                    <span class="date">26 Feb 2026</span>
+                                </div>
+                                
+                                <div class="dispatch-entry" role="listitem">
+                                    <a href="#" onclick="showArticle('2026-iii'); return false;">
+                                        2026 III
+                                    </a>
+                                    <span class="date">22 Feb 2026</span>
+                                </div>
+                                
+                                <div class="dispatch-entry" role="listitem">
+                                    <a href="#" onclick="showArticle('2026-ii'); return false;">
+                                        2026 II
+                                    </a>
+                                    <span class="date">21 Feb 2026</span>
+                                </div>
+                                
+                                <div class="dispatch-entry" role="listitem">
+                                    <a href="#" onclick="showArticle('2026'); return false;">
+                                        2026
+                                    </a>
+                                    <span class="date">12 Feb 2026</span>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="article-entry">
-                        <a href="#" onclick="showArticle('2026-iii'); return false;">
-                            2026 III
-                        </a>
-                        <span class="date">22 Feb 2026</span>
-                    </div>
+
                     
-                    <div class="article-entry">
-                        <a href="#" onclick="showArticle('2026-ii'); return false;">
-                            2026 II
-                        </a>
-                        <span class="date">21 Feb 2026</span>
-                    </div>
+
                     
-                    <div class="article-entry">
-                        <a href="#" onclick="showArticle('2026'); return false;">
-                            2026
-                        </a>
-                        <span class="date">12 Feb 2026</span>
-                    </div>
                     
                     <div class="article-entry">
                         <a href="#" onclick="showArticle('math'); return false;">
@@ -350,11 +499,14 @@
                         </a>
                         <span class="date">06 Mar 2025</span>
                     </div>
+
                     
+
+                    
+
                 </nav>
             </main>
 
-            <!-- Bottom: Essentials -->
             <footer>
                 <a href="https://bsky.app/profile/jimfund.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
                     <svg width="20" height="20" viewBox="0 0 568 501" fill="currentColor">
@@ -611,6 +763,14 @@
          }
 
          initTheme();
+
+         function toggleSeries(id) {
+             const el = document.getElementById(id);
+             const btn = el.querySelector('.series-toggle');
+             const isOpen = el.classList.contains('open');
+             el.classList.toggle('open', !isOpen);
+             btn.setAttribute('aria-expanded', String(!isOpen));
+         }
 
          function showArticle(id) {
              document.getElementById(id).classList.add('active');
