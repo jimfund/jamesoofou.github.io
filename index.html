@@ -8,424 +8,12 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-        
-        <style>
-            :root {
-                --bg-color: #ffffff;
-                --text-primary: #111111;
-                --text-secondary: #555555; 
-                --line-color: #f0f0f0;
-                --margin-edge: 40px;
-                --header-height: 100px;
-            }
-
-            .dark-mode {
-                --bg-color: #080808;
-                --text-primary: #f0f0f0;
-                --text-secondary: #999999;
-                --line-color: #222222;
-            }
-
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-
-            body {
-                background-color: var(--bg-color);
-                color: var(--text-primary);
-                font-family: 'Libre Baskerville', serif; 
-                transition: background-color 0.5s ease, color 0.5s ease;
-                min-height: 100vh;
-                overflow-x: hidden;
-            }
-
-            header {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: var(--header-height);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 200;
-                background-color: var(--bg-color);
-                transition: background-color 0.5s ease;
-            }
-
-            h1 {
-                font-size: 32px; 
-                font-weight: 700; 
-                text-transform: uppercase;
-                letter-spacing: 0.08em; 
-                line-height: 1;
-                cursor: pointer;
-            }
-
-            h1 a {
-                color: var(--text-primary);
-                text-decoration: none;
-                transition: opacity 0.2s ease;
-            }
-            
-            h1 a:hover { opacity: 0.7; }
-
-            .viewport-container {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                padding: var(--margin-edge);
-                max-width: 1400px;
-                margin: 0 auto;
-                padding-top: var(--header-height);
-            }
-
-            main {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                flex-grow: 1;
-            }
-
-            .articles-nav {
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-                align-items: center;
-                animation: fadeIn 0.8s ease forwards;
-            }
-
-            /* --- Standalone article entry (unchanged) --- */
-
-            .article-entry {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 32px 0;
-            }
-
-            .article-entry a {
-                font-family: 'Libre Baskerville', serif;
-                font-size: 26px;
-                font-weight: 400;
-                color: var(--text-primary);
-                text-decoration: none;
-                transition: opacity 0.2s ease;
-                margin-bottom: 10px;
-            }
-
-            .article-entry a:hover { opacity: 0.5; }
-
-            .article-entry .date {
-                font-family: 'Inter', sans-serif;
-                font-size: 11px;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.12em;
-            }
-
-            /* --- Series entry --- */
-
-            .series-entry {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 32px 0;
-            }
-
-            .series-toggle {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                cursor: pointer;
-                background: none;
-                border: none;
-                padding: 0;
-                /* inherit body font so the title renders correctly */
-                font-family: 'Libre Baskerville', serif;
-            }
-
-            .series-title {
-                font-family: 'Libre Baskerville', serif;
-                font-size: 26px;
-                font-weight: 400;
-                color: var(--text-primary);
-                text-decoration: none;
-                transition: opacity 0.2s ease;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .series-toggle:hover .series-title { opacity: 0.5; }
-
-            .series-indicator {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                font-weight: 400;
-                color: var(--text-secondary);
-                transition: transform 0.25s ease, opacity 0.2s ease;
-                display: inline-block;
-                line-height: 1;
-                /* nudge down slightly to optically align with baseline */
-                margin-top: 2px;
-            }
-
-            .series-entry.open .series-indicator {
-                transform: rotate(180deg);
-            }
-
-            .series-meta {
-                font-family: 'Inter', sans-serif;
-                font-size: 11px;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.12em;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .series-tag {
-                color: var(--text-secondary);
-            }
-
-            .series-meta-sep {
-                opacity: 0.4;
-            }
-
-            /* --- Expandable dispatch list --- */
-
-            .series-dispatch-list {
-                overflow: hidden;
-                max-height: 0;
-                transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
-                opacity: 0;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-top: 0;
-            }
-
-            .series-entry.open .series-dispatch-list {
-                /* large enough to never clip; CSS can't animate to 'auto' */
-                max-height: 2000px;
-                opacity: 1;
-                margin-top: 20px;
-            }
-
-            .series-dispatch-list-inner {
-                width: 100%;
-                max-width: 340px;
-                border-top: 1px solid var(--line-color);
-                padding-top: 4px;
-            }
-
-            .dispatch-entry {
-                display: flex;
-                justify-content: space-between;
-                align-items: baseline;
-                padding: 14px 0;
-                border-bottom: 1px solid var(--line-color);
-                gap: 24px;
-            }
-
-            .dispatch-entry:last-child { border-bottom: none; }
-
-            .dispatch-entry a {
-                font-family: 'Inter', sans-serif;
-                font-size: 14px;
-                font-weight: 500;
-                color: var(--text-primary);
-                text-decoration: none;
-                transition: opacity 0.2s ease;
-                white-space: nowrap;
-            }
-
-            .dispatch-entry a:hover { opacity: 0.5; }
-
-            .dispatch-entry .date {
-                font-family: 'Inter', sans-serif;
-                font-size: 10px;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                white-space: nowrap;
-            }
-
-            /* --- Footer --- */
-
-            footer {
-                width: 100%;
-                display: flex;
-                justify-content: center; 
-                align-items: center;
-                padding-bottom: 3vh;
-                margin-top: auto;
-                gap: 24px;
-            }
-
-            .social-icon, .theme-btn {
-                color: var(--text-secondary);
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-                display: flex;
-                align-items: center;
-                transition: color 0.3s ease;
-                opacity: 0.7;
-            }
-            
-            .social-icon:hover, .theme-btn:hover { 
-                color: var(--text-primary); 
-                opacity: 1; 
-            }
-            
-            .theme-btn .sun, .theme-btn .moon { width: 18px; height: 18px; }
-            .theme-btn .sun { display: none; }
-            .theme-btn .moon { display: block; }
-            .dark-mode .theme-btn .sun { display: block; }
-            .dark-mode .theme-btn .moon { display: none; }
-
-            /* --- Article Overlay --- */
-            
-            .article-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: var(--bg-color);
-                z-index: 100;
-                overflow-y: auto;
-                padding: calc(var(--header-height) + 40px) var(--margin-edge) 80px;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-                display: none;
-            }
-
-            .article-overlay.active {
-                opacity: 1;
-                pointer-events: all;
-                display: block;
-            }
-
-            .article-content-wrapper {
-                max-width: 680px;
-                margin: 0 auto;
-            }
-
-            .article-header {
-                text-align: center;
-                margin-bottom: 60px;
-                padding-bottom: 40px;
-                border-bottom: 1px solid var(--line-color);
-            }
-
-            .article-header h2 {
-                font-size: 42px;
-                font-weight: 700;
-                margin-bottom: 20px;
-                line-height: 1.2;
-                color: var(--text-primary);
-            }
-
-            .article-date {
-                font-family: 'Inter', monospace;
-                font-size: 13px;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-            }
-
-            .content {
-                font-size: 19px; 
-                line-height: 1.7;
-                color: var(--text-primary);
-            }
-            
-            .content p { margin-bottom: 28px; }
-            
-            .content a { 
-                color: var(--text-primary); 
-                text-decoration: underline; 
-                text-decoration-thickness: 1px;
-                text-underline-offset: 4px;
-                text-decoration-color: var(--text-secondary);
-            }
-            
-            .content a:hover { text-decoration-color: var(--text-primary); }
-
-            .content img {
-                width: 100%;
-                height: auto;
-                display: block;
-                margin: 40px 0;
-            }
-            
-            .content blockquote {
-                border-left: 3px solid var(--text-primary);
-                padding-left: 20px;
-                font-style: italic;
-                margin: 30px 0;
-            }
-
-            .content ul, .content ol {
-                padding-left: 1.5em;
-                margin-bottom: 28px;
-            }
-
-            .content table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 30px 0;
-                font-family: 'Inter', sans-serif;
-                font-size: 15px;
-            }
-
-            .content th, .content td {
-                padding: 12px 16px;
-                text-align: left;
-                border-bottom: 1px solid var(--line-color);
-            }
-
-            .content th {
-                font-weight: 600;
-                font-size: 11px;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-                color: var(--text-secondary);
-            }
-
-            .content tr:last-child td { border-bottom: none; }
-
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            @media (max-width: 768px) {
-                :root { --header-height: 80px; }
-                h1 { font-size: 26px; }
-                .article-entry a { font-size: 22px; }
-                .article-entry { padding: 26px 0; min-width: unset; width: 100%; }
-                .series-entry { padding: 26px 0; }
-                .series-title { font-size: 22px; }
-                .article-header h2 { font-size: 32px; }
-                .viewport-container { padding: 30px 20px; padding-top: var(--header-height); }
-            }
-        </style>
+        <link rel="stylesheet" href="site.css">
     </head>
     <body>
 
         <header>
-            <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
+            <h1><a href="#" data-action="go-home">jimfund</a></h1>
         </header>
 
         <div class="viewport-container">
@@ -439,8 +27,11 @@
                     
                     <div class="series-entry" id="series-fiction">
                         <button class="series-toggle"
-                                onclick="toggleSeries('series-fiction'); return false;"
-                                aria-expanded="false">
+                                type="button"
+                                data-action="toggle-series"
+                                data-series-id="series-fiction"
+                                aria-expanded="false"
+                                aria-controls="series-fiction-list">
                             <span class="series-title">
                                 fiction
                                 <span class="series-indicator" aria-hidden="true">↓</span>
@@ -453,11 +44,11 @@
                                 <span>26 Feb 2026</span>
                             </span>
                         </button>
-                        <div class="series-dispatch-list" role="list">
+                        <div class="series-dispatch-list" id="series-fiction-list" role="list">
                             <div class="series-dispatch-list-inner">
                                 
                                 <div class="dispatch-entry" role="listitem">
-                                    <a href="#" onclick="showArticle('fiction'); return false;">
+                                    <a href="#fiction" data-action="show-article" data-article-id="fiction">
                                         Fiction I
                                     </a>
                                     <span class="date">26 Feb 2026</span>
@@ -474,8 +65,11 @@
                     
                     <div class="series-entry" id="series-2026">
                         <button class="series-toggle"
-                                onclick="toggleSeries('series-2026'); return false;"
-                                aria-expanded="false">
+                                type="button"
+                                data-action="toggle-series"
+                                data-series-id="series-2026"
+                                aria-expanded="false"
+                                aria-controls="series-2026-list">
                             <span class="series-title">
                                 2026
                                 <span class="series-indicator" aria-hidden="true">↓</span>
@@ -488,32 +82,32 @@
                                 <span>26 Feb 2026</span>
                             </span>
                         </button>
-                        <div class="series-dispatch-list" role="list">
+                        <div class="series-dispatch-list" id="series-2026-list" role="list">
                             <div class="series-dispatch-list-inner">
                                 
                                 <div class="dispatch-entry" role="listitem">
-                                    <a href="#" onclick="showArticle('2026-iv'); return false;">
+                                    <a href="#2026-iv" data-action="show-article" data-article-id="2026-iv">
                                         2026 IV
                                     </a>
                                     <span class="date">26 Feb 2026</span>
                                 </div>
                                 
                                 <div class="dispatch-entry" role="listitem">
-                                    <a href="#" onclick="showArticle('2026-iii'); return false;">
+                                    <a href="#2026-iii" data-action="show-article" data-article-id="2026-iii">
                                         2026 III
                                     </a>
                                     <span class="date">22 Feb 2026</span>
                                 </div>
                                 
                                 <div class="dispatch-entry" role="listitem">
-                                    <a href="#" onclick="showArticle('2026-ii'); return false;">
+                                    <a href="#2026-ii" data-action="show-article" data-article-id="2026-ii">
                                         2026 II
                                     </a>
                                     <span class="date">21 Feb 2026</span>
                                 </div>
                                 
                                 <div class="dispatch-entry" role="listitem">
-                                    <a href="#" onclick="showArticle('2026'); return false;">
+                                    <a href="#2026" data-action="show-article" data-article-id="2026">
                                         2026 I
                                     </a>
                                     <span class="date">12 Feb 2026</span>
@@ -529,7 +123,7 @@
                     
                     
                     <div class="article-entry">
-                        <a href="#" onclick="showArticle('upload-ii'); return false;">
+                        <a href="#upload-ii" data-action="show-article" data-article-id="upload-ii">
                             Mind Upload II
                         </a>
                         <span class="date">26 Mar 2025</span>
@@ -542,7 +136,7 @@
                     
                     
                     <div class="article-entry">
-                        <a href="#" onclick="showArticle('upload'); return false;">
+                        <a href="#upload" data-action="show-article" data-article-id="upload">
                             Mind Upload I
                         </a>
                         <span class="date">08 Mar 2025</span>
@@ -555,7 +149,7 @@
                     
                     
                     <div class="article-entry">
-                        <a href="#" onclick="showArticle('math'); return false;">
+                        <a href="#math" data-action="show-article" data-article-id="math">
                             Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
                         </a>
                         <span class="date">06 Mar 2025</span>
@@ -568,7 +162,7 @@
                     
                     
                     <div class="article-entry">
-                        <a href="#" onclick="showArticle('near-future-fiction'); return false;">
+                        <a href="#near-future-fiction" data-action="show-article" data-article-id="near-future-fiction">
                             Near-Future Fiction
                         </a>
                         <span class="date">10 Oct 2024</span>
@@ -587,7 +181,7 @@
                          <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z"/>
                     </svg>
                 </a>
-                <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <button class="theme-btn" type="button" data-action="toggle-theme" aria-label="Toggle Theme">
                     <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
@@ -935,56 +529,6 @@
             </div>
         </div>
         
-
-        <script>
-         function toggleTheme() {
-             document.body.classList.toggle('dark-mode');
-             const isDark = document.body.classList.contains('dark-mode');
-             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-         }
-
-         function initTheme() {
-             const savedTheme = localStorage.getItem('theme');
-             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-             if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                 document.body.classList.add('dark-mode');
-             }
-         }
-
-         initTheme();
-
-         function toggleSeries(id) {
-             const el = document.getElementById(id);
-             const btn = el.querySelector('.series-toggle');
-             const isOpen = el.classList.contains('open');
-             el.classList.toggle('open', !isOpen);
-             btn.setAttribute('aria-expanded', String(!isOpen));
-         }
-
-         function showArticle(id) {
-             document.getElementById(id).classList.add('active');
-             document.body.style.overflow = 'hidden';
-             history.pushState(null, '', '#' + id);
-             document.getElementById(id).scrollTop = 0;
-         }
-
-         function showHome() {
-             document.querySelectorAll('.article-overlay').forEach(el => el.classList.remove('active'));
-             document.body.style.overflow = '';
-             history.pushState(null, '', window.location.pathname);
-         }
-
-         function handleHash() {
-             const hash = window.location.hash.slice(1);
-             if (hash && document.getElementById(hash)) {
-                 showArticle(hash);
-             } else {
-                 showHome();
-             }
-         }
-
-         window.addEventListener('hashchange', handleHash);
-         window.addEventListener('load', handleHash);
-        </script>
+        <script src="site.js"></script>
     </body>
 </html>
