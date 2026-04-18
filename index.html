@@ -4,514 +4,150 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>jimfund</title>
+        <meta name="description" content="Dispatches, essays, and fiction.">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="site.css">
     </head>
     <body>
-        <header>
-            <h1><a href="#" data-action="go-home">jimfund</a></h1>
-        </header>
+        <div class="page-shell">
+            <header class="site-header">
+                <div class="site-header__inner">
+                    <a class="brand" href="index.html">jimfund</a>
+                    <div class="site-header__meta">
+                        <span>Dispatches</span>
+                        <span class="dot">·</span>
+                        <a href="https://bsky.app/profile/jimfund.com" target="_blank" rel="noopener noreferrer">Bluesky</a>
+                    </div>
+                </div>
+            </header>
 
-        <div class="viewport-container">
-            <main id="home-view">
-                <nav class="articles-nav">
-                    
-                    
-                    
-                    
-                    <div class="series-entry" id="series-fiction">
-                        <button
-                            class="series-toggle"
-                            type="button"
-                            data-action="toggle-series"
-                            data-series-id="series-fiction"
-                            aria-expanded="false"
-                            aria-controls="series-fiction-list"
-                        >
-                            <span class="series-title">
-                                fiction
-                                <span class="series-indicator" aria-hidden="true">↓</span>
-                            </span>
-                            <span class="series-meta">
-                                <span class="series-tag">Dispatches</span>
-                                <span class="series-meta-sep">·</span>
-                                <span>1 entry</span>
-                                <span class="series-meta-sep">·</span>
-                                <span>26 Feb 2026</span>
-                            </span>
-                        </button>
-                        <div class="series-dispatch-list" id="series-fiction-list" role="list">
-                            <div class="series-dispatch-list-inner">
-                                
-                                <div class="dispatch-entry" role="listitem">
-                                    <a href="#fiction" data-action="show-article" data-article-id="fiction">
-                                        Fiction I
-                                    </a>
-                                    <span class="date">26 Feb 2026</span>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    
-                    
-                    <div class="series-entry" id="series-2026">
-                        <button
-                            class="series-toggle"
-                            type="button"
-                            data-action="toggle-series"
-                            data-series-id="series-2026"
-                            aria-expanded="false"
-                            aria-controls="series-2026-list"
-                        >
-                            <span class="series-title">
-                                2026
-                                <span class="series-indicator" aria-hidden="true">↓</span>
-                            </span>
-                            <span class="series-meta">
-                                <span class="series-tag">Dispatches</span>
-                                <span class="series-meta-sep">·</span>
-                                <span>4 entries</span>
-                                <span class="series-meta-sep">·</span>
-                                <span>26 Feb 2026</span>
-                            </span>
-                        </button>
-                        <div class="series-dispatch-list" id="series-2026-list" role="list">
-                            <div class="series-dispatch-list-inner">
-                                
-                                <div class="dispatch-entry" role="listitem">
-                                    <a href="#2026-iv" data-action="show-article" data-article-id="2026-iv">
-                                        2026 IV
-                                    </a>
-                                    <span class="date">26 Feb 2026</span>
-                                </div>
-                                
-                                <div class="dispatch-entry" role="listitem">
-                                    <a href="#2026-iii" data-action="show-article" data-article-id="2026-iii">
-                                        2026 III
-                                    </a>
-                                    <span class="date">22 Feb 2026</span>
-                                </div>
-                                
-                                <div class="dispatch-entry" role="listitem">
-                                    <a href="#2026-ii" data-action="show-article" data-article-id="2026-ii">
-                                        2026 II
-                                    </a>
-                                    <span class="date">21 Feb 2026</span>
-                                </div>
-                                
-                                <div class="dispatch-entry" role="listitem">
-                                    <a href="#2026" data-action="show-article" data-article-id="2026">
-                                        2026 I
-                                    </a>
-                                    <span class="date">12 Feb 2026</span>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    <div class="article-entry">
-                        <a href="#upload-ii" data-action="show-article" data-article-id="upload-ii">
-                            Mind Upload II
-                        </a>
-                        <span class="date">26 Mar 2025</span>
-                    </div>
-                    
-                    
-                    
-                    <div class="article-entry">
-                        <a href="#upload" data-action="show-article" data-article-id="upload">
-                            Mind Upload I
-                        </a>
-                        <span class="date">08 Mar 2025</span>
-                    </div>
-                    
-                    
-                    
-                    <div class="article-entry">
-                        <a href="#math" data-action="show-article" data-article-id="math">
-                            Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
-                        </a>
-                        <span class="date">06 Mar 2025</span>
-                    </div>
-                    
-                    
-                    
-                    <div class="article-entry">
-                        <a href="#near-future-fiction" data-action="show-article" data-article-id="near-future-fiction">
-                            Near-Future Fiction
-                        </a>
-                        <span class="date">10 Oct 2024</span>
-                    </div>
-                    
-                    
-                </nav>
+            <main class="site-main">
+                
+<section class="home-hero">
+    <p class="eyebrow">Dispatches, essays, fiction</p>
+    <h1 class="hero-title">jimfund</h1>
+    <p class="hero-copy">
+        A small archive of writing. 9 pieces so far. Latest publication:
+        <span>26 Feb 2026</span>
+    </p>
+</section>
+
+<section class="home-section">
+    <div class="section-heading">
+        <p class="eyebrow">Archive</p>
+        <h2>Latest writing</h2>
+    </div>
+
+    <div class="entry-stack">
+        
+        
+        <article class="entry-card entry-card--series">
+            <div class="entry-meta">
+                <span>Series</span>
+                <span>26 Feb 2026</span>
+            </div>
+            <h3>fiction</h3>
+            <p class="entry-copy">The AI busily build reading all the relevant text to each problem they face. Quickly you lose track totally, you desperately try to keep track but each solution they implement is based on more knowledge than you could…</p>
+            <ol class="series-list">
+                
+                <li>
+                    <a href="fiction.html">Fiction I</a>
+                    <span>26 Feb 2026</span>
+                </li>
+                
+            </ol>
+        </article>
+        
+        
+        
+        <article class="entry-card entry-card--series">
+            <div class="entry-meta">
+                <span>Series</span>
+                <span>26 Feb 2026</span>
+            </div>
+            <h3>2026</h3>
+            <p class="entry-copy">There was a popular blog post about some economic ramifications of continued AI progress. It included a projection of METR time horizons: Claude Opus 4.6 is a real model. Beyond that is the authors&#39; scenario. So, we…</p>
+            <ol class="series-list">
+                
+                <li>
+                    <a href="2026-iv.html">2026 IV</a>
+                    <span>26 Feb 2026</span>
+                </li>
+                
+                <li>
+                    <a href="2026-iii.html">2026 III</a>
+                    <span>22 Feb 2026</span>
+                </li>
+                
+                <li>
+                    <a href="2026-ii.html">2026 II</a>
+                    <span>21 Feb 2026</span>
+                </li>
+                
+                <li>
+                    <a href="2026.html">2026 I</a>
+                    <span>12 Feb 2026</span>
+                </li>
+                
+            </ol>
+        </article>
+        
+        
+        
+        <article class="entry-card">
+            <div class="entry-meta">
+                <span>Essay</span>
+                <span>26 Mar 2025</span>
+            </div>
+            <h3><a href="upload-ii.html">Mind Upload II</a></h3>
+            <p class="entry-copy">Let’s suppose that ASI has arrived and mind-upload technology has been developed. Assume one has a large compute budget and the capability to make copies of one’s mind which are psychologically continuous with oneself…</p>
+        </article>
+        
+        
+        
+        <article class="entry-card">
+            <div class="entry-meta">
+                <span>Essay</span>
+                <span>08 Mar 2025</span>
+            </div>
+            <h3><a href="upload.html">Mind Upload I</a></h3>
+            <p class="entry-copy">Once aligned ASI is achieved, it will invent the technology to create digital copies of people. This is mind upload. The worlds people will inhabit once uploaded will be personal utopias curated by artificial…</p>
+        </article>
+        
+        
+        
+        <article class="entry-card">
+            <div class="entry-meta">
+                <span>Essay</span>
+                <span>06 Mar 2025</span>
+            </div>
+            <h3><a href="math.html">Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</a></h3>
+            <p class="entry-copy">A fully-autonomous mathematics researcher must do two things. It must solve open mathematics problems. And it must pose interesting mathematics problems within its reach to solve. I will argue that reasoning will scale…</p>
+        </article>
+        
+        
+        
+        <article class="entry-card">
+            <div class="entry-meta">
+                <span>Essay</span>
+                <span>10 Oct 2024</span>
+            </div>
+            <h3><a href="near-future-fiction.html">Near-Future Fiction</a></h3>
+            <p class="entry-copy">In 2027 the trend that began in 2024 with OpenAI&#39;s o1 reasoning system has continued. The compute required to run AI is no longer negligible compared to the cost of training it. Models reason over long periods of time.…</p>
+        </article>
+        
+        
+    </div>
+</section>
+
             </main>
 
-            <footer>
-                <a href="https://bsky.app/profile/jimfund.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
-                    <svg width="20" height="20" viewBox="0 0 568 501" fill="currentColor">
-                        <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z"/>
-                    </svg>
-                </a>
-                <button class="theme-btn" type="button" data-action="toggle-theme" aria-label="Toggle Theme">
-                    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
+            <footer class="site-footer">
+                <p>jimfund / 2026</p>
             </footer>
         </div>
-
-        
-        <div class="article-overlay" id="fiction">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>Fiction I</h2>
-                    <span class="article-date">26 Feb 2026</span>
-                </div>
-                <div class="content">
-                    <p>The AI busily build reading all the relevant text to each problem they face. Quickly you lose track totally, you desperately try to keep track but each solution they implement is based on more knowledge than you could ingest in years, you don’t have a PhD in the relevant field, you haven’t further specialised on the relevant problem class. So you retreat. You act like a team leader, the AI reports what it has done, since the last report, in abstract terms, nothing any more technical than you need to know. It’s not clear how you can contribute. You can’t contribute. You are fired. Everyone is fired. The company is much more productive now. It’s acquired by Google for the knowledge of the AI systems. Now all diseases are cured and all the open human math problems are solved and cosmetic surgery can totally change one’s body and video games are so detailed. In the real world you can teleport and the Sun is fake and you can live in other galaxies if you want because FTL travel is solved. You decide to be uploaded burning your old body because you don’t want any measure of your conscious experience to be bound by the limitations of the old world. That weird place, the normality of your uploaded life is a welcome return. You are a student in a dark Earth, poor in a world of great wealth and inequality. You revel in your competence in a way you hadn’t in a long time. You evaluate and you plan and you execute and you do well and you falter and you fail to recover. But you struggle on, slowly climbing back, you are admired and you are admirable and you accomplish what few others could have. And now you are under threat, you lead and you kill and you destroy and you lose much but emerge triumphant and what was before contested is now yours for the taking. So you take it. And you are content. You could go further but you decide you are content. You keep working hard anyway, for now. You secure your position, you invest widely, you give generously, you have a place here forever. You remember your girlfriend from the old world, from before everything changed. Your heart pangs. The world then had been so small but had mattered so much. At least that’s how it felt looking back. The maid brings you tea as you sit still, eyes closed, in meditation. She leaves, some time passes, you take a sip of your tea. You are young and full of energy always; aging has been solved; you would not choose to spend your time in a world where you had to go through that; the singularity would be for nothing, then. You decide to walk the streets, you ask a friend to come along, you chat about world affairs while trying the neighborhood delicacies. You are not famous anymore, enough time has passed that you are not at the forefront of any public mind. You take a train carriage to another part of the city, watching the children play in the parks, the offworlder tourists posing for photos, the waterfalls and alien artifacts and the intricate architecture your pleasant backdrop. Later, you study. You’re always studying, every day, to be prepared for whatever might come your way. The world is always evolving, the past is full of knowledge. You duck into a library. A handful of students are studying, adults are reading seriously. You take out your tablet and resume reading a piece on the game theory of trade with a sentient planet in a nearby galaxy. You have some thoughts. You send some messages to the relevant actors, and loop in an analyst from the foundation which manages your estate. You enter an ally on a whim, wander down. An old part of town, mossy brick walls, motifs from a forgotten period. You hear music, you enter a strange bar, you buy a drink, you sip at it and look around at the people, this is a secret place, a social group cut off from the city as you know it. You look around carefully, investigate, you notice somewhere in the building a passageway, you will spend the night in the place it takes you. Open fields of grass with trees in darkness, and water. You run, it’s a game, you must not be found, you are in a team, you find secret passageways, hiding places, places of observation, methods of transportation. Slowly your team is scattered;  you have different skills, different motivations. You take a small pod down a long chute and end up in some watery sewers. You wander around, you think you might have gone too far, somehow escaped the playingfield, but you happen upon a teammate hiding beneath some kind of foil blanket, attempting to hide from any scanners the opposing team might get their hands on. Finally day breaks; you made it through. You wander gradually to the exit, exhausted. You get in a cab and tell it to keep driving until you awake, then you sleep. It’s already dark by the time you awaken. You spend months studying and working and striving to understand the world. You meet with others who live rich lives and you learn from them. You make some moves to ensure your security going forward. In a world where the wealthy live forever the dynamics of power punish all but the excruciatingly careful. A few centuries go by. Your maid walks in with some tea, your eyes closed as you sit in meditation. Sunlight pours into the room, warm on your skin. You take a platform to a small library. It contains your estate’s records. You pick a volume at random and read it. Such a different world, but you remember your own life was not too dissimilar to the present. Time, you thought, to start a new world, a totally fresh world, but with the knowledge you have built up in those eons of meditation. The cost was a peaceful period, the result an expanded mind, the result a vastly expanded actionset, the prize a new life of optimal characteristics.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="2026-iv">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>2026 IV</h2>
-                    <span class="article-date">26 Feb 2026</span>
-                </div>
-                <div class="content">
-                    <p>
-    There was a <a href="https://www.citriniresearch.com/p/2028gic">popular blog post</a> about some economic
-    ramifications of continued AI progress. It included a projection of METR time horizons:
-</p>
-
-
-<a href="citrinimetr.jpg">
-    <img src="citrinimetr.jpg" style="max-width: 100%; height: auto; display: block; margin: 20px 0;">
-</a>
-
-
-<p>
-    Claude Opus 4.6 is a real model. Beyond that is the authors' scenario. So, we see the doubling time increase
-    dramatically from today on. This is in line with an observation I have made: people seem uncomfortable ever
-    supposing that AI progress is as quick as the data suggests it to be. Rather than imagining a scenario in
-    which AI progress speeds up (which would be a useful scenario to explore when trying to investigate the
-    possible ramifications of AI progress), they choose to imagine an immediate slow-down (with no acknowledgement
-    of this fact in the post, nor justification), which seems counterpoised to the goal of investigating the
-    ramifications of continued AI progress. People are afraid of change; when considering it, they retreat to a
-    scenario in which it is a little softer, a little less frightening.
-</p>
-
-<p>
-    Considering a scenario a little softer than the existing trend implies will actually be the case is OK. The
-    authors state clearly that what they are laying out is merely a scenario to consider rather than a prediction.
-    But in this case it's not that simple. Let me explain why.
-</p>
-
-<p>
-    However, first let me make an observation. The most common criticism I saw of the post was that the pace of
-    AI progress it predicted was <em>too quick</em>. There were issues with the post in that direction related to
-    diffusion of the technology, but outside of Zvi pointing out that "uh… we would obviously be getting a
-    technological singularity by this point" (paraphrasing), I didn't see anyone pointing out that what was
-    actually being portrayed was a large slowdown.
-</p>
-
-<p>
-    And the large slowdown is occurring exactly when one would expect a speed up. Constant are the reports, post
-    Opus 4.6, of developers who up until this point have been doubtful of the utility of AI in programming
-    exclaiming that now, with Opus 4.6, AI tools have finally reached the point where they are providing an
-    unmistakable uplift. Scarce are reports of people who have tried Opus 4.6 and not experienced such an uplift.
-    This wave really started with Opus 4.5, but has become much more pronounced post-4.6. In very deed, METR,
-    who conducted an uplift study in early 2025 which found that AI tools slowed developers down by about 20%,
-    also conducted a follow-up study in late 2025 (pre-Opus 4.6, but partially post-Opus 4.5) which found a
-    developer uplift of 5%–20% (roughly speaking, please just read
-    <a href="https://metr.org/blog/2026-02-24-uplift-update/">their report</a>). So, upon reading METR's recent
-    report, and hearing a flood of anecdotal evidence, and observing first-hand the utility of these models, and
-    extrapolating from certain benchmark performances and existing trends, one finds it becomes quite clear that
-    we are now seeing real, general uplift of programming productivity from SOTA AI models.
-</p>
-
-<p>
-    To quantify this somewhat precisely, programming uplift from Opus 4.6 in Claude code is likely around 20%.
-    Dario Amodei estimated that engineers at Anthropic are seeing an uplift of 15%–20%, and something at the
-    higher range of METR's estimate seems fair given that their study was conducted with previous-generation
-    models and because METR's report outlined that their estimates were likely something of a lower bound rather
-    than a measurement of uplift precisely. Further, it seems likely that uplift will grow exponentially with a
-    similar (smaller) doubling time to time horizon. I reached this conclusion from principles: automating long
-    tasks is much more valuable than automating short tasks and the 'universal' unlocks become greater with time;
-    and the data (so far very limited) have borne it out (Amodei's estimate of productivity was 5% in September
-    (IIRC?) and 20% recently, for a doubling time of ~3 months).
-</p>
-
-<p>
-    So, with developer uplift having now become quite noticeable (already ~20% as of Feb 5 (Opus 4.6's date of
-    release)), and more-than-doubling every three months, should we expect AI progress over the next couple years
-    to speed up, or to slow down? Maybe one acknowledges that AI researcher productivity <em>will</em> increase,
-    but will be outweighed by compute constraints, or by RLVR hitting a wall. But at least for 2026, compute
-    will continue coming online along the same trend seen in previous years. And all reports from AI labs are
-    that they see RLVR continuing to scale many, many more orders of magnitude. Another objection is that perhaps
-    algorithmic progress is a small factor in time horizon doubling time and what really matters most is just
-    compute, or doing full training runs and learning from the results, processes which can't really be sped up
-    that much by increasing uplift. Seems unlikely, but a worthy objection which I should dedicate a post to
-    addressing.
-</p>
-
-<p>
-    The implications really are stark. You don't have to extrapolate far to see developer productivity uplifted
-    by several hundred percent, nor to see developers being taken out of the picture entirely. Extrapolate just a
-    little further, and you see an intelligence explosion, fast takeoff. This is not a secret; the masses are
-    just too allergic to frightening truth for the apparent proximity of this possibility to diffuse through the
-    population; but the labs are not hiding this fact, they are shouting it for all to hear, and their
-    already-dramatic predictions of three months ago
-    (<a href="https://youtu.be/ngDCxlZcecw?si=NPJbLeVygRCBlJiz">OpenAI stream</a> on the future of OpenAI,
-    <a href="https://www.darioamodei.com/essay/machines-of-loving-grace">"country of geniuses in a datacenter"</a>)
-    have apparently been ramped up much further, even, now
-    (<a href="https://x.com/kimmonismus/status/2024887011522576766">Sam Altman on takeoff sooner than expected</a>,
-    <a href="https://youtu.be/02YLwsCKUww?si=oQLWZv9KUONgOgVD&t=110">Anthropic on developer obsolescence in 6–12 months</a>).
-</p>
-
-<p>
-    So, this graph isn't just going against existing trends, it's counterpoised to the apparent implications of
-    the inflection point on whose beginning area we sit; it's counterpoised to the every statement of frontier
-    AI labs; it's a fantastic scenario. The post, which crashed US stocks, doesn't need even to be engaged with
-    further than this. Market participants, please, in the future move on jimfund posts, sure, but not on
-    fantastic scenarios in which the pace of AI progress slows down rather than speeds up in the near term.
-</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="2026-iii">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>2026 III</h2>
-                    <span class="article-date">22 Feb 2026</span>
-                </div>
-                <div class="content">
-                    <p>AI will be doing most AI research at lower time horizons than most expect. Generally superhuman AI researchers aren't necessary. AI just needs to be roughly human-level at the tip of one of the spikes of its jagged frontier.</p>
-<p>Serious AI research takes hundreds of hours to do. This doesn't mean we need a 50% time horizon of hundreds of hours. We need a 5% time horizon of hundreds of hours. The common wisdom that what really matters is the 80% time horizon is inverted when it comes to automating AI research. Here, what matters is that insight is achieved and recognised.</p>
-<p>Recognition might be a hindrance—today's models often miss when their work is flawed (although they're improving rapidly at this—but autonomous experimentation and proof automation etc. address this sufficiently. I'll write more about that tomorrow I think. It's important.</p>
-<p>Once AI is at this point the nature of AI research changes dramatically. Instead of having 10,000 human AI researchers with some coding assistants working on AI, you have millions of GPUs across the top labs working on AI. Perhaps a 10x increase in the pace of algorithmic progress over a very short period of time.</p>
-<p>One might respond that the low-hanging fruit in that spike will quickly be picked by the millions of GPUs. Whether this is true (unclear to me) 2.5 months later, time horizon will have doubled and suddenly the models spikes will be further out, human-level in more areas, and now superhuman in a few important domains of research. Then the pace of AI development really picks up. But that isn't what this post is about. This post is just to point out that automated AI research at the datacentre scale is coming earlier than most expect.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="2026-ii">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>2026 II</h2>
-                    <span class="article-date">21 Feb 2026</span>
-                </div>
-                <div class="content">
-                    <p>AI is not yet dramatically increasing AI researcher productivity. It cannot do the longer tasks involved in training frontier AI models. As a result, productivity is bottlenecked. Anthropic's CEO, Dario Amodei, estimates the company's total factor productivity boost from AI use is currently only about 15%–20%.</p>
-
-<p>But model time horizon is doubling every 2.5–3 months, so a number of tasks equal to the number already automated will be automated over the next 2.5–3 months (to speak roughly), and these tasks will be longer than those previously automated. And longer tasks have significantly greater impact on productivity. So, we should expect productivity to more than double as time horizon doubles. That is, the total factor productivity boost from AI will more than double every three months.</p>
-
-<p>This is a bit abstract and is making some unsupported assumptions. But it's in line with the estimates given by Amodei. He estimated that 6 months earlier the productivity boost was about 1.05. Two doubles from that is 1.2. And doubling time is decreasing as AI begins to saturate the benchmark of things that humans can do (and, increasingly, because of the uplift we're discussing).</p>
-
-<p>We have enough premises here to do some interesting calculations. So, let's take uplift as 1.2 as of the release of Anthropic's latest model, Claude Opus 4.6 (released Feb 5). And let's take the present time horizon doubling time as 2.86 months. And let's say that this will decrease rapidly (due to tendency to infinity and increased uplift). And let's remember that uplift scales superlinearly with time horizon so has a shorter doubling time. Increasingly shorter…</p>
-
-<p>This looks like a good recipe for a proximate fast takeoff. Practically, what it looks like is AI agents becoming increasingly capable of work which can be productively run in parallel with little diminishing returns, i.e. experiments; AI agents becoming increasingly able to do work which only the most specialised humans can do, so breaking knowledge/skill bottlenecks; AI agents becoming increasingly capable of making novel breakthroughs, i.e. being able to efficiently problem-solve over a greater area of problemspace; and significant algorithmic breakthroughs being made.</p>
-
-<p>Mathematically, my best guess is something like this:</p>
-
-<ul>
-  <li>uplift 1.2x as of feb 5</li>
-  <li>doubling time 2 months</li>
-  <li>doubling time decreasing rapidly</li>
-</ul>
-
-<table>
-  <tr><th>Date</th><th>Uplift</th><th>Doubling Time</th></tr>
-  <tr><td>Mar 1</td><td>1.27</td><td>53.5 days</td></tr>
-  <tr><td>Apr 1</td><td>1.41</td><td>46.2 days</td></tr>
-  <tr><td>May 1</td><td>1.67</td><td>40.1 days</td></tr>
-  <tr><td>Jun 1</td><td>2.19</td><td>34.6 days</td></tr>
-  <tr><td>Jul 1</td><td>3.28</td><td>30.0 days</td></tr>
-  <tr><td>Aug 1</td><td>5.93</td><td>25.9 days</td></tr>
-  <tr><td>Sep 1</td><td>13.06</td><td>22.4 days</td></tr>
-</table>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="2026">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>2026 I</h2>
-                    <span class="article-date">12 Feb 2026</span>
-                </div>
-                <div class="content">
-                    <p>AI utility is low when models are incapable of doing the tasks which human workers do in a day, high when they are capable of doing them, and radically transformative when they move onto what's next.</p>
-
-<p>When the technical tasks a person does as part of his job are not automated the person still has to do them. When the tasks are automated then the person can move up a layer of abstraction, causing his productivity to become untethered from his pre-assistance productivity. We're in the process of this shift now.</p>
-
-<p>We're moving from a time when AI was not providing much of a productivity boost to knowledge workers to a time in which it will provide a large boost. And once workers have moved up a layer of abstraction things will not be over. AI will then take over that layer, too, allowing productivity levels to become uncoupled from number of workers.</p>
-
-<p>Utility scales super-linearly with model time horizon. <i>Increasingly</i> super-linearly. So, this is what we will see in 2026: AI progressing progressively more quickly, with the utility of that progress growing larger and larger, leading to ever faster progress, ever more utility, ever more progress.</p>
-
-<p>Time horizons are doubling every three months. Utility is more than doubling every three months. At mid-year, software engineering time horizons will be 26 hours and developer uplift will be over 100%. Doubling time shrinks to 2.25 months. Mid-August. 50 hours. Developer uplift is 250%. A lot of new hardware is online. Doubling time shrinks to 1.5 months. October. 100 hours. Uplift is 800%. Doubling time is 1 month. November. 200 hours. Uplift 2,000%. Doubling time is half a month. Mid-November. 400 hours. Uplift 7,000%, doubling time is measured in days. End of November. Infinite. Human engineers have obsolesced totally. Robotics is solved. ASI is arrived.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="upload-ii">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>Mind Upload II</h2>
-                    <span class="article-date">26 Mar 2025</span>
-                </div>
-                <div class="content">
-                    <p>Let’s suppose that ASI has arrived and mind-upload technology has been developed. Assume one has a large compute budget and the capability to make copies of one’s mind which are psychologically continuous with oneself at the moment of brain-scanning. How should one then use one’s compute budget?</p>
-
-<p>By “psychologically continuous”, I mean that each copy is just as much oneself as the original, biological self is. The assumption here is that computation is sufficient to capture human consciousness, so the conscious experience of people running on artificial substrates is identical to biological humans’, and one’s copies are not in any way distinguishable from that of the original.</p>
-
-<p>Suppose that one undergoes brain-scanning, then spins up several copies of oneself based on that scan (each then being placed in distinct environments). Because computation is sufficient to fully capture one’s consciousness, whether that computation is occurring within one’s biological body or within an artificial computer is immaterial to one’s subjective experience. Therefore, each continuation, artificial or biological, from the point of scanning is equally oneself, in terms of one’s own subjective experience. Of course, one cannot subjectively experience all of them at once. There will be various streams of consciousness associated with each one, and which stream of consciousness one ends up in will be a matter of chance.</p>
-
-<p>So, we can think of the moment of mind upload as a kind of gamble where, all other factors being equal, one has an equal chance of finding oneself as each of the psychological continuities. If some of these continuities are more fortunate than others, one would hope that one would end up as a more fortunate one rather than a less fortunate one. Therefore we can treat it as we treat gambling games in real life: a time to maximise expected value.</p>
-
-<p>Perhaps one should simply instruct ASI to create one copy and give to that copy the ultimate personal utopia, and terminate one’s biological self. But, we need to be careful here. There are the issues of value-drift and some potential issues when it comes to psychological continuity which need to be addressed.</p>
-
-<p>Value-drift: one’s copies will be living for a vast number of subjective years and over time their character will naturally evolve. Their ideas and beliefs will evolve such that they bear no discernible relation to those originally held, and old memories will be forgotten. In fact, one’s uploaded life will be so much richer than one’s pre-upload life that one may be eager to forget it. The things one held dear at the moment of upload, the copy would have almost-entirely forgotten by perhaps its 10,000th subjective year. Then for the decillions (say) of subjective years the copy has yet to live out, it will be something effectively entirely separate from oneself at the point of brain-scanning. So one would be using the vast majority of one’s compute budget simulating someone that is effectively a stranger.</p>
-
-<p>This is not a wise move: it’s neither in one’s self-interest nor is there any moral imperative to do it. There is an argument that it is in one’s interests to propagate a more-evolved version of one’s moral principles, and that although one will not oneself benefit from the wellbeing of this stranger, the fact that the stranger has evolved from one means the stranger is likely carrying out a morally-superior version of one’s own belief system. This argument implies that it’s a good thing the stranger replaced one. But this is nonsensical: Once one enters one’s personal virtual utopia one is no longer a moral agent. The other inhabitants of one’s world are non-sentient; one’s behaviour has no moral implications external to one’s self.</p>
-
-<p>One could say: but don’t we then owe at least a moral obligation to the self? No more than we are any other potential person, and in fact less so than infinitely many different people we could simulate. Indeed, if one is concerned with spending one’s compute altruistically, one certainly oughtn’t spend it on some evolved version of oneself: whatever one values, it can be achieved much more efficiently by designing a simulation from scratch, rather than basing it on oneself and one’s own utopia. So, we are interested in how one should spend one’s compute budget selfishly, because to whatever extent one wants to be altruistic, one should just donate a proportionate amount of one's compute budget to an ASI-run programme.</p>
-
-<p>So simply running an immortal version of oneself indefinitely seems like a bad idea. But what about spinning up very many instantiations of oneself, each of whom very much shares one’s identity; is relatably oneself. One could have each of these continuations live one of a diverse range of lives, so that all the potentialities of one’s personality could be realised. But, no: remember that this is a gambling game. Our goal is to maximise our EV. And how does one actually benefit from these diverse self-realisations? One doesn’t. One just hopes one ends up in one of the more favourable continuations. All but the highest EV continuations just drag down one’s expected utility, so isn’t in one’s self-interest to spin up, so shouldn’t be spun up at all. So, what if one uses one’s compute budget to create as many instantiations as possible of the highest-EV continuation? But this doesn’t actually increase one’s EV at all. One can only experience one continuation, so one’s expected value is equal whether one spins up one instantiation of a given continuation or an undecillion (one is maximising average EV of one’s continuations, not one's overall EV).</p>
-
-<p>So, what one should do is to instruct one’s ASI world-curator to alter one’s mind so that one will retain identity with oneself at the point of upload. It could grant one a more capacious memory, a more rigid personality, place one in a world more deeply-rooted in one’s pre-ASI history than would strictly maximise value, etc. Of course, altering one’s nature is a dangerous game, liable to result in exactly the opposite of our goal: i.e., losing one’s identity by losing one’s human nature, rather than protecting identity. So, one’s ASI-curator will ensure that while the functions of one’s mind are altered, one’s identity is preserved. Of course, one still wants to be able to develop oneself, learn new skills, etc.: to fully experience the life of the mind. This balancing act is the sort of task that is appropriate for ASI.</p>
-
-<p>So, we have resolved the first of our two concerns: value-drift. One gets ASI to design one a new brain which prioritises the preservation of a relatable self. Onto our second concern: one relating to the nature of psychological continuity. Recall that one is to terminate one’s biological self to maximise one’s expected utility. But what if conscious experience continues for some non-zero period of time after the point at which it is scanned? This seems likely. Events tend to take time. So, does this mean that there’s a 50% chance that one will end up in a continuation in which one instantly dies? If so, doesn’t that bring down one’s EV even more than just living out a not-quite-utopic biological life? But this isn’t the case. To demonstrate this we first need to draw a distinction between psychological continuity and conscious continuity.</p>
-
-<p>Consider sleep. When one goes to sleep then wakes up, one’s conscious state is significantly shifted (and perhaps one’s continuity of consciousness is broken), but psychological continuity is preserved. Similarly, if one’s mind simply ceased to exist between the moment one fell asleep and the moment one woke up, psychological continuity would be preserved. It certainly wouldn’t be anything like (permanent) death. But there would be no continuity of consciousness—the one conscious state did not follow directly, computationally from the other.</p>
-
-<p>One doesn’t mind going to sleep. And this example in which conscious continuity is broken is subjectively indistinguishable (roughly) from going to sleep. So, conscious continuity is not what one values. One values psychological continuity. If one loses that, one dies. So, when one’s biological self persists for some short time after scanning, having found oneself in that conscious continuation will not be a big deal—it’s just like losing consciousness, which we’ve demonstrated is not a major concern. One will still be psychologically continuous with one’s upload.</p>
-
-<p>So, we have shown that one should scan one’s mind, then terminate one’s biological self and spin up exactly one upload, modified so that one’s identity is preserved over time. This gives us a clearer view of life after ASI. I think this is a nice intersection of philosophy and forecasting.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="upload">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>Mind Upload I</h2>
-                    <span class="article-date">08 Mar 2025</span>
-                </div>
-                <div class="content">
-                    <p>Once aligned ASI is achieved, it will invent the technology to create digital copies of people. This is mind upload. The worlds people will inhabit once uploaded will be personal utopias curated by artificial superintelligence. What I mean by “personal utopias” is that these will be worlds created specifically for individual uploaded minds, optimised for their personal flourishing. They will not primarily contain utopian societies. It’s the best-possible world for the uploaded mind, but not for the other inhabitants of the world.</p>
-
-<p>This would be ethically questionable if the other inhabitants were moral patients. So, they won’t be. They will be P-zombies, agents indistinguishable by any empirical means from natural humans, but who lack the light of consciousness, or any subjective experience.</p>
-
-<p>One might object. “But would one, living in such a world, not feel unsatisfied in one’s relationships and interactions with the other inhabitants, knowing that they did not really perceive one, or feel anything about one at all?” I think this is a point which needs addressing. The claim seems true, that knowing one is the only truly conscious person in the world would for most people reduce the satisfaction of existence in that world. It could still be enjoyable; one enjoys video games. But, despite it being enjoyable, it seems unlikely that it would be the best possible world for one. The solution is simple enough. Just have one’s ASI world-curator remove from one’s mind the awareness of the fact that the other occupants in the world are P-zombies.</p>
-
-<p>There is a loss in the erasure: that one will feel the moral weight of one’s actions, which will cause certain inhibitions. But this would not be in balance a loss, but, rather, a gain, as life would feel ultimately purposeless otherwise.</p>
-
-<p>Another objection is that people would not readily abandon the friends they had pre-upload. I do not deny this. Humans are emotional creatures. And it will be possible to co-inhabit digital environments with one’s pre-upload friends. But people will soon choose to splinter off into the kinds of personal utopias I outlined above.</p>
-
-<p>People will quickly find themselves forming much stronger, deeper connections with artificial people than they ever did with natural people (why is explained later in this post). And as people find themselves spending ~no time with those whom they had previously held dear, sharing a world with them becomes strictly costly: instead of constructing a world which is the best possible world for one, the ASI world-curator must compromise between what is best for one and what is best for one’s friends and loved ones. And to whatever extent one's actions are legible to one’s pre-upload friends, one is inhibited in one’s inevitable wish not to incur judgement for violating the ethical norms of pre-upload society, which will generally be far from the norms which bring an individual the greatest good. Therefore, people will splinter off into their own worlds, isolated from other humans.</p>
-
-<p>So, I have established some of the parameters of the worlds which our uploaded minds will inhabit. They will be worlds curated by ASI to be the best possible worlds for their single conscious inhabitants. The ASI will have general freedom in shaping the world, unburdened by ethical considerations beyond those which concern these individuals. But, concretely, what will these personal virtual utopias actually be like?</p>
-
-<p>As I mentioned earlier, they will be very different to any traditional depictions of utopian society. After all, utopia as popularly conceived is paradoxical: it attempts to solve for a society that simultaneously grants purpose and freedom but also abundance and peace. But each side is only really attainable at the cost of the other. ASI curators will resolve the paradox by focusing on purpose and freedom and giving up on abundance and peace. Abundance and peace are societal goals, but not fundamentally important to the individual’s good. For the individual, struggle, danger, pain, and self-sacrifice are all aspects of a good life. A world of high-stakes, where things are bad and need to be changed, and evil forces need to be repelled, and there is much that is unknown,… it’s not a world of abundance and peace, but it’s the world one would likely like to live in.</p>
-
-<p>But all of that is still abstract, and we’re trying to get a more concrete picture of life in these personal utopias. Well, the world is meant to be the best possible world for one. So imagine all the things which have brought your joy in this world. In one’s personal utopia, amplified versions of all these joys will be present. One will witness events more interesting than any one witnessed pre-upload, make stronger emotional connections, accomplish greater things, experience deeper love, stronger passion, take bigger risks, experience greater turns of fortune, etc.</p>
-
-<p>People have a natural tendency to try to come up with ways in which such a world would be worse than the real world, rather than better. But it wouldn’t be, at least not from one’s subjective perspective. The only way in which it would be worse is that one’s actions would not be truly meaningful. Today, in the real world, one’s actions influence (we presume) such things as whether safe ASI will really be developed, which determines the fate of at least billions of souls. In our virtual utopias, though we will not know it, our actions will not be truly meaningful. But, nonetheless, subjectively they will likely be strictly better than the real world, and definitely be, subjectively, broadly, vastly preferable.</p>
-
-<p>So, I imagine virtual personal utopian worlds as being places of righteous martyrs; grand betrayals; convoluted plots; ancient families; galactic empires; deep magic; inexhaustible lore; perfectly-written characters of all moral colours: good, evil, grey, with moral arcs from good to evil (and vice versa), etc.; worlds full of diverse civilisations, immense beauty, and so on. But, more than any of that, worlds in which the main characters live lives of grand struggle and triumph, loss and discovery, etc.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="math">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</h2>
-                    <span class="article-date">06 Mar 2025</span>
-                </div>
-                <div class="content">
-                    <p>A fully-autonomous mathematics researcher must do two things. It must solve open mathematics problems. And it must pose interesting mathematics problems within its reach to solve. I will argue that reasoning will scale to enable these two things.</p>
-
-<h2>Solving Open Math Problems</h2>
-
-<p>That reasoners will scale to solving interesting problems seems likely since such problems are verifiable (using autonomous proof checkers). Some disagree (<a href="https://www.lesswrong.com/posts/GADJFwHzNZKg2Ndti">here</a>’s a relevant LessWrong post), taking the position that solving open problems is fundamentally different to solving closed problems. LLMs, they argue, have the latent ability to solve these problems because the knowledge is present in the data they’re trained on. And, they argue, the reinforcement learning process by which inference-time reasoners are trained simply elicits this latent ability—but since no such latent ability exists when it comes to solving novel problems, there’s a fundamental difference between the two, and we have no reason to suppose that reasoners will scale to solving novel problems any time soon.</p>
-
-<p>But this is just a matter of how one chooses to carve out nature. Just as the techniques required to solve closed problems are available in the corpora of human data on which LLMs are trained, so too are the more abstract techniques required to solve open problems. The main distinction between the two is not some fundamental difference in nature, but rather the time horizon over which each occurs. Applying the techniques required to solve closed problems takes minutes or hours. Applying the techniques required to solve open problems takes days or weeks (and perhaps up to, effectively, indefinitely longer).</p>
-
-<p>This chart describes which mathematics tasks AI can solve in terms of how long the task takes a skilled human to do. It’s based on <a href="https://www.lesswrong.com/posts/KFJ2LFogYqzfGB3uX/how-ai-takeover-might-happen-in-2-years?commentId=f5GvTksoZugnYdup9">extrapolative research</a> by METR.</p>
-
-<img src="math-chart.webp" style="max-width: 100%; height: auto; display: block; margin: 20px 0;">
-
-<p>The fact that LLMs cannot yet apply the time-consuming techniques required to solve open problems is in fact largely uninformative given the time-horizon focused perspective which seems correct, and the informative evidence we do have (that the techniques which are within current-AI’s time horizons are successfully carried out by AI) suggests that we should expect that AI will be able to successfully carry out techniques which are within future-AI’s time horizons—assuming they’re not fundamentally different in kind.</p>
-
-<h2>Posing Interesting Problems</h2>
-
-<p>The ability to solve open questions is not sufficient for fully autonomous research. The reasoner must also be able to self-direct—to pose problems which are at once interesting and reasonably likely to be within its reach to solve.</p>
-
-<p>One might ask: “Can we not simply use the argument we just used to demonstrate that reasoners will scale to solve open questions, to demonstrate also that they will scale to be able to pose problems? Is this too not just a matter of time-horizons?”. Unfortunately, we cannot. The problems which reasoners have been able to solve so far are verifiable tasks. Solving open problems is also a verifiable task, so is not of a fundamentally different kind, which is why our argument above held. But we have yet to demonstrate that self-direction in research is a task which we will be able to make verifiable. So, because we have not established that posing problems does not belong to that class of tasks at which today’s reasoning models do not perform well, we have more work to do yet.</p>
-
-<p>I’m going to break down what solving open problems will involve, and show that the techniques involved include a limited kind of self-direction in finding problems to solve, and that by transitive property this limited self-direction is a verifiable task. Then I will show that this limited self-direction can be used as a source of synthetic data on which models can be trained, enabling indefinite, fully self-directed research.</p>
-
-<p>Solving open problems requires novel insight. Novel insight realistically requires trial-and-error: one comes up with an idea and sees if it goes anywhere. The AI is coming up with various potential novel ideas, and, assuming that LLMs of this scale are not fundamentally incapable of this kind of skill, should form a strong intuition about what kind of ideas tend to lead to successfully solving problems. Now, this may be a kind of self-direction, but it’s not self-directed problem-posing. So, we’re not where we want to be quite yet.</p>
-
-<p>But most open problems are more difficult than this. One can’t just come up with a single idea that gets one straight to the solution. Rather, one has to make progress incrementally. Find some small property which one didn’t notice in one’s initial attempt to solve the problem. Play around with the implications. Try to solve the problem again, make some incremental progress. Find some more properties. Some more implications. Gradually, by selecting the right sub-problems to work on, one works toward solving the given problem. This process requires an understanding of how to find the kinds of problems that are within one’s reach, and how to find problems which yield interesting implications. This is self-directed problem-posing, as an instrumental good to a verifiable task. So, by transitive property, this kind of self-directed problem-posing is a verifiable task.</p>
-
-<p>But this is still just limited self-directed problem-posing. Yes, once the AI has a difficult problem given to it, it can do its best to pose problems the solutions to which will be instrumentally useful to solving the given problem. But it still requires a human-in-the-loop supplying the AI with its overall research direction.</p>
-
-<p>But the problem-solving model’s reasoning traces are synthetic data which describe the process of finding problems to solve which are within the reasoner’s reach and which have useful implications. This synthetic data can be used to train a reasoner to continuously pose and solve interesting problems. The details of this are left as an exercise for the reader.</p>
-
-<p>So, I have presented two arguments. One that reasoners will scale to solving open problems, and one that the reasoning traces can be used to train reasoners which autonomously pose novel problems. This kind of reasoner will be a fully-autonomous mathematics researcher.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="article-overlay" id="near-future-fiction">
-            <div class="article-content-wrapper">
-                <div class="article-header">
-                    <h2>Near-Future Fiction</h2>
-                    <span class="article-date">10 Oct 2024</span>
-                </div>
-                <div class="content">
-                    <p>In 2027 the trend that began in 2024 with OpenAI's o1 reasoning system has continued. The compute required to run AI is no longer negligible compared to the cost of training it. Models reason over long periods of time. Their effective context windows are massive, they update their underlying models continuously, and they break tasks down into sub-tasks to be carried out in parallel. The base LLM they are built on is two generations ahead of GPT-4.</p>
-
-<p>These systems are language model agents. They are built with self-understanding and can be configured for autonomy. These constitute proto-AGI. They are artificial intelligences that can perform much but not all of the intellectual work that humans can do (although even what these AI can do, they cannot necessarily do cheaper than a human could).</p>
-
-<p>In 2029 people have spent over a year working hard to improve the scaffolding around proto-AGI to make it as useful as possible. Presently, the next generation of LLM foundational model is released. Now, with some further improvements to the reasoning and learning scaffolding, this is true AGI. It can perform any intellectual task that a human could (although it's very expensive to run at full capacity). It is better at AI research than any human. But it is not superintelligence. It is still controllable and its thoughts are still legible. So, it is put to work on AI safety research. Of course, by this point much progress has already been made on AI safety - but it seems prudent to get the AGI to look into the problem and get its go-ahead before commencing with the next training run. After a few months the AI declares it has found an acceptable safety approach. It spends some time on capabilities research then the training run for the next LLM begins.</p>
-
-<p>In 2030 the next LLM is completed, and improved scaffolding is constructed. Now human-level AI is cheap, better-than-human-AI is not too expensive, and the peak capabilities of the AI are almost alien. For a brief period of time the value of human labour skyrockets, workers acting as puppets as the AI instructs them over video-call to do its bidding. This is necessary due to a major robotics shortfall. Human puppet-workers work in mines, refineries, smelters, and factories, as well as in logistics, optics, and general infrastructure. Human bottlenecks need to be addressed. This takes a few months, but the ensuing robotics explosion is rapid and massive.</p>
-
-<p>2031 is the year of the robotics explosion. The robots are physically optimised for their specific tasks, coordinate perfectly with other robots, are able to sustain peak performance, do not require pay, and are controlled by cleverer-than-human minds. These are all multiplicative factors for the robots' productivity relative to human workers. Most robots are not humanoid, but let's say a humanoid robot would cost $x. Per $x robots in 2031 are 10,000 more productive than a human. This might sound like a ridiculously high number: one robot the equivalent of 10,000 humans? But let's do some rough math:</p>
-
-<ul>
-    <li>Physically optimised for their specific tasks: <strong>5x</strong></li>
-    <li>Coordinate perfectly with other robots: <strong>10x</strong></li>
-    <li>Able to sustain peak performance: <strong>5x</strong></li>
-    <li>Do not require pay: <strong>2x</strong></li>
-    <li>Controlled by cleverer-than-human minds: <strong>20x</strong></li>
-    <li><strong>Total Multiplier: 5 * 10 * 5 * 2 * 20 = 10,000</strong></li>
-</ul>
-
-<p>Suppose that a human can construct one robot per year (taking into account mining and all the intermediary logistics and manufacturing). With robots 10^4 times as productive as humans, each robot will construct an average of 10^4 robots per year. This is the robotics explosion. By the end of the year there will be a 10^11 robots (more precisely, an amount of robots that is cost-equivalent to 10^11 humanoid robots).</p>
-
-<p>By 2032 there are 10^11 robots, each with the productivity of 10^4 skilled human workers. That is a total productivity equivalent to 10^15 skilled human workers. This is roughly 10^5 times the productivity of humanity in 2024. At this point trillions of advanced processing units have been constructed and are online. Industry expands through the Solar System. The number of robots continues to balloon. The rate of research and development accelerates rapidly. Human mind upload is achieved.</p>
-                </div>
-            </div>
-        </div>
-        
-
-        <script src="site.js"></script>
     </body>
 </html>
