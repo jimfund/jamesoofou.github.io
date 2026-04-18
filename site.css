@@ -156,6 +156,15 @@ img {
     font-size: 0.98rem;
 }
 
+.series-more {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
 .series-list {
     list-style: none;
     margin: 20px 0 0;
