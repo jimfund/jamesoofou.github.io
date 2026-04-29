@@ -285,6 +285,10 @@ img {
     padding: 24px 28px 30px;
 }
 
+.article-page--post {
+    max-width: 760px;
+}
+
 .breadcrumbs {
     display: flex;
     gap: 10px;
@@ -293,54 +297,6 @@ img {
     font-size: 0.74rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-}
-
-.article-layout {
-    display: grid;
-    grid-template-columns: 9.5rem minmax(0, 1fr);
-    gap: 28px;
-    align-items: start;
-}
-
-.article-rail {
-    position: sticky;
-    top: 20px;
-    padding-top: 3px;
-    color: var(--muted);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.article-rail dl {
-    display: grid;
-    gap: 13px;
-    margin: 0;
-}
-
-.article-rail dt,
-.article-rail dd {
-    margin: 0;
-}
-
-.article-rail dt {
-    margin-bottom: 2px;
-    color: var(--line-strong);
-}
-
-.article-rail dd,
-.article-rail time {
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-}
-
-.article-rail a:hover {
-    color: var(--accent-strong);
-}
-
-.article-document {
-    min-width: 0;
 }
 
 .article-header {
@@ -593,22 +549,6 @@ img {
     .article-page {
         padding-left: 18px;
         padding-right: 18px;
-    }
-
-    .article-layout {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .article-rail {
-        position: static;
-        padding-top: 0;
-    }
-
-    .article-rail dl {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 18px;
     }
 
     .article-header,
