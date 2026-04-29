@@ -34,6 +34,33 @@ body {
     line-height: 1.72;
 }
 
+body::before,
+body::after {
+    position: fixed;
+    z-index: -1;
+    color: rgba(155, 184, 207, 0.16);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    line-height: 1.5;
+    pointer-events: none;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+}
+
+body::before {
+    content: "observer////signal////archive";
+    top: 96px;
+    left: max(14px, calc((100vw - var(--page-width)) / 2 - 56px));
+}
+
+body::after {
+    content: "presence////unresolved////near";
+    right: max(14px, calc((100vw - var(--page-width)) / 2 - 56px));
+    bottom: 52px;
+    transform: rotate(180deg);
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -505,6 +532,11 @@ img {
 }
 
 @media (max-width: 780px) {
+    body::before,
+    body::after {
+        content: none;
+    }
+
     .page-shell {
         width: min(var(--page-width), calc(100vw - 18px));
         padding-top: 14px;
@@ -587,6 +619,11 @@ img {
 }
 
 @media print {
+    body::before,
+    body::after {
+        content: none;
+    }
+
     body {
         background: #fff;
     }
