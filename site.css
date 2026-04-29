@@ -94,10 +94,6 @@ img {
     opacity: 1 !important;
 }
 
-.presence-mark.is-reading {
-    color: rgba(213, 221, 230, 0.92);
-}
-
 .site-header,
 .site-main,
 .site-footer {
