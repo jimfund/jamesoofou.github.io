@@ -39,6 +39,16 @@ a:hover {
     color: var(--accent-strong);
 }
 
+a:focus {
+    outline: none;
+}
+
+a:focus-visible {
+    color: var(--accent-strong);
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -415,15 +425,38 @@ img {
 }
 
 .archive-list--home .archive-list__entry {
+    position: relative;
     grid-template-columns: 7.25rem minmax(0, 1fr) 9.5rem;
     gap: 18px;
     align-items: baseline;
     transition: background-color 90ms ease, border-color 90ms ease;
 }
 
-.archive-list--home .archive-list__entry:hover {
+.archive-list--home .archive-list__entry:hover,
+.archive-list--home .archive-list__entry:focus-within {
     border-color: var(--line-strong);
     background: rgba(155, 184, 207, 0.035);
+}
+
+.archive-list--home .archive-list__entry::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 8px;
+    width: 1px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 90ms ease;
+}
+
+.archive-list--home .archive-list__entry:hover::before,
+.archive-list--home .archive-list__entry:focus-within::before {
+    opacity: 1;
+}
+
+.archive-list--home .archive-list__entry:focus-within .archive-list__title {
+    color: var(--accent-strong);
 }
 
 .archive-list time,
