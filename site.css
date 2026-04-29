@@ -415,22 +415,6 @@ img {
     background: rgba(155, 184, 207, 0.035);
 }
 
-.archive-list__year {
-    display: block;
-    padding-top: 18px;
-    padding-bottom: 8px;
-    color: var(--accent);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.archive-list__year:first-child {
-    padding-top: 10px;
-}
-
 .archive-list time,
 .archive-list span {
     color: var(--muted);
