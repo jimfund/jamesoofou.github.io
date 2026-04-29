@@ -373,6 +373,13 @@ img {
     border-top: 1px solid var(--line);
 }
 
+.archive-list--home {
+    max-width: none;
+    margin: 0;
+    padding: 8px 24px 10px;
+    border-top: 0;
+}
+
 .archive-list li {
     display: grid;
     grid-template-columns: 8.5rem minmax(0, 1fr);
@@ -430,6 +437,11 @@ img {
 
     .entry-card,
     .article-page {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .archive-list--home {
         padding-left: 18px;
         padding-right: 18px;
     }
