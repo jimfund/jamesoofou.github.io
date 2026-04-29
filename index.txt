@@ -1,0 +1,19 @@
+jimfund
+=======
+
+Archive of essays and fiction.
+
+Home: https://jimfund.com/
+RSS:  https://jimfund.com/feed.xml
+
+Posts
+-----
+2026-02-26  Fiction I [fiction]  https://jimfund.com/fiction.html
+2026-02-26  2026 IV [2026]  https://jimfund.com/2026-iv.html
+2026-02-22  2026 III [2026]  https://jimfund.com/2026-iii.html
+2026-02-21  2026 II [2026]  https://jimfund.com/2026-ii.html
+2026-02-12  2026 I [2026]  https://jimfund.com/2026.html
+2025-03-26  Mind Upload II  https://jimfund.com/upload-ii.html
+2025-03-08  Mind Upload I  https://jimfund.com/upload.html
+2025-03-06  Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers  https://jimfund.com/math.html
+2024-10-10  Near-Future Fiction  https://jimfund.com/near-future-fiction.html
