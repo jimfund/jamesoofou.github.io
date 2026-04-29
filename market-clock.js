@@ -9,6 +9,7 @@
     const markets = [
         {
             label: "America",
+            clockLabel: "NY",
             timeZone: "America/New_York",
             sessions: [
                 { openHour: 9, openMinute: 30, closeHour: 16, closeMinute: 0 },
@@ -56,6 +57,7 @@
         },
         {
             label: "Japan",
+            clockLabel: "Tokyo",
             timeZone: "Asia/Tokyo",
             sessions: [
                 { openHour: 9, openMinute: 0, closeHour: 11, closeMinute: 30 },
@@ -109,6 +111,7 @@
 
     const weekdayFormatterCache = new Map();
     const partsFormatterCache = new Map();
+    const timeFormatterCache = new Map();
 
     function formatter(cache, timeZone, options) {
         if (!cache.has(timeZone)) {
@@ -140,6 +143,14 @@
         }).format(date);
     }
 
+    function marketTime(date, timeZone) {
+        return formatter(timeFormatterCache, timeZone, {
+            hour: "2-digit",
+            minute: "2-digit",
+            hourCycle: "h23",
+        }).format(date);
+    }
+
     function isWeekday(date, timeZone) {
         return !["Sat", "Sun"].includes(weekday(date, timeZone));
     }
@@ -155,6 +166,18 @@
 
     function isMarketHoliday(market, date) {
         return (market.closedDates || []).includes(dateKey(date, market.timeZone));
+    }
+
+    function closedDayReason(market, date) {
+        if (isMarketHoliday(market, date)) {
+            return "Holiday";
+        }
+
+        if (!isWeekday(date, market.timeZone)) {
+            return "Weekend";
+        }
+
+        return "";
     }
 
     function zonedTimeToDate(timeZone, year, month, day, hour, minute) {
@@ -189,10 +212,11 @@
         const earlyClose = (market.earlyCloses || {})[dateKey(date, market.timeZone)];
 
         return market.sessions.map((session, index) => {
-            const closeHour = earlyClose && index === market.sessions.length - 1
+            const isEarlyClose = Boolean(earlyClose && index === market.sessions.length - 1);
+            const closeHour = isEarlyClose
                 ? earlyClose.closeHour
                 : session.closeHour;
-            const closeMinute = earlyClose && index === market.sessions.length - 1
+            const closeMinute = isEarlyClose
                 ? earlyClose.closeMinute
                 : session.closeMinute;
 
@@ -213,6 +237,7 @@
                     closeHour,
                     closeMinute,
                 ),
+                isEarlyClose,
             };
         }).filter((session) => session.open < session.close);
     }
@@ -237,21 +262,40 @@
     }
 
     function marketStatus(market, now) {
-        const openSession = sessionsForDate(market, now)
-            .find((session) => now >= session.open && now < session.close);
+        const todaySessions = sessionsForDate(market, now);
+        const openSession = todaySessions.find((session) => now >= session.open && now < session.close);
 
         if (openSession) {
+            const closeText = openSession.isEarlyClose ? "early close" : "closes";
             return {
                 isOpen: true,
-                text: `Open - closes in ${formatDuration(openSession.close - now)}`,
+                phase: "open",
+                text: `Open - ${closeText} in ${formatDuration(openSession.close - now)}`,
+                eventTime: openSession.close,
             };
         }
 
         const next = nextOpen(market, now);
+        const reason = closedDayReason(market, now);
+        const isBreak = todaySessions.some((session) => session.close <= now)
+            && todaySessions.some((session) => session.open > now);
+
+        if (isBreak && next) {
+            return {
+                isOpen: false,
+                phase: "break",
+                text: `Break - reopens in ${formatDuration(next - now)}`,
+                eventTime: next,
+            };
+        }
 
         return {
             isOpen: false,
-            text: next ? `Closed - opens in ${formatDuration(next - now)}` : "Closed",
+            phase: reason === "Holiday" ? "holiday" : "closed",
+            text: next
+                ? `${reason || "Closed"} - opens in ${formatDuration(next - now)}`
+                : reason || "Closed",
+            eventTime: next,
         };
     }
 
@@ -288,8 +332,18 @@
 
             const status = marketStatus(market, now);
             const statusNode = row.querySelector(".market-clock__status");
+            const localNode = row.querySelector("[data-market-local]");
+            if (localNode) {
+                localNode.textContent = `${marketTime(now, market.timeZone)} ${market.clockLabel}`;
+            }
+
             statusNode.textContent = status.text;
             statusNode.classList.toggle("is-open", status.isOpen);
+            row.classList.toggle("is-open", status.isOpen);
+            row.classList.toggle("is-holiday", status.phase === "holiday");
+            row.title = status.eventTime
+                ? `${market.label}: ${status.text}; next event ${marketTime(status.eventTime, market.timeZone)} ${market.clockLabel}`
+                : `${market.label}: ${status.text}`;
         });
     }
 

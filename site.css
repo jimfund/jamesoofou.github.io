@@ -194,7 +194,7 @@ img {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 8px 18px;
+    gap: 8px 20px;
 }
 
 .market-clock__market {
@@ -204,8 +204,29 @@ img {
     white-space: nowrap;
 }
 
+.market-clock__state {
+    width: 0.45rem;
+    height: 0.45rem;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    transform: translateY(-0.02rem);
+}
+
+.market-clock__market.is-open .market-clock__state {
+    border-color: var(--accent-strong);
+    background: var(--accent-strong);
+}
+
+.market-clock__market.is-holiday .market-clock__state {
+    border-color: var(--signal);
+}
+
 .market-clock__name {
     color: var(--text);
+}
+
+.market-clock__local {
+    color: var(--muted);
 }
 
 .market-clock__status {
