@@ -143,11 +143,6 @@ img {
     display: none;
 }
 
-.market-clock__market--quote {
-    padding-left: 18px;
-    border-left: 1px solid var(--line);
-}
-
 .market-clock__name {
     color: var(--text);
 }
@@ -390,11 +385,6 @@ img {
 
     .market-clock__markets {
         justify-content: flex-start;
-    }
-
-    .market-clock__market--quote {
-        padding-left: 0;
-        border-left: 0;
     }
 
     .entry-card,
