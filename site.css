@@ -91,6 +91,7 @@ img {
 
 .presence-mark.is-awake {
     color: rgba(227, 56, 33, 0.86);
+    opacity: 1 !important;
 }
 
 .site-header,
@@ -425,6 +426,16 @@ img {
 .article-nav__link strong {
     font-size: 1rem;
     font-weight: 500;
+}
+
+.article-trace {
+    max-width: 700px;
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 .archive-list {

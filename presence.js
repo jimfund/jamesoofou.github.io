@@ -43,6 +43,7 @@
         y: window.innerHeight / 2,
     };
     let frameRequested = false;
+    let lastWake = 0;
 
     function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -90,8 +91,13 @@
 
     window.addEventListener("resize", requestRender);
 
-    window.setInterval(() => {
-        const index = Math.floor(Math.random() * marks.length);
+    function wake(index) {
+        const now = Date.now();
+        if (now - lastWake < 420) {
+            return;
+        }
+
+        lastWake = now;
         const mark = marks[index];
         const restingText = mark.node.textContent;
         mark.node.classList.add("is-awake");
@@ -101,7 +107,33 @@
             mark.node.classList.remove("is-awake");
             mark.node.textContent = restingText;
         }, 1200);
-    }, 5600);
+    }
+
+    document.addEventListener("pointerenter", (event) => {
+        const archiveRow = event.target.closest && event.target.closest(".archive-list__entry");
+        if (archiveRow) {
+            const rows = Array.from(document.querySelectorAll(".archive-list__entry"));
+            wake(rows.indexOf(archiveRow) % marks.length);
+            return;
+        }
+
+        if (event.target.closest && event.target.closest("a")) {
+            wake(0);
+        }
+    }, true);
+
+    document.addEventListener("focusin", (event) => {
+        const archiveRow = event.target.closest && event.target.closest(".archive-list__entry");
+        if (archiveRow) {
+            const rows = Array.from(document.querySelectorAll(".archive-list__entry"));
+            wake(rows.indexOf(archiveRow) % marks.length);
+            return;
+        }
+
+        if (event.target.closest && event.target.closest("a")) {
+            wake(0);
+        }
+    });
 
     render();
 }());
