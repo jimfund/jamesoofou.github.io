@@ -44,17 +44,23 @@
                 
 <section class="home-section">
     <aside class="market-clock" aria-label="Market hours">
-        <div class="market-clock__time" data-market-time>--:--</div>
-        <div class="market-clock__markets" data-market-clock>
-            <div class="market-clock__market">
-                <span class="market-clock__name">America</span>
-                <span class="market-clock__status">Checking...</span>
-            </div>
-            <div class="market-clock__market">
-                <span class="market-clock__name">Japan</span>
-                <span class="market-clock__status">Checking...</span>
+        <div class="market-clock__dynamic">
+            <div class="market-clock__time" data-market-time>--:--</div>
+            <div class="market-clock__markets" data-market-clock>
+                <div class="market-clock__market">
+                    <span class="market-clock__name">America</span>
+                    <span class="market-clock__status">Checking...</span>
+                </div>
+                <div class="market-clock__market">
+                    <span class="market-clock__name">Japan</span>
+                    <span class="market-clock__status">Checking...</span>
+                </div>
             </div>
         </div>
+        <noscript>
+            <style>.market-clock__dynamic { display: none; }</style>
+            <div class="market-clock__noscript">Market clock requires JavaScript.</div>
+        </noscript>
     </aside>
     <ol class="archive-list archive-list--home">
         
@@ -62,7 +68,11 @@
             <time datetime="2026-02-26">26 Feb 2026</time>
             <div>
                 <a href="fiction.html">Fiction I</a>
-                <span>Dispatch / fiction</span>
+                <span>
+                    Dispatch /
+                    <a class="archive-list__series" href="series-fiction.html">fiction</a>
+                    
+                </span>
             </div>
         </li>
         
@@ -70,7 +80,11 @@
             <time datetime="2026-02-26">26 Feb 2026</time>
             <div>
                 <a href="2026-iv.html">2026 IV</a>
-                <span>Dispatch / 2026</span>
+                <span>
+                    Dispatch /
+                    <a class="archive-list__series" href="series-2026.html">2026</a>
+                    
+                </span>
             </div>
         </li>
         
@@ -78,7 +92,11 @@
             <time datetime="2026-02-22">22 Feb 2026</time>
             <div>
                 <a href="2026-iii.html">2026 III</a>
-                <span>Dispatch / 2026</span>
+                <span>
+                    Dispatch /
+                    <a class="archive-list__series" href="series-2026.html">2026</a>
+                    
+                </span>
             </div>
         </li>
         
@@ -86,7 +104,11 @@
             <time datetime="2026-02-21">21 Feb 2026</time>
             <div>
                 <a href="2026-ii.html">2026 II</a>
-                <span>Dispatch / 2026</span>
+                <span>
+                    Dispatch /
+                    <a class="archive-list__series" href="series-2026.html">2026</a>
+                    
+                </span>
             </div>
         </li>
         
@@ -94,7 +116,11 @@
             <time datetime="2026-02-12">12 Feb 2026</time>
             <div>
                 <a href="2026.html">2026 I</a>
-                <span>Dispatch / 2026</span>
+                <span>
+                    Dispatch /
+                    <a class="archive-list__series" href="series-2026.html">2026</a>
+                    
+                </span>
             </div>
         </li>
         
@@ -102,7 +128,9 @@
             <time datetime="2025-03-26">26 Mar 2025</time>
             <div>
                 <a href="upload-ii.html">Mind Upload II</a>
-                <span>Essay</span>
+                <span>
+                    Essay
+                </span>
             </div>
         </li>
         
@@ -110,7 +138,9 @@
             <time datetime="2025-03-08">08 Mar 2025</time>
             <div>
                 <a href="upload.html">Mind Upload I</a>
-                <span>Essay</span>
+                <span>
+                    Essay
+                </span>
             </div>
         </li>
         
@@ -118,7 +148,9 @@
             <time datetime="2025-03-06">06 Mar 2025</time>
             <div>
                 <a href="math.html">Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</a>
-                <span>Essay</span>
+                <span>
+                    Essay
+                </span>
             </div>
         </li>
         
@@ -126,7 +158,9 @@
             <time datetime="2024-10-10">10 Oct 2024</time>
             <div>
                 <a href="near-future-fiction.html">Near-Future Fiction</a>
-                <span>Essay</span>
+                <span>
+                    Essay
+                </span>
             </div>
         </li>
         

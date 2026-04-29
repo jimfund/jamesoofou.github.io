@@ -111,10 +111,6 @@ img {
 }
 
 .market-clock {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 16px;
-    align-items: center;
     padding: 14px 24px;
     border-bottom: 1px solid var(--line);
     color: var(--muted);
@@ -122,6 +118,13 @@ img {
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+}
+
+.market-clock__dynamic {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
 }
 
 .market-clock__time {
@@ -153,6 +156,10 @@ img {
 
 .market-clock__status.is-open {
     color: var(--accent-strong);
+}
+
+.market-clock__noscript {
+    color: var(--muted);
 }
 
 .entry-stack {
@@ -404,6 +411,20 @@ img {
     line-height: 1.35;
 }
 
+.archive-list .archive-list__series {
+    display: inline;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.74rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.archive-list .archive-list__series:hover {
+    color: var(--accent-strong);
+}
+
 .archive-list span {
     display: block;
     margin-top: 3px;
@@ -424,9 +445,12 @@ img {
         justify-content: flex-start;
     }
 
-    .market-clock {
+    .market-clock__dynamic {
         grid-template-columns: 1fr;
         gap: 8px;
+    }
+
+    .market-clock {
         padding-left: 18px;
         padding-right: 18px;
     }
