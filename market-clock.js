@@ -2,6 +2,7 @@
     const clockRoot = document.querySelector("[data-market-clock]");
     const timeRoot = document.querySelector("[data-market-time]");
     const quoteRoot = document.querySelector("[data-market-quote]");
+    const spxQuoteUrl = "https://api.codetabs.com/v1/proxy/?quest=https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1d%26interval=1m";
 
     if (!clockRoot || !timeRoot) {
         return;
@@ -294,13 +295,13 @@
         });
     }
 
-    function renderQuote(data) {
-        if (!quoteRoot || !data || !data.spx || !Number.isFinite(data.spx.close)) {
+    function renderQuote(price) {
+        if (!quoteRoot || !Number.isFinite(price)) {
             return;
         }
 
         const statusNode = quoteRoot.querySelector(".market-clock__status");
-        statusNode.textContent = data.spx.close.toLocaleString([], {
+        statusNode.textContent = price.toLocaleString([], {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -308,9 +309,13 @@
     }
 
     function loadQuote() {
-        fetch("market-data.json", { cache: "no-store" })
+        fetch(spxQuoteUrl, { cache: "no-store" })
             .then((response) => (response.ok ? response.json() : null))
-            .then(renderQuote)
+            .then((data) => {
+                const result = data && data.chart && data.chart.result && data.chart.result[0];
+                const price = result && result.meta && result.meta.regularMarketPrice;
+                renderQuote(price);
+            })
             .catch(() => {});
     }
 
