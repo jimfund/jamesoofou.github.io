@@ -1,0 +1,10 @@
+{
+  "spx": {
+    "symbol": "^SPX",
+    "close": 7138.8,
+    "date": "2026-04-28",
+    "time": "23:00:00",
+    "source": "Stooq"
+  },
+  "fetched_at": "2026-04-29T12:44:38Z"
+}

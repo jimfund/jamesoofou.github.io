@@ -1,6 +1,7 @@
 (function () {
     const clockRoot = document.querySelector("[data-market-clock]");
     const timeRoot = document.querySelector("[data-market-time]");
+    const quoteRoot = document.querySelector("[data-market-quote]");
 
     if (!clockRoot || !timeRoot) {
         return;
@@ -293,7 +294,28 @@
         });
     }
 
+    function renderQuote(data) {
+        if (!quoteRoot || !data || !data.spx || !Number.isFinite(data.spx.close)) {
+            return;
+        }
+
+        const statusNode = quoteRoot.querySelector(".market-clock__status");
+        statusNode.textContent = data.spx.close.toLocaleString([], {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+        quoteRoot.hidden = false;
+    }
+
+    function loadQuote() {
+        fetch("market-data.json", { cache: "no-store" })
+            .then((response) => (response.ok ? response.json() : null))
+            .then(renderQuote)
+            .catch(() => {});
+    }
+
     render();
+    loadQuote();
 
     const millisecondsUntilNextMinute = 60000 - (Date.now() % 60000);
     window.setTimeout(() => {
