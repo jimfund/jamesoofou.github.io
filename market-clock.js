@@ -294,5 +294,10 @@
     }
 
     render();
-    window.setInterval(render, 30000);
+
+    const millisecondsUntilNextMinute = 60000 - (Date.now() % 60000);
+    window.setTimeout(() => {
+        render();
+        window.setInterval(render, 60000);
+    }, millisecondsUntilNextMinute);
 }());
