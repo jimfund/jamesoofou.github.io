@@ -76,7 +76,7 @@ img {
 
 .presence-mark {
     position: fixed;
-    color: rgba(155, 184, 207, 0.12);
+    color: rgba(155, 184, 207, 0.2);
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.66rem;
     font-variant-numeric: tabular-nums;
@@ -90,7 +90,7 @@ img {
 }
 
 .presence-mark.is-awake {
-    color: rgba(227, 56, 33, 0.5);
+    color: rgba(227, 56, 33, 0.86);
 }
 
 .site-header,

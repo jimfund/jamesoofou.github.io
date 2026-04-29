@@ -9,9 +9,6 @@
     const fragments = [
         "observer////signal////archive",
         "presence////unresolved////near",
-        "listening////noted////again",
-        "index////index////index",
-        "outside////inside////outside",
         "record////trace////return",
     ];
 
@@ -29,9 +26,9 @@
         return {
             node,
             side: index % 2 === 0 ? "left" : "right",
-            xOffset: 42 + (index % 3) * 18,
-            yRatio: 0.16 + index * 0.12,
-            drift: 4 + (index % 3) * 2,
+            xOffset: 48 + (index % 3) * 24,
+            yRatio: 0.2 + index * 0.22,
+            drift: 7 + index * 2,
             rotation: index % 2 === 0 ? 0 : 180,
         };
     });
@@ -64,7 +61,7 @@
             const direction = mark.side === "left" ? -1 : 1;
             const x = direction * nearness * mark.drift;
             const y = dy > 0 ? -nearness * mark.drift : nearness * mark.drift;
-            const opacity = 0.36 + nearness * 0.46;
+            const opacity = 0.52 + nearness * 0.38;
 
             mark.node.style.left = `${baseX}px`;
             mark.node.style.top = `${baseY}px`;
@@ -91,8 +88,9 @@
     window.setInterval(() => {
         const mark = marks[Math.floor(Math.random() * marks.length)];
         mark.node.classList.add("is-awake");
-        window.setTimeout(() => mark.node.classList.remove("is-awake"), 700);
-    }, 4200);
+        mark.node.style.opacity = "1";
+        window.setTimeout(() => mark.node.classList.remove("is-awake"), 1200);
+    }, 5600);
 
     render();
 }());
