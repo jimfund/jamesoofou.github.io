@@ -7,9 +7,14 @@
     }
 
     const fragments = [
-        "observer////signal////archive",
-        "presence////unresolved////near",
-        "record////trace////return",
+        "goblin////signal////archive",
+        "small////unresolved////near",
+        "record////clawmark////return",
+    ];
+    const awakeFragments = [
+        "goblin////awake////watching",
+        "little////teeth////index",
+        "under////the////ledger",
     ];
 
     const field = document.createElement("div");
@@ -86,10 +91,16 @@
     window.addEventListener("resize", requestRender);
 
     window.setInterval(() => {
-        const mark = marks[Math.floor(Math.random() * marks.length)];
+        const index = Math.floor(Math.random() * marks.length);
+        const mark = marks[index];
+        const restingText = mark.node.textContent;
         mark.node.classList.add("is-awake");
+        mark.node.textContent = awakeFragments[index];
         mark.node.style.opacity = "1";
-        window.setTimeout(() => mark.node.classList.remove("is-awake"), 1200);
+        window.setTimeout(() => {
+            mark.node.classList.remove("is-awake");
+            mark.node.textContent = restingText;
+        }, 1200);
     }, 5600);
 
     render();
