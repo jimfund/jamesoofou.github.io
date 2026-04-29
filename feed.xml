@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>jimfund</title>
+    <link>https://jimfund.com/</link>
+    <description>Archive of essays and fiction.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 29 Apr 2026 13:22:32 GMT</lastBuildDate>
+    <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+    <item>
+      <title>Fiction I</title>
+      <link>https://jimfund.com/fiction.html</link>
+      <guid isPermaLink="true">https://jimfund.com/fiction.html</guid>
+      <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+      <description>The AI busily build reading all the relevant text to each problem they face. Quickly you lose track totally, you desperately try to keep track but each solution they implement is based on more knowledge than you could…</description>
+    </item>
+    <item>
+      <title>2026 IV</title>
+      <link>https://jimfund.com/2026-iv.html</link>
+      <guid isPermaLink="true">https://jimfund.com/2026-iv.html</guid>
+      <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+      <description>There was a popular blog post about some economic ramifications of continued AI progress. It included a projection of METR time horizons: Claude Opus 4.6 is a real model. Beyond that is the authors' scenario. So, we…</description>
+    </item>
+    <item>
+      <title>2026 III</title>
+      <link>https://jimfund.com/2026-iii.html</link>
+      <guid isPermaLink="true">https://jimfund.com/2026-iii.html</guid>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 GMT</pubDate>
+      <description>AI will be doing most AI research at lower time horizons than most expect. Generally superhuman AI researchers aren't necessary. AI just needs to be roughly human-level at the tip of one of the spikes of its jagged…</description>
+    </item>
+    <item>
+      <title>2026 II</title>
+      <link>https://jimfund.com/2026-ii.html</link>
+      <guid isPermaLink="true">https://jimfund.com/2026-ii.html</guid>
+      <pubDate>Sat, 21 Feb 2026 00:00:00 GMT</pubDate>
+      <description>AI is not yet dramatically increasing AI researcher productivity. It cannot do the longer tasks involved in training frontier AI models. As a result, productivity is bottlenecked. Anthropic's CEO, Dario Amodei,…</description>
+    </item>
+    <item>
+      <title>2026 I</title>
+      <link>https://jimfund.com/2026.html</link>
+      <guid isPermaLink="true">https://jimfund.com/2026.html</guid>
+      <pubDate>Thu, 12 Feb 2026 00:00:00 GMT</pubDate>
+      <description>AI utility is low when models are incapable of doing the tasks which human workers do in a day, high when they are capable of doing them, and radically transformative when they move onto what's next. When the technical…</description>
+    </item>
+    <item>
+      <title>Mind Upload II</title>
+      <link>https://jimfund.com/upload-ii.html</link>
+      <guid isPermaLink="true">https://jimfund.com/upload-ii.html</guid>
+      <pubDate>Wed, 26 Mar 2025 00:00:00 GMT</pubDate>
+      <description>Let’s suppose that ASI has arrived and mind-upload technology has been developed. Assume one has a large compute budget and the capability to make copies of one’s mind which are psychologically continuous with oneself…</description>
+    </item>
+    <item>
+      <title>Mind Upload I</title>
+      <link>https://jimfund.com/upload.html</link>
+      <guid isPermaLink="true">https://jimfund.com/upload.html</guid>
+      <pubDate>Sat, 08 Mar 2025 00:00:00 GMT</pubDate>
+      <description>Once aligned ASI is achieved, it will invent the technology to create digital copies of people. This is mind upload. The worlds people will inhabit once uploaded will be personal utopias curated by artificial…</description>
+    </item>
+    <item>
+      <title>Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers</title>
+      <link>https://jimfund.com/math.html</link>
+      <guid isPermaLink="true">https://jimfund.com/math.html</guid>
+      <pubDate>Thu, 06 Mar 2025 00:00:00 GMT</pubDate>
+      <description>A fully-autonomous mathematics researcher must do two things. It must solve open mathematics problems. And it must pose interesting mathematics problems within its reach to solve. I will argue that reasoning will scale…</description>
+    </item>
+    <item>
+      <title>Near-Future Fiction</title>
+      <link>https://jimfund.com/near-future-fiction.html</link>
+      <guid isPermaLink="true">https://jimfund.com/near-future-fiction.html</guid>
+      <pubDate>Thu, 10 Oct 2024 00:00:00 GMT</pubDate>
+      <description>In 2027 the trend that began in 2024 with OpenAI's o1 reasoning system has continued. The compute required to run AI is no longer negligible compared to the cost of training it. Models reason over long periods of time.…</description>
+    </item>
+  </channel>
+</rss>
