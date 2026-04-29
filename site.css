@@ -172,7 +172,7 @@ img {
     border-bottom: 1px solid var(--line);
     color: var(--muted);
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-variant-numeric: tabular-nums;
@@ -180,14 +180,14 @@ img {
 
 .market-clock__dynamic {
     display: grid;
-    grid-template-columns: 7.25rem minmax(0, 1fr);
+    grid-template-columns: 5.9rem minmax(0, 1fr);
     align-items: stretch;
 }
 
 .market-clock__time {
     display: flex;
     align-items: center;
-    padding: 13px 18px 13px 24px;
+    padding: 8px 14px 8px 24px;
     border-right: 1px solid var(--line);
     color: var(--accent);
     white-space: nowrap;
@@ -203,18 +203,18 @@ img {
 .market-clock__market {
     position: relative;
     display: grid;
-    grid-template-columns: auto auto minmax(7rem, 1fr);
-    gap: 8px;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    gap: 6px;
     align-items: center;
     min-width: 0;
-    padding: 13px 18px;
+    padding: 8px 14px;
     border-left: 1px solid rgba(39, 49, 59, 0.72);
     white-space: nowrap;
 }
 
 .market-clock__state {
-    width: 0.45rem;
-    height: 0.45rem;
+    width: 0.38rem;
+    height: 0.38rem;
     border: 1px solid var(--line-strong);
     background: transparent;
     box-shadow: 0 0 0 1px rgba(9, 11, 15, 0.86);
@@ -223,7 +223,7 @@ img {
 .market-clock__market.is-open .market-clock__state {
     border-color: var(--accent-strong);
     background: var(--accent-strong);
-    box-shadow: 0 0 9px rgba(200, 216, 230, 0.22);
+    box-shadow: 0 0 6px rgba(200, 216, 230, 0.18);
 }
 
 .market-clock__market.is-holiday .market-clock__state {
@@ -231,14 +231,17 @@ img {
 }
 
 .market-clock__name {
+    min-width: 0;
     color: var(--text);
 }
 
 .market-clock__local {
+    display: none;
     color: var(--muted);
 }
 
 .market-clock__status {
+    min-width: 0;
     overflow: hidden;
     color: var(--muted);
     text-align: right;
@@ -618,7 +621,7 @@ img {
     }
 
     .market-clock__time {
-        padding: 12px 18px;
+        padding: 8px 18px;
         border-right: 0;
         border-bottom: 1px solid var(--line);
     }
@@ -628,10 +631,16 @@ img {
     }
 
     .market-clock__market {
-        grid-template-columns: auto auto minmax(0, 1fr);
-        padding: 12px 18px;
+        grid-template-columns: auto minmax(0, 1fr);
+        padding: 8px 18px;
         border-left: 0;
         border-top: 1px solid rgba(39, 49, 59, 0.72);
+    }
+
+    .market-clock__status {
+        grid-column: 1 / -1;
+        padding-left: 0.82rem;
+        text-align: left;
     }
 
     .market-clock__market:first-child {

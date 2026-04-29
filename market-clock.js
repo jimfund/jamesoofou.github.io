@@ -1,6 +1,7 @@
 (function () {
     const clockRoot = document.querySelector("[data-market-clock]");
     const timeRoot = document.querySelector("[data-market-time]");
+    const compactClock = window.matchMedia("(max-width: 780px)");
 
     if (!clockRoot || !timeRoot) {
         return;
@@ -271,6 +272,7 @@
                 isOpen: true,
                 phase: "open",
                 text: `Open - ${closeText} in ${formatDuration(openSession.close - now)}`,
+                compactText: `Open ${formatDuration(openSession.close - now)}`,
                 eventTime: openSession.close,
             };
         }
@@ -285,15 +287,23 @@
                 isOpen: false,
                 phase: "break",
                 text: `Break - reopens in ${formatDuration(next - now)}`,
+                compactText: `Break ${formatDuration(next - now)}`,
                 eventTime: next,
             };
         }
+
+        const compactPrefix = reason === "Holiday"
+            ? "Holiday"
+            : "Opens";
 
         return {
             isOpen: false,
             phase: reason === "Holiday" ? "holiday" : "closed",
             text: next
                 ? `${reason || "Closed"} - opens in ${formatDuration(next - now)}`
+                : reason || "Closed",
+            compactText: next
+                ? `${compactPrefix} ${formatDuration(next - now)}`
                 : reason || "Closed",
             eventTime: next,
         };
@@ -337,7 +347,7 @@
                 localNode.textContent = `${marketTime(now, market.timeZone)} ${market.clockLabel}`;
             }
 
-            statusNode.textContent = status.text;
+            statusNode.textContent = compactClock.matches ? status.compactText : status.text;
             statusNode.classList.toggle("is-open", status.isOpen);
             row.classList.toggle("is-open", status.isOpen);
             row.classList.toggle("is-holiday", status.phase === "holiday");
