@@ -8,12 +8,10 @@
 
     const fragments = [
         "goblin////signal////archive",
-        "small////unresolved////near",
         "record////clawmark////return",
     ];
     const awakeFragments = [
         "goblin////awake////watching",
-        "little////teeth////index",
         "under////the////ledger",
     ];
 
