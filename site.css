@@ -118,6 +118,7 @@ img {
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
 }
 
 .market-clock__dynamic {
@@ -395,6 +396,41 @@ img {
     border-bottom: 1px solid var(--line);
 }
 
+.archive-list--home li {
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.archive-list--home .archive-list__entry {
+    grid-template-columns: 7.25rem minmax(0, 1fr) 9.5rem;
+    gap: 18px;
+    align-items: baseline;
+    transition: background-color 90ms ease, border-color 90ms ease;
+}
+
+.archive-list--home .archive-list__entry:hover {
+    border-color: var(--line-strong);
+    background: rgba(155, 184, 207, 0.035);
+}
+
+.archive-list__year {
+    display: block;
+    padding-top: 18px;
+    padding-bottom: 8px;
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.archive-list__year:first-child {
+    padding-top: 10px;
+}
+
 .archive-list time,
 .archive-list span {
     color: var(--muted);
@@ -402,13 +438,19 @@ img {
     font-size: 0.74rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
 }
 
-.archive-list a {
+.archive-list a,
+.archive-list__title {
     display: block;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.35;
+}
+
+.archive-list__meta {
+    text-align: right;
 }
 
 .archive-list .archive-list__series {
@@ -425,7 +467,7 @@ img {
     color: var(--accent-strong);
 }
 
-.archive-list span {
+.archive-list span:not(.archive-list__meta) {
     display: block;
     margin-top: 3px;
 }
@@ -470,6 +512,13 @@ img {
         padding-right: 18px;
     }
 
+    .archive-list--home li {
+        margin-left: -18px;
+        margin-right: -18px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
     .series-list li {
         flex-direction: column;
         gap: 3px;
@@ -479,9 +528,14 @@ img {
         grid-template-columns: 1fr;
     }
 
-    .archive-list li {
+    .archive-list li,
+    .archive-list--home .archive-list__entry {
         grid-template-columns: 1fr;
         gap: 3px;
+    }
+
+    .archive-list__meta {
+        text-align: left;
     }
 
     .article-nav__link--right {
