@@ -16,11 +16,13 @@
     const spacing = 10;
     const cells = [];
     const occupied = new Map();
+    const pulses = [];
     let width = 0;
     let height = 0;
     let dpr = 1;
     let maxCells = 420;
     let startTime = performance.now();
+    let nextPulseAt = 4.5;
     let animationFrame = 0;
 
     function clamp(value, min, max) {
@@ -144,14 +146,19 @@
     function buildOrganism() {
         cells.length = 0;
         occupied.clear();
+        pulses.length = 0;
         const seed = hash(`${width}:${height}:cyberred-organism`);
-        const rootIndex = addCell(width * 0.5, height * 0.52, -1, 0, 0, 0, seed);
+        const rootX = width - Math.max(32, width * 0.035);
+        const rootY = height - Math.max(28, height * 0.055);
+        const rootAngle = -2.38;
+        const rootIndex = addCell(rootX, rootY, -1, rootAngle, 0, 0, seed);
         const frontier = [];
         const rootBranches = 13;
+        const rootSpread = 1.65;
 
         for (let index = 0; index < rootBranches; index += 1) {
-            const angle = (index / rootBranches) * Math.PI * 2 - Math.PI;
-            const child = tryChild(rootIndex, angle, index);
+            const offset = -rootSpread / 2 + (index / (rootBranches - 1)) * rootSpread;
+            const child = tryChild(rootIndex, offset, index);
             if (child !== -1) {
                 frontier.push(child);
             }
@@ -200,6 +207,7 @@
         }
 
         startTime = performance.now();
+        nextPulseAt = 4.5;
     }
 
     function drawMembrane(elapsed) {
@@ -270,14 +278,104 @@
         context.fill();
     }
 
+    function buildPulsePath(targetIndex) {
+        const path = [];
+        let index = targetIndex;
+        while (index >= 0) {
+            path.push(index);
+            index = cells[index].parent;
+        }
+        return path.reverse();
+    }
+
+    function schedulePulse(elapsed) {
+        if (elapsed < nextPulseAt) {
+            return;
+        }
+
+        const candidates = [];
+        cells.forEach((cell, index) => {
+            if (cell.parent >= 0 && cell.depth > 4 && elapsed - cell.revealAt > 0.8) {
+                candidates.push(index);
+            }
+        });
+
+        if (!candidates.length) {
+            nextPulseAt = elapsed + 2.5;
+            return;
+        }
+
+        const rng = randomFrom(hash(`${Math.floor(elapsed * 1000)}:${candidates.length}:pulse`));
+        const targetIndex = candidates[Math.floor(rng() * candidates.length)];
+        const path = buildPulsePath(targetIndex);
+        if (path.length > 1) {
+            pulses.push({
+                path,
+                start: elapsed,
+                duration: clamp(path.length * 0.08, 1.7, 4.8),
+            });
+        }
+
+        nextPulseAt = elapsed + 4.5 + rng() * 6.5;
+    }
+
+    function drawPulse(signal, elapsed) {
+        const progress = (elapsed - signal.start) / signal.duration;
+        if (progress < 0 || progress > 1 || signal.path.length < 2) {
+            return;
+        }
+
+        const travel = progress * (signal.path.length - 1);
+        const segment = Math.min(signal.path.length - 2, Math.floor(travel));
+        const local = travel - segment;
+        const from = cells[signal.path[segment]];
+        const to = cells[signal.path[segment + 1]];
+        const x = from.x + (to.x - from.x) * local;
+        const y = from.y + (to.y - from.y) * local;
+
+        context.beginPath();
+        const trailStart = Math.max(0, segment - 5);
+        for (let index = trailStart; index <= segment; index += 1) {
+            const cell = cells[signal.path[index]];
+            if (index === trailStart) {
+                context.moveTo(cell.x, cell.y);
+            } else {
+                context.lineTo(cell.x, cell.y);
+            }
+        }
+        context.lineTo(x, y);
+        context.strokeStyle = "rgba(255, 102, 82, 0.42)";
+        context.lineWidth = 1.15;
+        context.stroke();
+
+        context.beginPath();
+        context.arc(x, y, 2.4, 0, Math.PI * 2);
+        context.fillStyle = "rgba(255, 142, 118, 0.72)";
+        context.fill();
+
+        context.beginPath();
+        context.arc(x, y, 5.5, 0, Math.PI * 2);
+        context.strokeStyle = "rgba(227, 56, 33, 0.22)";
+        context.lineWidth = 1;
+        context.stroke();
+    }
+
     function render(now) {
         const elapsed = (now - startTime) / 1000;
         const pulse = elapsed * 3.2;
+
+        schedulePulse(elapsed);
+        for (let index = pulses.length - 1; index >= 0; index -= 1) {
+            if (elapsed - pulses[index].start > pulses[index].duration + 0.4) {
+                pulses.splice(index, 1);
+            }
+        }
 
         context.clearRect(0, 0, width, height);
         drawMembrane(elapsed);
         cells.forEach((cell) => drawLink(cell, elapsed));
         cells.forEach((cell, index) => drawCell(cell, index, elapsed, pulse));
+        pulses.forEach((signal) => drawPulse(signal, elapsed));
 
         animationFrame = window.requestAnimationFrame(render);
     }
