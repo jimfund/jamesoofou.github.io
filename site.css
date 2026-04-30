@@ -390,6 +390,17 @@ img {
     line-height: 1.06;
 }
 
+.article-mark {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    line-height: 1;
+}
+
 .series-panel {
     max-width: var(--content-width);
     margin: 24px auto 0;
@@ -560,6 +571,23 @@ img {
     line-height: 1.35;
 }
 
+.archive-list__mark {
+    display: inline-block;
+    min-width: 3.1rem;
+    margin-right: 10px;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    transform: translateY(-0.04rem);
+}
+
+.archive-list__title:hover .archive-list__mark,
+.archive-list__title:focus-visible .archive-list__mark {
+    color: var(--signal);
+}
+
 .archive-list__meta {
     text-align: right;
 }
@@ -578,7 +606,7 @@ img {
     color: var(--signal);
 }
 
-.archive-list span:not(.archive-list__meta) {
+.archive-list span:not(.archive-list__meta):not(.archive-list__mark) {
     display: block;
     margin-top: 3px;
 }
