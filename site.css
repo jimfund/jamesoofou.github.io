@@ -66,34 +66,6 @@ img {
     padding: 20px 0 40px;
 }
 
-.presence-field {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.presence-mark {
-    position: fixed;
-    color: rgba(155, 184, 207, 0.2);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.66rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.16em;
-    line-height: 1.45;
-    text-transform: uppercase;
-    transform: translate3d(0, 0, 0);
-    transition: color 180ms ease, opacity 180ms ease;
-    white-space: nowrap;
-    writing-mode: vertical-rl;
-}
-
-.presence-mark.is-awake {
-    color: rgba(227, 56, 33, 0.86);
-    opacity: 1 !important;
-}
-
 .site-header,
 .site-main,
 .site-footer {
@@ -603,10 +575,6 @@ img {
 }
 
 @media (max-width: 780px) {
-    .presence-field {
-        display: none;
-    }
-
     .organism-field {
         display: none;
     }
@@ -714,10 +682,6 @@ img {
 }
 
 @media print {
-    .presence-field {
-        display: none;
-    }
-
     body {
         background: #fff;
     }
