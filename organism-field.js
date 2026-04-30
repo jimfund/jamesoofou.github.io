@@ -13,12 +13,13 @@
         return;
     }
 
-    const maxCells = 420;
-    const spacing = 14;
+    const spacing = 10;
     const cells = [];
+    const occupied = new Map();
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let maxCells = 420;
     let startTime = performance.now();
     let animationFrame = 0;
 
@@ -51,6 +52,7 @@
         dpr = Math.min(2, window.devicePixelRatio || 1);
         width = Math.max(1, Math.floor(rect.width));
         height = Math.max(1, Math.floor(rect.height));
+        maxCells = Math.min(1800, Math.max(520, Math.floor((width * height) / 285)));
         canvas.width = Math.floor(width * dpr);
         canvas.height = Math.floor(height * dpr);
         canvas.style.width = `${width}px`;
@@ -63,11 +65,37 @@
     }
 
     function tooClose(x, y) {
-        return cells.some((cell) => {
-            const dx = cell.x - x;
-            const dy = cell.y - y;
-            return dx * dx + dy * dy < spacing * spacing;
-        });
+        const gx = Math.floor(x / spacing);
+        const gy = Math.floor(y / spacing);
+
+        for (let ox = -1; ox <= 1; ox += 1) {
+            for (let oy = -1; oy <= 1; oy += 1) {
+                const bucket = occupied.get(`${gx + ox}:${gy + oy}`);
+                if (!bucket) {
+                    continue;
+                }
+
+                for (const index of bucket) {
+                    const cell = cells[index];
+                    const dx = cell.x - x;
+                    const dy = cell.y - y;
+                    if (dx * dx + dy * dy < spacing * spacing) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    function rememberCell(index) {
+        const cell = cells[index];
+        const key = `${Math.floor(cell.x / spacing)}:${Math.floor(cell.y / spacing)}`;
+        if (!occupied.has(key)) {
+            occupied.set(key, []);
+        }
+        occupied.get(key).push(index);
     }
 
     function addCell(x, y, parent, angle, depth, order, seed) {
@@ -78,9 +106,10 @@
             angle,
             depth,
             seed,
-            revealAt: depth * 0.44 + order * 0.045,
+            revealAt: depth * 0.34 + order * 0.085,
         };
         cells.push(cell);
+        rememberCell(cells.length - 1);
         return cells.length - 1;
     }
 
@@ -114,10 +143,11 @@
 
     function buildOrganism() {
         cells.length = 0;
+        occupied.clear();
         const seed = hash(`${width}:${height}:cyberred-organism`);
         const rootIndex = addCell(width * 0.5, height * 0.52, -1, 0, 0, 0, seed);
         const frontier = [];
-        const rootBranches = 9;
+        const rootBranches = 13;
 
         for (let index = 0; index < rootBranches; index += 1) {
             const angle = (index / rootBranches) * Math.PI * 2 - Math.PI;
@@ -134,12 +164,16 @@
             const rng = randomFrom(parent.seed + order * 17);
             const offsets = [0];
 
-            if (rng() > 0.38 || parent.depth % 5 === 0) {
-                offsets.push(rng() > 0.5 ? 0.68 : -0.68);
+            if (rng() > 0.22 || parent.depth % 4 === 0) {
+                offsets.push(rng() > 0.5 ? 0.62 : -0.62);
             }
 
-            if (rng() > 0.82 || parent.depth % 9 === 0) {
-                offsets.push(rng() > 0.5 ? 1.18 : -1.18);
+            if (rng() > 0.74 || parent.depth % 7 === 0) {
+                offsets.push(rng() > 0.5 ? 1.08 : -1.08);
+            }
+
+            if (rng() > 0.91) {
+                offsets.push(rng() > 0.5 ? 1.72 : -1.72);
             }
 
             offsets.forEach((offset) => {
@@ -149,10 +183,20 @@
 
                 const child = tryChild(parentIndex, offset, order);
                 order += 1;
-                if (child !== -1 && cells[child].depth < 34) {
+                if (child !== -1 && cells[child].depth < 68) {
                     frontier.push(child);
                 }
             });
+
+            if (!frontier.length && cells.length < maxCells) {
+                const refillStart = Math.max(0, cells.length - 220);
+                for (let attempt = 0; attempt < 24 && !frontier.length; attempt += 1) {
+                    const candidate = refillStart + ((order + attempt * 37) % (cells.length - refillStart));
+                    if (candidate > 0) {
+                        frontier.push(candidate);
+                    }
+                }
+            }
         }
 
         startTime = performance.now();
