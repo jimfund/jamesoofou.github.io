@@ -22,7 +22,8 @@
     let dpr = 1;
     let maxCells = 420;
     let startTime = performance.now();
-    let nextPulseAt = 4.5;
+    let lastInteractionPulse = 0;
+    let lastPulseTarget = null;
     let animationFrame = 0;
 
     function clamp(value, min, max) {
@@ -207,7 +208,8 @@
         }
 
         startTime = performance.now();
-        nextPulseAt = 4.5;
+        lastInteractionPulse = 0;
+        lastPulseTarget = null;
     }
 
     function drawMembrane(elapsed) {
@@ -288,35 +290,74 @@
         return path.reverse();
     }
 
-    function schedulePulse(elapsed) {
-        if (elapsed < nextPulseAt) {
-            return;
-        }
+    function visibleCellIndexNear(x, y, elapsed) {
+        let bestIndex = -1;
+        let bestScore = Infinity;
+        let fallbackIndex = 0;
+        let fallbackDepth = -1;
 
-        const candidates = [];
         cells.forEach((cell, index) => {
-            if (cell.parent >= 0 && cell.depth > 4 && elapsed - cell.revealAt > 0.8) {
-                candidates.push(index);
+            if (elapsed < cell.revealAt || cell.parent < 0) {
+                return;
+            }
+
+            if (cell.depth > fallbackDepth) {
+                fallbackDepth = cell.depth;
+                fallbackIndex = index;
+            }
+
+            const dx = cell.x - x;
+            const dy = cell.y - y;
+            const score = dx * dx + dy * dy - cell.depth * 22;
+            if (score < bestScore) {
+                bestScore = score;
+                bestIndex = index;
             }
         });
 
-        if (!candidates.length) {
-            nextPulseAt = elapsed + 2.5;
+        return bestIndex === -1 ? fallbackIndex : bestIndex;
+    }
+
+    function triggerPulseAt(x, y) {
+        const elapsed = (performance.now() - startTime) / 1000;
+        if (elapsed - lastInteractionPulse < 0.32) {
             return;
         }
 
-        const rng = randomFrom(hash(`${Math.floor(elapsed * 1000)}:${candidates.length}:pulse`));
-        const targetIndex = candidates[Math.floor(rng() * candidates.length)];
+        const targetIndex = visibleCellIndexNear(x, y, elapsed);
+        if (targetIndex === lastPulseTarget && elapsed - lastInteractionPulse < 1.4) {
+            return;
+        }
+
         const path = buildPulsePath(targetIndex);
         if (path.length > 1) {
             pulses.push({
                 path,
                 start: elapsed,
-                duration: clamp(path.length * 0.08, 1.7, 4.8),
+                duration: clamp(path.length * 0.065, 1.15, 3.8),
             });
+            lastInteractionPulse = elapsed;
+            lastPulseTarget = targetIndex;
+        }
+    }
+
+    function elementPoint(element) {
+        const rootRect = root.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        return {
+            x: clamp(rect.left + rect.width * 0.58 - rootRect.left, 0, width),
+            y: clamp(rect.top + rect.height * 0.5 - rootRect.top, 0, height),
+        };
+    }
+
+    function pulseForInteraction(target) {
+        const element = target.closest && target.closest(".archive-list__entry, .market-clock__market, .market-clock__time, a");
+        if (!element) {
+            return;
         }
 
-        nextPulseAt = elapsed + 4.5 + rng() * 6.5;
+        const point = elementPoint(element);
+        triggerPulseAt(point.x, point.y);
     }
 
     function drawPulse(signal, elapsed) {
@@ -364,7 +405,6 @@
         const elapsed = (now - startTime) / 1000;
         const pulse = elapsed * 3.2;
 
-        schedulePulse(elapsed);
         for (let index = pulses.length - 1; index >= 0; index -= 1) {
             if (elapsed - pulses[index].start > pulses[index].duration + 0.4) {
                 pulses.splice(index, 1);
@@ -383,6 +423,14 @@
     window.addEventListener("resize", () => {
         resize();
         buildOrganism();
+    });
+
+    root.addEventListener("pointerover", (event) => {
+        pulseForInteraction(event.target);
+    }, { passive: true });
+
+    root.addEventListener("focusin", (event) => {
+        pulseForInteraction(event.target);
     });
 
     document.addEventListener("visibilitychange", () => {
