@@ -267,7 +267,7 @@
         const openSession = todaySessions.find((session) => now >= session.open && now < session.close);
 
         if (openSession) {
-            const closeText = openSession.isEarlyClose ? "early close" : "closes";
+            const closeText = openSession.isEarlyClose ? "early close" : "close";
             return {
                 isOpen: true,
                 phase: "open",
@@ -286,7 +286,7 @@
             return {
                 isOpen: false,
                 phase: "break",
-                text: `Break - reopens in ${formatDuration(next - now)}`,
+                text: `Break - reopen in ${formatDuration(next - now)}`,
                 compactText: `Break ${formatDuration(next - now)}`,
                 eventTime: next,
             };
@@ -294,13 +294,13 @@
 
         const compactPrefix = reason === "Holiday"
             ? "Holiday"
-            : "Opens";
+            : "Open";
 
         return {
             isOpen: false,
             phase: reason === "Holiday" ? "holiday" : "closed",
             text: next
-                ? `${reason || "Closed"} - opens in ${formatDuration(next - now)}`
+                ? `${reason || "Closed"} - open in ${formatDuration(next - now)}`
                 : reason || "Closed",
             compactText: next
                 ? `${compactPrefix} ${formatDuration(next - now)}`
