@@ -170,13 +170,13 @@ img {
     padding: 0;
 }
 
-.orbit-probe {
+.organism-field {
     position: absolute;
     inset: 0;
     z-index: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.82;
+    opacity: 0.88;
     pointer-events: none;
 }
 
@@ -607,7 +607,7 @@ img {
         display: none;
     }
 
-    .orbit-probe {
+    .organism-field {
         display: none;
     }
 
