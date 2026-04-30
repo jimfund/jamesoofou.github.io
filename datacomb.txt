@@ -3,89 +3,41 @@ jimfund datacomb
 
 scattered signal from beneath the archive
 
-01 //// 20260226 //// fiction //// fiction //// /\|/\
+01 //// 20260226 //// fiction //// fiction
       Fiction I
       https://jimfund.com/fiction.html
 
-02 //// 20260226 //// 2026 //// 2026-iv //// |/-\-
+02 //// 20260226 //// 2026 //// 2026-iv
       2026 IV
       https://jimfund.com/2026-iv.html
 
-03 //// 20260222 //// 2026 //// 2026-iii //// +/-|:
+03 //// 20260222 //// 2026 //// 2026-iii
       2026 III
       https://jimfund.com/2026-iii.html
 
-04 //// 20260221 //// 2026 //// 2026-ii //// \||-/
+04 //// 20260221 //// 2026 //// 2026-ii
       2026 II
       https://jimfund.com/2026-ii.html
 
-05 //// 20260212 //// 2026 //// 2026 //// /|-+|
+05 //// 20260212 //// 2026 //// 2026
       2026 I
       https://jimfund.com/2026.html
 
-06 //// 20250326 //// unseries //// upload-ii //// :..-/
+06 //// 20250326 //// unseries //// upload-ii
       Mind Upload II
       https://jimfund.com/upload-ii.html
 
-07 //// 20250308 //// unseries //// upload //// |:|\\
+07 //// 20250308 //// unseries //// upload
       Mind Upload I
       https://jimfund.com/upload.html
 
-08 //// 20250306 //// unseries //// math //// -+-\.
+08 //// 20250306 //// unseries //// math
       Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
       https://jimfund.com/math.html
 
-09 //// 20241010 //// unseries //// near-future-fiction //// //|:+
+09 //// 20241010 //// unseries //// near-future-fiction
       Near-Future Fiction
       https://jimfund.com/near-future-fiction.html
-
-collapse index
---------------
-
-/\|/\ //// fiction
-      g1: ficti i
-      g2: fct i
-      g3: fc i
-
-|/-\- //// 2026-iv
-      g1: 2026 iv
-      g2: 202 iv
-      g3: 20 iv
-
-+/-|: //// 2026-iii
-      g1: 2026 iii
-      g2: 202 i
-      g3: 20 i
-
-\||-/ //// 2026-ii
-      g1: 2026 ii
-      g2: 202 i
-      g3: 20 i
-
-/|-+| //// 2026
-      g1: 2026 i
-      g2: 202 i
-      g3: 20 i
-
-:..-/ //// upload-ii
-      g1: mind uploa ii
-      g2: mnd upl i
-      g3: mn up i
-
-|:|\\ //// upload
-      g1: mind uploa i
-      g2: mnd upl i
-      g3: mn up i
-
--+-\. //// math
-      g1: scali infer time reaso will enabl fully auton
-      g2: scl inf tm rsn wll enb
-      g3: sc in tm rs wl
-
-//|:+ //// near-future-fiction
-      g1: near futur ficti
-      g2: nr ftr fct
-      g3: nr ft fc
 
 end transmission
 return: https://jimfund.com/
