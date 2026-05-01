@@ -9,7 +9,7 @@
 
     const markets = [
         {
-            label: "America",
+            label: "US",
             clockLabel: "NY",
             timeZone: "America/New_York",
             sessions: [
@@ -57,7 +57,7 @@
             },
         },
         {
-            label: "Japan",
+            label: "JP",
             clockLabel: "Tokyo",
             timeZone: "Asia/Tokyo",
             sessions: [
