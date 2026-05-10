@@ -3,7 +3,7 @@
     const valueNode = document.querySelector("[data-sp500-value]");
     const baseTitle = document.title;
     const endpoint = "https://api.hyperliquid.xyz/info";
-    const pollInterval = 60000;
+    const pollInterval = 30000;
     const requestTimeout = 10000;
 
     if (!root || !valueNode) {
