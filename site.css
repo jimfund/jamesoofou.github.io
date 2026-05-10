@@ -91,7 +91,6 @@ img {
 .site-header__meta,
 .entry-meta,
 .breadcrumbs,
-.series-list,
 .article-nav__link span {
     font-family: "IBM Plex Mono", monospace;
 }
@@ -326,8 +325,7 @@ img {
 }
 
 .entry-card h3,
-.article-header h1,
-.series-panel h2 {
+.article-header h1 {
     margin: 0;
     font-size: clamp(1.35rem, 3vw, 2rem);
     font-weight: 500;
@@ -353,38 +351,6 @@ img {
     font-size: 0.76rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-}
-
-.series-list {
-    list-style: none;
-    margin: 20px 0 0;
-    padding: 0;
-    display: grid;
-    gap: 0;
-    border-top: 1px solid var(--line);
-}
-
-.series-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 20px;
-    padding: 11px 0;
-    border-top: 1px solid var(--line);
-    font-size: 0.88rem;
-}
-
-.series-list li:first-child {
-    border-top: 0;
-}
-
-.series-list li span:last-child {
-    color: var(--muted);
-    white-space: nowrap;
-}
-
-.series-list .is-current span:first-child {
-    color: var(--accent-strong);
 }
 
 .article-page {
@@ -428,14 +394,6 @@ img {
 .article-page--post .article-header h1 {
     font-size: clamp(1.55rem, 4vw, 2.25rem);
     line-height: 1.08;
-}
-
-.series-panel {
-    max-width: var(--content-width);
-    margin: 24px auto 0;
-    padding: 18px 20px;
-    border: 1px solid var(--line);
-    background: var(--panel-2);
 }
 
 .article-content {
@@ -535,6 +493,10 @@ img {
     margin: 0;
     padding: 0 24px;
     border-top: 0;
+}
+
+.archive-list--series {
+    margin-top: 20px;
 }
 
 .archive-list li {
@@ -782,7 +744,6 @@ img {
 
     .article-header,
     .article-content,
-    .series-panel,
     .article-nav {
         max-width: none;
     }
@@ -797,11 +758,6 @@ img {
         margin-right: -18px;
         padding-left: 18px;
         padding-right: 18px;
-    }
-
-    .series-list li {
-        flex-direction: column;
-        gap: 3px;
     }
 
     .article-nav {
