@@ -16,6 +16,7 @@
 
     let hasValue = false;
     let inFlight = null;
+    let previousPrice = null;
 
     function numeric(value) {
         const parsed = Number(value);
@@ -45,6 +46,9 @@
         valueNode.textContent = priceFormatter.format(price);
         hasValue = true;
         root.classList.remove("is-stale");
+        root.classList.toggle("is-tick-up", previousPrice !== null && price > previousPrice);
+        root.classList.toggle("is-tick-down", previousPrice !== null && price < previousPrice);
+        previousPrice = price;
         root.title = `S&P 500 via Hyperliquid, updated ${new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -83,6 +87,7 @@
             render(ctx);
         } catch (error) {
             root.classList.add("is-stale");
+            root.classList.remove("is-tick-up", "is-tick-down");
             root.title = error instanceof Error ? error.message : "Unable to load S&P 500";
             if (!hasValue) {
                 valueNode.textContent = "Unavailable";
@@ -94,5 +99,9 @@
     }
 
     fetchSp500();
-    window.setInterval(fetchSp500, pollInterval);
+    const millisecondsUntilNextMinute = pollInterval - (Date.now() % pollInterval);
+    window.setTimeout(() => {
+        fetchSp500();
+        window.setInterval(fetchSp500, pollInterval);
+    }, millisecondsUntilNextMinute);
 }());
