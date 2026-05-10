@@ -1,6 +1,7 @@
 (function () {
     const root = document.querySelector("[data-sp500-ticker]");
     const valueNode = document.querySelector("[data-sp500-value]");
+    const baseTitle = document.title;
     const endpoint = "https://api.hyperliquid.xyz/info";
     const pollInterval = 60000;
     const requestTimeout = 10000;
@@ -43,7 +44,9 @@
             throw new Error("No S&P 500 price in Hyperliquid response");
         }
 
-        valueNode.textContent = priceFormatter.format(price);
+        const formattedPrice = priceFormatter.format(price);
+        valueNode.textContent = formattedPrice;
+        document.title = `${formattedPrice} / ${baseTitle}`;
         hasValue = true;
         root.classList.remove("is-stale");
         root.classList.toggle("is-tick-up", previousPrice !== null && price > previousPrice);
