@@ -272,7 +272,7 @@
                 isOpen: true,
                 phase: "open",
                 text: `Open - ${closeText} in ${formatDuration(openSession.close - now)}`,
-                compactText: `Open ${formatDuration(openSession.close - now)}`,
+                compactText: `Open ${formatCompactDuration(openSession.close - now)}`,
                 eventTime: openSession.close,
             };
         }
@@ -287,14 +287,14 @@
                 isOpen: false,
                 phase: "break",
                 text: `Break - reopen in ${formatDuration(next - now)}`,
-                compactText: `Break ${formatDuration(next - now)}`,
+                compactText: `Break ${formatCompactDuration(next - now)}`,
                 eventTime: next,
             };
         }
 
         const compactPrefix = reason === "Holiday"
             ? "Holiday"
-            : "Open";
+            : "Closed";
 
         return {
             isOpen: false,
@@ -303,7 +303,7 @@
                 ? `${reason || "Closed"} - open in ${formatDuration(next - now)}`
                 : reason || "Closed",
             compactText: next
-                ? `${compactPrefix} ${formatDuration(next - now)}`
+                ? `${compactPrefix} ${formatCompactDuration(next - now)}`
                 : reason || "Closed",
             eventTime: next,
         };
@@ -326,11 +326,29 @@
         return `${minutes}m`;
     }
 
+    function formatCompactDuration(milliseconds) {
+        const totalMinutes = Math.max(0, Math.ceil(milliseconds / 60000));
+        const days = Math.floor(totalMinutes / 1440);
+        const hours = Math.floor((totalMinutes % 1440) / 60);
+        const minutes = totalMinutes % 60;
+
+        if (days > 0) {
+            return `${days}d`;
+        }
+
+        if (hours > 0) {
+            return `${hours}h`;
+        }
+
+        return `${minutes}m`;
+    }
+
     function render() {
         const now = new Date();
         timeRoot.textContent = now.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
+            hourCycle: "h23",
         });
 
         const rows = clockRoot.querySelectorAll(".market-clock__market");

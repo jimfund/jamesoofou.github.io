@@ -651,52 +651,82 @@ img {
         justify-content: flex-start;
     }
 
+    .market-clock {
+        overflow-x: auto;
+        font-size: 0.61rem;
+        scrollbar-width: none;
+    }
+
+    .market-clock::-webkit-scrollbar {
+        display: none;
+    }
+
     .market-clock__dynamic {
-        grid-template-columns: 1fr;
+        display: flex;
+        align-items: stretch;
+        width: max-content;
+        min-width: 100%;
     }
 
     .market-clock__time {
-        padding: 8px 18px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
+        flex: 0 0 auto;
+        padding: 8px 9px 8px 12px;
+        border-right: 1px solid var(--line);
+        border-bottom: 0;
     }
 
     .market-clock__markets {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex: 0 0 auto;
     }
 
     .market-clock__market {
-        grid-template-columns: auto minmax(0, 1fr);
-        padding: 8px 18px;
-        border-left: 0;
-        border-top: 1px solid rgba(39, 49, 59, 0.72);
+        display: flex;
+        grid-template-columns: none;
+        flex: 0 0 auto;
+        gap: 5px;
+        padding: 8px 9px;
+        border-left: 1px solid rgba(39, 49, 59, 0.72);
+        border-top: 0;
+    }
+
+    .market-clock__state {
+        display: none;
     }
 
     .market-clock__status {
-        grid-column: 1 / -1;
-        padding-left: 0.82rem;
+        grid-column: auto;
+        padding-left: 0;
         text-align: left;
     }
 
     .market-clock__market:first-child {
-        border-top: 0;
+        border-left: 0;
     }
 
     .market-ticker {
-        grid-template-columns: auto minmax(0, 1fr);
-        column-gap: 7px;
+        display: flex;
+        grid-template-columns: none;
+        flex: 0 0 auto;
+        column-gap: 5px;
         row-gap: 2px;
-        padding: 8px 18px;
-        border-left: 0;
-        border-top: 1px solid rgba(39, 49, 59, 0.72);
+        padding: 8px 12px 8px 9px;
+        border-left: 1px solid rgba(39, 49, 59, 0.72);
+        border-top: 0;
     }
 
     .market-ticker__label {
         grid-column: auto;
+        font-size: 0;
+    }
+
+    .market-ticker__label::after {
+        content: "S&P";
+        font-size: 0.61rem;
     }
 
     .market-ticker__value {
-        grid-column: 1 / -1;
+        grid-column: auto;
         text-align: left;
     }
 
