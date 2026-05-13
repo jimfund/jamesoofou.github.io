@@ -170,10 +170,10 @@ input:focus-visible {
 .threshold-clock__value {
   color: var(--accent-strong);
   font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-size: clamp(0.95rem, 2vw, 1.25rem);
   font-weight: 600;
+  line-height: 1.25;
   text-align: right;
-  white-space: nowrap;
 }
 
 .tooltip {

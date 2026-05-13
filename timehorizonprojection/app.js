@@ -35,6 +35,8 @@ const fields = Object.keys(DEFAULTS).reduce((acc, key) => {
 }, {});
 
 let currentRows = [];
+let currentParams = null;
+let currentTerminalCrossing = null;
 let hoverRow = null;
 let lastPlot = null;
 let resizeQueued = false;
@@ -135,6 +137,20 @@ function formatDays(days) {
   const minutes = hours * 60;
   if (minutes >= 1) return `${minutes.toFixed(2)}m`;
   return `${(minutes * 60).toFixed(2)}s`;
+}
+
+function formatCountdown(ms) {
+  const totalMinutes = Math.max(0, Math.ceil(ms / 60000));
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+  const parts = [];
+
+  if (days) parts.push(`${days} ${days === 1 ? "day" : "days"}`);
+  if (hours || days) parts.push(`${hours} ${hours === 1 ? "hour" : "hours"}`);
+  parts.push(`${minutes} ${minutes === 1 ? "minute" : "minutes"}`);
+
+  return parts.join(" ");
 }
 
 function logLinearInterpolate(horizonHours, points) {
@@ -298,16 +314,22 @@ function updateThresholdClock(params, terminalCrossing) {
   if (!els.thresholdDate) return;
 
   if (params.capHours < TERMINAL_THRESHOLD_HOURS) {
-    els.thresholdDate.textContent = "Cap below 100k h";
+    els.thresholdDate.textContent = "ASI unreachable: cap below 100k h";
     return;
   }
 
   if (!terminalCrossing) {
-    els.thresholdDate.textContent = "Not reached in 5 years";
+    els.thresholdDate.textContent = "ASI not reached in 5 years";
     return;
   }
 
-  els.thresholdDate.textContent = formatDate(terminalCrossing.date, true);
+  const msUntilCrossing = terminalCrossing.date.getTime() - Date.now();
+  if (msUntilCrossing <= 0) {
+    els.thresholdDate.textContent = `ASI on ${formatDate(terminalCrossing.date, true)} UTC`;
+    return;
+  }
+
+  els.thresholdDate.textContent = `ASI in ${formatCountdown(msUntilCrossing)} on ${formatDate(terminalCrossing.date, true)} UTC`;
 }
 
 function monthlyRows(rows) {
@@ -478,7 +500,9 @@ function render() {
   const params = readParams();
   const { rows, milestones, terminalCrossing } = simulate(params);
   currentRows = rows;
-  updateThresholdClock(params, terminalCrossing);
+  currentParams = params;
+  currentTerminalCrossing = terminalCrossing;
+  updateThresholdClock(currentParams, currentTerminalCrossing);
   drawChart(rows);
   queueEmbedHeight();
 }
@@ -494,6 +518,10 @@ window.addEventListener("resize", () => {
   drawChart(currentRows);
   queueEmbedHeight();
 });
+
+window.setInterval(() => {
+  if (currentParams) updateThresholdClock(currentParams, currentTerminalCrossing);
+}, 60000);
 
 if ("ResizeObserver" in window) {
   new ResizeObserver(queueEmbedHeight).observe(els.app || document.body);
