@@ -147,6 +147,35 @@ input:focus-visible {
   height: 100%;
 }
 
+.threshold-clock {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 8px 10px;
+}
+
+.threshold-clock__label {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.threshold-clock__value {
+  color: var(--accent-strong);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .tooltip {
   position: absolute;
   z-index: 2;
@@ -251,6 +280,17 @@ input:focus-visible {
   .chart-header {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .threshold-clock {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .threshold-clock__value {
+    text-align: left;
+    white-space: normal;
   }
 
   .controls {

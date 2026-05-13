@@ -3,6 +3,7 @@
 const MONTH_DAYS = 365.2425 / 12;
 const START_DATE_MS = Date.UTC(2026, 4, 1, 0, 0, 0);
 const MILESTONES = [100, 500, 1000];
+const TERMINAL_THRESHOLD_HOURS = 100000;
 const DEFAULTS = {
   startHours: 26 + 53 / 60,
   doublingMonths: 2.69,
@@ -24,6 +25,7 @@ const els = {
   tooltip: document.getElementById("tooltip"),
   resetButton: document.getElementById("resetButton"),
   algorithmicShareOut: document.getElementById("algorithmicShareOut"),
+  thresholdDate: document.getElementById("thresholdDate"),
 };
 
 const fields = Object.keys(DEFAULTS).reduce((acc, key) => {
@@ -219,6 +221,9 @@ function simulate(params) {
   let releasedHorizon = params.startHours;
   let nextReleaseDay = releaseRegime(releasedHorizon, params)[1];
   let nextSampleDay = 0;
+  let terminalCrossing = params.startHours >= TERMINAL_THRESHOLD_HOURS
+    ? makeRow(0, params.startHours, releasedHorizon, params)
+    : null;
   const rows = [];
   const milestones = new Map();
   const pendingMilestones = [...MILESTONES];
@@ -265,6 +270,12 @@ function simulate(params) {
     day += dt;
     horizon = Math.exp(logHorizon);
 
+    if (!terminalCrossing && horizon >= TERMINAL_THRESHOLD_HOURS) {
+      const frac = (Math.log(TERMINAL_THRESHOLD_HOURS) - oldLogHorizon) / (logHorizon - oldLogHorizon);
+      const crossingDay = oldDay + Math.max(0, Math.min(1, frac)) * (day - oldDay);
+      terminalCrossing = makeRow(crossingDay, TERMINAL_THRESHOLD_HOURS, releasedHorizon, params);
+    }
+
     while (pendingMilestones.length && horizon >= pendingMilestones[0]) {
       const target = pendingMilestones.shift();
       const frac = (Math.log(target) - oldLogHorizon) / (logHorizon - oldLogHorizon);
@@ -280,7 +291,23 @@ function simulate(params) {
   }
 
   rows.push(makeRow(day, Math.exp(logHorizon), releasedHorizon, params));
-  return { rows, milestones };
+  return { rows, milestones, terminalCrossing };
+}
+
+function updateThresholdClock(params, terminalCrossing) {
+  if (!els.thresholdDate) return;
+
+  if (params.capHours < TERMINAL_THRESHOLD_HOURS) {
+    els.thresholdDate.textContent = "Cap below 100k h";
+    return;
+  }
+
+  if (!terminalCrossing) {
+    els.thresholdDate.textContent = "Not reached in 5 years";
+    return;
+  }
+
+  els.thresholdDate.textContent = formatDate(terminalCrossing.date, true);
 }
 
 function monthlyRows(rows) {
@@ -449,8 +476,9 @@ function hideTooltip() {
 function render() {
   els.algorithmicShareOut.textContent = `${fields.algorithmicShare.value}%`;
   const params = readParams();
-  const { rows, milestones } = simulate(params);
+  const { rows, milestones, terminalCrossing } = simulate(params);
   currentRows = rows;
+  updateThresholdClock(params, terminalCrossing);
   drawChart(rows);
   queueEmbedHeight();
 }
