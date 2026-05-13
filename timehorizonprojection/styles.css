@@ -1,0 +1,273 @@
+:root {
+  color-scheme: dark;
+  --bg: #090b0f;
+  --ink: #d5dde6;
+  --muted: #7f8b97;
+  --line: #27313b;
+  --line-strong: #3a4a59;
+  --panel: #0f1318;
+  --panel-soft: #12171d;
+  --accent: #e33821;
+  --accent-2: #9bb8cf;
+  --accent-3: #e33821;
+  --accent-strong: #c8d8e6;
+  --grid: rgba(127, 139, 151, 0.22);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(rgba(213, 221, 230, 0.06) 1px, transparent 1px),
+    var(--bg);
+  background-size: 100% 4px;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 12px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+.chart-area,
+.controls {
+  background: rgba(18, 23, 29, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 0;
+}
+
+.chart-area {
+    min-width: 0;
+  padding: 12px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--accent-strong);
+}
+
+h2 {
+  color: var(--accent-strong);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h3 {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  margin: 2px 0 0;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+button {
+  min-height: 26px;
+  border: 1px solid rgba(39, 49, 59, 0.72);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 0 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+#projectionChart {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  min-width: 180px;
+  pointer-events: none;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: rgba(15, 19, 24, 0.98);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.26);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.86rem;
+  padding: 10px;
+}
+
+.tooltip strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.tooltip span {
+  display: block;
+  color: var(--muted);
+}
+
+.controls label span {
+  display: block;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.controls {
+    align-self: start;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px 10px;
+  padding: 10px;
+}
+
+.controls label {
+    display: grid;
+  gap: 3px;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.controls input[type="number"] {
+    width: 100%;
+  min-height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  padding: 3px 6px;
+  font-size: 0.82rem;
+}
+
+.controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.controls output {
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.share-control output {
+  text-align: center;
+}
+
+.controls h2,
+.controls h3 {
+  grid-column: 1 / -1;
+}
+
+.anchor-grid {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(4.75rem, 1fr));
+  gap: 8px 10px;
+}
+
+@media (max-width: 760px) {
+    .app {
+        grid-template-columns: 1fr;
+    padding: 8px;
+  }
+
+  .chart-wrap {
+    height: 290px;
+  }
+}
+
+@media (max-width: 520px) {
+  .chart-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anchor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app {
+    padding: 6px;
+  }
+
+  .chart-area,
+  .controls {
+    padding: 10px;
+  }
+
+}

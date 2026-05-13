@@ -485,6 +485,93 @@ img {
     text-align: left;
 }
 
+.article-table-wrap {
+    max-width: 100%;
+    margin: 0 0 1.28rem;
+}
+
+.article-table-wrap table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    line-height: 1.4;
+}
+
+.article-table-wrap th,
+.article-table-wrap td {
+    padding: 8px 7px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow-wrap: anywhere;
+    vertical-align: top;
+}
+
+.article-table-wrap th:last-child,
+.article-table-wrap td:last-child {
+    border-right: 0;
+}
+
+.article-table-wrap tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.article-table-wrap th {
+    color: var(--accent-strong);
+    background: rgba(39, 49, 59, 0.32);
+    border-bottom-color: var(--line-strong);
+    font-weight: 500;
+}
+
+.article-table-wrap th:nth-child(1),
+.article-table-wrap td:nth-child(1) {
+    width: 15%;
+}
+
+.article-table-wrap th:nth-child(2),
+.article-table-wrap td:nth-child(2) {
+    width: 18%;
+}
+
+.article-table-wrap th:nth-child(3),
+.article-table-wrap td:nth-child(3),
+.article-table-wrap th:nth-child(4),
+.article-table-wrap td:nth-child(4) {
+    width: 13%;
+}
+
+.article-table-wrap th:nth-child(5),
+.article-table-wrap td:nth-child(5),
+.article-table-wrap th:nth-child(6),
+.article-table-wrap td:nth-child(6) {
+    width: 14%;
+}
+
+.article-content figure {
+    margin: 0 0 1.45rem;
+}
+
+.article-content figcaption {
+    margin-top: 8px;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+.timehorizon-widget {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-height: 480px;
+    height: 620px;
+    margin: 0 0 1.6rem;
+    border: 1px solid var(--line);
+    background: var(--panel);
+}
+
 .article-nav {
     max-width: 700px;
     margin: 28px 0 0;
