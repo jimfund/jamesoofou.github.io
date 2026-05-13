@@ -11,15 +11,14 @@ function daysInUTCMonth(year, month) {
 }
 
 function addUTCMonths(date, months) {
-    const year = date.getUTCFullYear();
     const month = date.getUTCMonth() + months;
-    const targetYear = year + Math.floor(month / 12);
-    const targetMonth = ((month % 12) + 12) % 12;
-    const day = Math.min(date.getUTCDate(), daysInUTCMonth(targetYear, targetMonth));
+    const year = date.getUTCFullYear() + Math.floor(month / 12);
+    const normalizedMonth = ((month % 12) + 12) % 12;
+    const day = Math.min(date.getUTCDate(), daysInUTCMonth(year, normalizedMonth));
 
     return new Date(Date.UTC(
-        targetYear,
-        targetMonth,
+        year,
+        normalizedMonth,
         day,
         date.getUTCHours(),
         date.getUTCMinutes(),
@@ -27,22 +26,20 @@ function addUTCMonths(date, months) {
     ));
 }
 
-function calendarCountdown(now, target) {
-    if (now >= target) {
-        return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
-    }
+function pad(value) {
+    return String(value).padStart(2, "0");
+}
 
-    let years = target.getUTCFullYear() - now.getUTCFullYear();
-    if (addUTCMonths(now, years * 12) > target) years -= 1;
+function partsUntil(target) {
+    const now = new Date();
+    if (now.getTime() >= target.getTime()) return [0, 0, 0, 0, 0];
 
-    let cursor = addUTCMonths(now, years * 12);
-    let months = (target.getUTCFullYear() - cursor.getUTCFullYear()) * 12
-        + target.getUTCMonth() - cursor.getUTCMonth();
-    if (addUTCMonths(cursor, months) > target) months -= 1;
+    let months = (target.getUTCFullYear() - now.getUTCFullYear()) * 12
+        + target.getUTCMonth() - now.getUTCMonth();
+    if (addUTCMonths(now, months) > target) months -= 1;
 
-    cursor = addUTCMonths(cursor, months);
+    const cursor = addUTCMonths(now, months);
     let remaining = target.getTime() - cursor.getTime();
-
     const days = Math.floor(remaining / MS_PER_DAY);
     remaining -= days * MS_PER_DAY;
     const hours = Math.floor(remaining / MS_PER_HOUR);
@@ -51,31 +48,14 @@ function calendarCountdown(now, target) {
     remaining -= minutes * MS_PER_MINUTE;
     const seconds = Math.floor(remaining / MS_PER_SECOND);
 
-    return { years, months, days, hours, minutes, seconds };
-}
-
-function pad(value) {
-    return String(value).padStart(2, "0");
+    return [months, days, hours, minutes, seconds];
 }
 
 function renderCountdown() {
-    const root = document.querySelector("[data-agi-countdown]");
-    if (!root) return;
+    const element = document.querySelector("[data-asi-countdown]");
+    if (!element) return;
 
-    const parts = calendarCountdown(new Date(), new Date(ASI_TARGET_MS));
-    const selectors = {
-        years: "[data-agi-years]",
-        months: "[data-agi-months]",
-        days: "[data-agi-days]",
-        hours: "[data-agi-hours]",
-        minutes: "[data-agi-minutes]",
-        seconds: "[data-agi-seconds]",
-    };
-
-    for (const [key, selector] of Object.entries(selectors)) {
-        const element = root.querySelector(selector);
-        if (element) element.textContent = pad(parts[key]);
-    }
+    element.textContent = partsUntil(new Date(ASI_TARGET_MS)).map(pad).join(":");
 }
 
 renderCountdown();

@@ -122,12 +122,16 @@ img {
     display: flex;
     justify-content: flex-end;
     gap: 10px 16px;
-    padding: 14px 0 0;
+    padding: 12px 0 0;
     color: var(--muted);
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.quiet-countdown {
+    color: color-mix(in srgb, var(--muted) 74%, var(--bg));
+    font-variant-numeric: tabular-nums;
 }
 
 .home-section,
@@ -296,64 +300,6 @@ img {
 
 .market-ticker.is-stale .market-ticker__value {
     color: var(--signal);
-}
-
-.agi-countdown {
-    padding: 13px 24px;
-}
-
-.agi-countdown__noscript {
-    margin: 0;
-    color: var(--text);
-    font-size: 0.74rem;
-    line-height: 1.45;
-}
-
-.agi-countdown__display {
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 0.42rem;
-    justify-content: flex-start;
-    padding: 0;
-    background: transparent;
-    color: #ff101a;
-    font-family: "IBM Plex Mono", monospace;
-    font-variant-numeric: tabular-nums;
-}
-
-.agi-countdown__unit {
-    display: grid;
-    gap: 1px;
-    width: 3.1rem;
-    justify-items: center;
-}
-
-.agi-countdown__value {
-    color: #ff101a;
-    font-size: 0.74rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    line-height: 1.1;
-    text-shadow: 0 0 6px rgba(255, 16, 26, 0.38);
-}
-
-.agi-countdown__label {
-    color: #ff101a;
-    font-size: 0.58rem;
-    letter-spacing: 0.02em;
-    line-height: 1.1;
-    text-align: center;
-    text-shadow: none;
-}
-
-.agi-countdown__separator {
-    align-self: start;
-    color: #ff101a;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.74rem;
-    font-weight: 500;
-    line-height: 1.1;
-    text-shadow: 0 0 6px rgba(255, 16, 26, 0.38);
 }
 
 .entry-stack {
@@ -921,29 +867,6 @@ img {
     .market-ticker__value {
         grid-column: auto;
         text-align: left;
-    }
-
-    .agi-countdown {
-        max-width: calc(100vw - 18px);
-        padding: 13px 18px;
-        overflow: hidden;
-    }
-
-    .agi-countdown__display {
-        display: inline-flex;
-        gap: 0.3rem;
-    }
-
-    .agi-countdown__unit {
-        width: 2.7rem;
-    }
-
-    .agi-countdown__separator {
-        display: block;
-    }
-
-    .agi-countdown__label {
-        font-size: 0.48rem;
     }
 
     .entry-card,
