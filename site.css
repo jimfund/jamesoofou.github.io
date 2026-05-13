@@ -310,12 +310,10 @@ img {
 }
 
 .agi-countdown__display {
-    display: grid;
-    grid-template-columns:
-        minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr)
-        auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 0.36rem;
-    align-items: center;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.42rem;
+    justify-content: flex-start;
     padding: 0;
     background: transparent;
     color: #ff101a;
@@ -326,7 +324,7 @@ img {
 .agi-countdown__unit {
     display: grid;
     gap: 1px;
-    min-width: 0;
+    width: 3.1rem;
     justify-items: center;
 }
 
@@ -932,18 +930,16 @@ img {
     }
 
     .agi-countdown__display {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 6px 10px;
+        display: inline-flex;
+        gap: 0.3rem;
     }
 
     .agi-countdown__unit {
-        flex: 0 0 calc(50% - 8px);
+        width: 2.7rem;
     }
 
     .agi-countdown__separator {
-        display: none;
+        display: block;
     }
 
     .agi-countdown__label {
