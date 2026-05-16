@@ -146,9 +146,9 @@ function formatCountdown(ms) {
   const minutes = totalMinutes % 60;
   const parts = [];
 
-  if (days) parts.push(`${days} ${days === 1 ? "day" : "days"}`);
-  if (hours || days) parts.push(`${hours} ${hours === 1 ? "hour" : "hours"}`);
-  parts.push(`${minutes} ${minutes === 1 ? "minute" : "minutes"}`);
+  if (days) parts.push(`${days}d`);
+  if (hours || days) parts.push(`${hours}h`);
+  parts.push(`${minutes}m`);
 
   return parts.join(" ");
 }
@@ -314,22 +314,22 @@ function updateThresholdClock(params, terminalCrossing) {
   if (!els.thresholdDate) return;
 
   if (params.capHours < TERMINAL_THRESHOLD_HOURS) {
-    els.thresholdDate.textContent = "ASI unreachable: cap below 100k h";
+    els.thresholdDate.textContent = "AGI unreachable: cap <100k h";
     return;
   }
 
   if (!terminalCrossing) {
-    els.thresholdDate.textContent = "ASI not reached in 5 years";
+    els.thresholdDate.textContent = "AGI not reached in 5y";
     return;
   }
 
   const msUntilCrossing = terminalCrossing.date.getTime() - Date.now();
   if (msUntilCrossing <= 0) {
-    els.thresholdDate.textContent = `ASI on ${formatDate(terminalCrossing.date, true)} UTC`;
+    els.thresholdDate.textContent = `AGI ${formatDate(terminalCrossing.date, true)} UTC`;
     return;
   }
 
-  els.thresholdDate.textContent = `ASI in ${formatCountdown(msUntilCrossing)} on ${formatDate(terminalCrossing.date, true)} UTC`;
+  els.thresholdDate.textContent = `AGI in ${formatCountdown(msUntilCrossing)} | ${formatDate(terminalCrossing.date, true)} UTC`;
 }
 
 function monthlyRows(rows) {
