@@ -329,7 +329,7 @@ function updateThresholdClock(params, terminalCrossing) {
     return;
   }
 
-  els.thresholdDate.textContent = `AGI in ${formatCountdown(msUntilCrossing)} | ${formatDate(terminalCrossing.date, true)} UTC`;
+  els.thresholdDate.textContent = `AGI in ${formatCountdown(msUntilCrossing)}`;
 }
 
 function monthlyRows(rows) {
