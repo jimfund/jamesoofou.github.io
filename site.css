@@ -129,6 +129,11 @@ img {
     letter-spacing: 0.08em;
 }
 
+.site-footer--article {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
 .quiet-countdown {
     color: color-mix(in srgb, var(--muted) 74%, var(--bg));
     font-variant-numeric: tabular-nums;
