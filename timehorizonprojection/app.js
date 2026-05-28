@@ -4,6 +4,8 @@ const MONTH_DAYS = 365.2425 / 12;
 const START_DATE_MS = Date.UTC(2026, 4, 1, 0, 0, 0);
 const MILESTONES = [100, 500, 1000];
 const TERMINAL_THRESHOLD_HOURS = 100000;
+const BASELINE_UPLIFT = 0.2;
+const BASELINE_UPLIFT_HOURS = 13;
 const DEFAULTS = {
   startHours: 26 + 53 / 60,
   doublingMonths: 2.69,
@@ -137,6 +139,14 @@ function formatDays(days) {
   const minutes = hours * 60;
   if (minutes >= 1) return `${minutes.toFixed(2)}m`;
   return `${(minutes * 60).toFixed(2)}s`;
+}
+
+function internalLabUplift(horizonHours) {
+  return BASELINE_UPLIFT * (horizonHours / BASELINE_UPLIFT_HOURS);
+}
+
+function formatPercent(value) {
+  return `${(value * 100).toFixed(value < 1 ? 1 : 0)}%`;
 }
 
 function formatCountdown(ms) {
@@ -329,7 +339,7 @@ function updateThresholdClock(params, terminalCrossing) {
     return;
   }
 
-  els.thresholdDate.textContent = `AGI in ${formatCountdown(msUntilCrossing)}`;
+  els.thresholdDate.textContent = `AGI in ${formatCountdown(msUntilCrossing)} | ${formatDate(terminalCrossing.date, true)} UTC`;
 }
 
 function monthlyRows(rows) {
@@ -480,6 +490,7 @@ function updateTooltip(event) {
   els.tooltip.innerHTML = `
     <strong>${formatDuration(best.horizonHours)}</strong>
     <span>${formatDate(best.date, true)}</span>
+    <span>Uplift: ${formatPercent(internalLabUplift(best.horizonHours))}</span>
     <span>Released: ${formatDuration(best.releasedHorizonHours)}</span>
     <span>Doubling: ${formatDays(best.doublingDays)}</span>
   `;
