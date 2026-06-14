@@ -86,12 +86,13 @@
         polyline.setAttribute("points", path.join(" "));
     }
 
-    function render(history, isFresh) {
+    function render(history, isFresh, currentPrice) {
         const points = usableHistory(history);
         const latest = points[points.length - 1];
+        const displayedPrice = Number.isFinite(currentPrice) ? currentPrice : latest && latest.p;
 
-        if (latest) {
-            valueNode.textContent = `${Math.round(latest.p * 100)}%`;
+        if (Number.isFinite(displayedPrice)) {
+            valueNode.textContent = `${Math.round(displayedPrice * 100)}%`;
         }
 
         draw(points);
@@ -138,6 +139,15 @@
         return yesIndex >= 0 ? tokenIds[yesIndex] : tokenIds[0];
     }
 
+    function yesOutcomePrice(market) {
+        const outcomes = parseMaybeJson(market.outcomes);
+        const prices = parseMaybeJson(market.outcomePrices);
+        const yesIndex = outcomes.findIndex((outcome) => String(outcome).toLowerCase() === "yes");
+        const price = Number(yesIndex >= 0 ? prices[yesIndex] : prices[0]);
+
+        return Number.isFinite(price) ? price : null;
+    }
+
     async function refresh() {
         const events = await fetchJson(eventUrl);
         const market = findJune15Market(events);
@@ -168,10 +178,10 @@
             throw new Error("Polymarket history response had too few points");
         }
 
-        render(history, true);
+        render(history, true, yesOutcomePrice(market));
     }
 
-    render(fallbackHistory, false);
+    render(fallbackHistory, false, 0.24);
     refresh().catch((error) => {
         root.classList.add("is-stale");
         root.title = error instanceof Error ? error.message : "Unable to load Polymarket history";

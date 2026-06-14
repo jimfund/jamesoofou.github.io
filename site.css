@@ -314,7 +314,11 @@ img {
 }
 
 .market-ticker--polymarket {
-    grid-template-columns: auto auto auto 56px;
+    grid-template-columns: auto auto auto auto 56px;
+}
+
+.market-ticker__stat-label {
+    color: var(--muted);
 }
 
 .market-sparkline {
