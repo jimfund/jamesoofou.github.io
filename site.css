@@ -319,14 +319,10 @@ img {
 
 .market-ticker__link {
     display: grid;
-    grid-template-columns: auto auto auto minmax(3ch, auto) 56px;
+    grid-template-columns: auto minmax(3ch, auto) 56px;
     gap: 7px;
     align-items: center;
     min-width: 0;
-}
-
-.market-ticker__stat-label {
-    color: var(--muted);
 }
 
 .market-ticker--polymarket .market-ticker__value {
@@ -918,7 +914,7 @@ img {
     }
 
     .market-ticker--polymarket .market-ticker__label::after {
-        content: "IRAN";
+        content: "Deal";
     }
 
     .market-ticker__link {

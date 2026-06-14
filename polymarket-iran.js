@@ -181,7 +181,7 @@
         render(history, true, yesOutcomePrice(market));
     }
 
-    render(fallbackHistory, false, 0.24);
+    render(fallbackHistory, false, 0.25);
     refresh().catch((error) => {
         root.classList.add("is-stale");
         root.title = error instanceof Error ? error.message : "Unable to load Polymarket history";
