@@ -186,6 +186,7 @@ img {
     display: grid;
     grid-template-columns: 5.9rem minmax(0, 1fr) 15.5rem 10rem;
     align-items: stretch;
+    height: 36px;
 }
 
 .market-clock__time {
@@ -266,6 +267,7 @@ img {
     gap: 7px;
     align-items: center;
     min-width: 0;
+    overflow: hidden;
     padding: 8px 24px 8px 14px;
     border-left: 1px solid var(--line);
     white-space: nowrap;
@@ -322,6 +324,7 @@ img {
     grid-template-columns: auto minmax(3ch, auto) 48px;
     gap: 7px;
     align-items: center;
+    height: 100%;
     min-width: 0;
 }
 
@@ -331,11 +334,14 @@ img {
 }
 
 .market-sparkline {
+    display: block;
+    flex: 0 0 56px;
     width: 56px;
     height: 18px;
+    max-height: 18px;
     color: var(--accent);
     opacity: 0.9;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .market-sparkline polyline {
