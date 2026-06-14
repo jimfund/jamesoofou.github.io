@@ -184,7 +184,7 @@ img {
 
 .market-clock__dynamic {
     display: grid;
-    grid-template-columns: 5.9rem minmax(0, 1fr) 13rem;
+    grid-template-columns: 5.9rem minmax(0, 1fr) 13rem 14rem;
     align-items: stretch;
 }
 
@@ -305,6 +305,12 @@ img {
 
 .market-ticker.is-stale .market-ticker__value {
     color: var(--signal);
+}
+
+.market-ticker--polymarket .market-ticker__state {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(155, 184, 207, 0.16);
 }
 
 .entry-stack {
@@ -867,6 +873,10 @@ img {
     .market-ticker__label::after {
         content: "S&P";
         font-size: 0.61rem;
+    }
+
+    .market-ticker--polymarket .market-ticker__label::after {
+        content: "IRAN";
     }
 
     .market-ticker__value {
