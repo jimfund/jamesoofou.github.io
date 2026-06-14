@@ -314,7 +314,15 @@ img {
 }
 
 .market-ticker--polymarket {
+    display: block;
+}
+
+.market-ticker__link {
+    display: grid;
     grid-template-columns: auto auto auto auto 56px;
+    gap: 7px;
+    align-items: center;
+    min-width: 0;
 }
 
 .market-ticker__stat-label {
@@ -906,6 +914,12 @@ img {
 
     .market-ticker--polymarket .market-ticker__label::after {
         content: "IRAN";
+    }
+
+    .market-ticker__link {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
     }
 
     .market-sparkline {
