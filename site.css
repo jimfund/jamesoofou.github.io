@@ -313,6 +313,31 @@ img {
     box-shadow: 0 0 6px rgba(155, 184, 207, 0.16);
 }
 
+.market-ticker--polymarket {
+    grid-template-columns: auto auto auto 56px;
+}
+
+.market-sparkline {
+    width: 56px;
+    height: 18px;
+    color: var(--accent);
+    opacity: 0.9;
+    overflow: visible;
+}
+
+.market-sparkline polyline {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.25;
+}
+
+.market-ticker--polymarket.is-stale .market-sparkline {
+    color: var(--muted);
+    opacity: 0.42;
+}
+
 .entry-stack {
     display: grid;
 }
@@ -877,6 +902,11 @@ img {
 
     .market-ticker--polymarket .market-ticker__label::after {
         content: "IRAN";
+    }
+
+    .market-sparkline {
+        width: 42px;
+        height: 16px;
     }
 
     .market-ticker__value {
