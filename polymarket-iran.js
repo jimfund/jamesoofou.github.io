@@ -5,6 +5,7 @@
     const polyline = chart ? chart.querySelector("polyline") : null;
     const eventUrl = "https://gamma-api.polymarket.com/events?slug=us-x-iran-permanent-peace-deal-by";
     const historyUrl = "https://clob.polymarket.com/prices-history";
+    const pollInterval = 60000;
     const requestTimeout = 8000;
     const fallbackHistory = [
         { t: 1780272008, p: 0.145 },
@@ -23,6 +24,7 @@
         { t: 1781395212, p: 0.2435 },
         { t: 1781397258, p: 0.2455 },
     ];
+    let inFlight = false;
 
     if (!root || !valueNode || !chart || !polyline) {
         return;
@@ -149,41 +151,55 @@
     }
 
     async function refresh() {
-        const events = await fetchJson(eventUrl);
-        const market = findJune15Market(events);
-
-        if (!market) {
-            throw new Error("June 15 market missing from Polymarket event");
+        if (inFlight) {
+            return;
         }
 
-        const tokenId = yesTokenId(market);
+        inFlight = true;
+        try {
+            const events = await fetchJson(eventUrl);
+            const market = findJune15Market(events);
 
-        if (!tokenId) {
-            throw new Error("June 15 Yes token missing from Polymarket event");
+            if (!market) {
+                throw new Error("June 15 market missing from Polymarket event");
+            }
+
+            const tokenId = yesTokenId(market);
+
+            if (!tokenId) {
+                throw new Error("June 15 Yes token missing from Polymarket event");
+            }
+
+            const now = Math.floor(Date.now() / 1000);
+            const start = now - 14 * 24 * 60 * 60;
+            const params = new URLSearchParams({
+                market: tokenId,
+                startTs: String(start),
+                endTs: String(now),
+                interval: "1d",
+                fidelity: "1440",
+            });
+            const payload = await fetchJson(`${historyUrl}?${params.toString()}`);
+            const history = usableHistory(payload.history);
+
+            if (history.length < 2) {
+                throw new Error("Polymarket history response had too few points");
+            }
+
+            render(history, true, yesOutcomePrice(market));
+        } finally {
+            inFlight = false;
         }
-
-        const now = Math.floor(Date.now() / 1000);
-        const start = now - 14 * 24 * 60 * 60;
-        const params = new URLSearchParams({
-            market: tokenId,
-            startTs: String(start),
-            endTs: String(now),
-            interval: "1d",
-            fidelity: "1440",
-        });
-        const payload = await fetchJson(`${historyUrl}?${params.toString()}`);
-        const history = usableHistory(payload.history);
-
-        if (history.length < 2) {
-            throw new Error("Polymarket history response had too few points");
-        }
-
-        render(history, true, yesOutcomePrice(market));
     }
 
     render(fallbackHistory, false, 0.25);
-    refresh().catch((error) => {
-        root.classList.add("is-stale");
-        root.title = error instanceof Error ? error.message : "Unable to load Polymarket history";
-    });
+    function poll() {
+        refresh().catch((error) => {
+            root.classList.add("is-stale");
+            root.title = error instanceof Error ? error.message : "Unable to load Polymarket history";
+        });
+    }
+
+    poll();
+    window.setInterval(poll, pollInterval);
 }());

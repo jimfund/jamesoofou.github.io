@@ -1,10 +1,13 @@
 (function () {
     const root = document.querySelector("[data-sp500-ticker]");
     const valueNode = document.querySelector("[data-sp500-value]");
+    const chart = document.querySelector("[data-sp500-chart]");
+    const polyline = chart ? chart.querySelector("polyline") : null;
     const baseTitle = document.title;
     const endpoint = "https://api.hyperliquid.xyz/info";
     const pollInterval = 30000;
     const requestTimeout = 10000;
+    const maxSamples = 60;
 
     if (!root || !valueNode) {
         return;
@@ -18,6 +21,7 @@
     let hasValue = false;
     let inFlight = null;
     let previousPrice = null;
+    let samples = [];
 
     function numeric(value) {
         const parsed = Number(value);
@@ -37,6 +41,35 @@
         return payload[1][assetIndex] || null;
     }
 
+    function drawSparkline() {
+        if (!polyline || samples.length < 2) {
+            return;
+        }
+
+        const width = 56;
+        const height = 18;
+        const padding = 1.5;
+        const minPrice = Math.min(...samples.map((sample) => sample.price));
+        const maxPrice = Math.max(...samples.map((sample) => sample.price));
+        const priceRange = Math.max(0.1, maxPrice - minPrice);
+        const step = (width - padding * 2) / Math.max(1, samples.length - 1);
+        const points = samples.map((sample, index) => {
+            const x = padding + index * step;
+            const y = height - padding - ((sample.price - minPrice) / priceRange) * (height - padding * 2);
+            return `${x.toFixed(1)},${y.toFixed(1)}`;
+        });
+
+        polyline.setAttribute("points", points.join(" "));
+    }
+
+    function addSample(price) {
+        samples.push({ price, time: Date.now() });
+        if (samples.length > maxSamples) {
+            samples = samples.slice(-maxSamples);
+        }
+        drawSparkline();
+    }
+
     function render(ctx) {
         const price = numeric(ctx.markPx) ?? numeric(ctx.midPx) ?? numeric(ctx.oraclePx);
 
@@ -52,6 +85,7 @@
         root.classList.toggle("is-tick-up", previousPrice !== null && price > previousPrice);
         root.classList.toggle("is-tick-down", previousPrice !== null && price < previousPrice);
         previousPrice = price;
+        addSample(price);
         root.title = `S&P 500 via Hyperliquid, updated ${new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
