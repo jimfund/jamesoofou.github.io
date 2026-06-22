@@ -4,6 +4,7 @@ const MONTH_DAYS = 365.2425 / 12;
 const START_DATE_MS = Date.UTC(2026, 4, 1, 0, 0, 0);
 const MILESTONES = [100, 500, 1000];
 const TERMINAL_THRESHOLD_HOURS = 100000;
+const CAP_STOP_FRACTION = 0.999;
 const BASELINE_UPLIFT = 0.2;
 const BASELINE_UPLIFT_HOURS = 13;
 const DEFAULTS = {
@@ -229,16 +230,29 @@ function rk4Step(logHorizon, dtDays, releasedHorizonHours, params, continuousRel
 }
 
 function makeRow(day, horizonHours, releasedHorizonHours, params) {
+  const clampedHorizon = Math.min(horizonHours, params.capHours * CAP_STOP_FRACTION);
   const rate = doublingRatePerDay(horizonHours, releasedHorizonHours, params);
   return {
     day,
     date: dateFromDay(day),
-    horizonHours,
+    horizonHours: clampedHorizon,
     releasedHorizonHours,
-    difficulty: difficulty(horizonHours, params),
+    difficulty: difficulty(clampedHorizon, params),
     doublingDays: rate <= 0 ? Infinity : 1 / rate,
-    releaseRegime: releaseRegime(horizonHours, params)[0],
+    releaseRegime: releaseRegime(clampedHorizon, params)[0],
   };
+}
+
+function crossingDayForLogTarget(target, oldDay, oldLogHorizon, day, logHorizon) {
+  const denominator = logHorizon - oldLogHorizon;
+  if (Math.abs(denominator) < 1e-12) return day;
+  const frac = (Math.log(target) - oldLogHorizon) / denominator;
+  return oldDay + Math.max(0, Math.min(1, frac)) * (day - oldDay);
+}
+
+function terminalTargetHours(params) {
+  if (params.capHours < TERMINAL_THRESHOLD_HOURS) return null;
+  return Math.min(TERMINAL_THRESHOLD_HOURS, params.capHours * CAP_STOP_FRACTION);
 }
 
 function simulate(params) {
@@ -247,7 +261,9 @@ function simulate(params) {
   let releasedHorizon = params.startHours;
   let nextReleaseDay = releaseRegime(releasedHorizon, params)[1];
   let nextSampleDay = 0;
-  let terminalCrossing = params.startHours >= TERMINAL_THRESHOLD_HOURS
+  const capStopHours = params.capHours * CAP_STOP_FRACTION;
+  const terminalTarget = terminalTargetHours(params);
+  let terminalCrossing = terminalTarget !== null && params.startHours >= terminalTarget
     ? makeRow(0, params.startHours, releasedHorizon, params)
     : null;
   const rows = [];
@@ -257,7 +273,7 @@ function simulate(params) {
 
   while (day < maxDays) {
     let horizon = Math.exp(logHorizon);
-    if (horizon >= params.capHours * 0.999) break;
+    if (horizon >= capStopHours) break;
 
     const [frontierRegime, frontierInterval] = releaseRegime(horizon, params);
     if (frontierRegime === "continuous") {
@@ -296,16 +312,20 @@ function simulate(params) {
     day += dt;
     horizon = Math.exp(logHorizon);
 
-    if (!terminalCrossing && horizon >= TERMINAL_THRESHOLD_HOURS) {
-      const frac = (Math.log(TERMINAL_THRESHOLD_HOURS) - oldLogHorizon) / (logHorizon - oldLogHorizon);
-      const crossingDay = oldDay + Math.max(0, Math.min(1, frac)) * (day - oldDay);
-      terminalCrossing = makeRow(crossingDay, TERMINAL_THRESHOLD_HOURS, releasedHorizon, params);
+    if (!terminalCrossing && terminalTarget !== null && horizon >= terminalTarget) {
+      const crossingDay = crossingDayForLogTarget(
+        terminalTarget,
+        oldDay,
+        oldLogHorizon,
+        day,
+        logHorizon,
+      );
+      terminalCrossing = makeRow(crossingDay, terminalTarget, releasedHorizon, params);
     }
 
     while (pendingMilestones.length && horizon >= pendingMilestones[0]) {
       const target = pendingMilestones.shift();
-      const frac = (Math.log(target) - oldLogHorizon) / (logHorizon - oldLogHorizon);
-      const crossingDay = oldDay + Math.max(0, Math.min(1, frac)) * (day - oldDay);
+      const crossingDay = crossingDayForLogTarget(target, oldDay, oldLogHorizon, day, logHorizon);
       milestones.set(target, makeRow(crossingDay, target, releasedHorizon, params));
     }
 
@@ -314,9 +334,16 @@ function simulate(params) {
       const [, interval] = releaseRegime(horizon, params);
       nextReleaseDay = interval === null ? null : day + interval;
     }
+
+    if (horizon >= capStopHours) {
+      day = crossingDayForLogTarget(capStopHours, oldDay, oldLogHorizon, day, logHorizon);
+      logHorizon = Math.log(capStopHours);
+      break;
+    }
   }
 
-  rows.push(makeRow(day, Math.exp(logHorizon), releasedHorizon, params));
+  const finalHorizon = Math.min(Math.exp(logHorizon), capStopHours);
+  rows.push(makeRow(day, finalHorizon, releasedHorizon, params));
   return { rows, milestones, terminalCrossing };
 }
 
