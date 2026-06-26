@@ -10,6 +10,10 @@
             id: "qAiPsZRZNOI",
             title: "The Highwaymen Live in Las Vegas",
         },
+        {
+            id: "6hUkyKBsGtQ",
+            title: "Paradise Circus",
+        },
     ];
 
     const titleNodes = root.querySelectorAll("[data-radio-title]");
