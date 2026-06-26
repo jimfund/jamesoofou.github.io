@@ -14,6 +14,10 @@
             id: "6hUkyKBsGtQ",
             title: "Paradise Circus",
         },
+        {
+            id: "6G0NFv3738s",
+            title: "Stories",
+        },
     ];
 
     const titleNodes = root.querySelectorAll("[data-radio-title]");
