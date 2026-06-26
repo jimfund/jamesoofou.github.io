@@ -12,8 +12,11 @@
         },
     ];
 
-    const titleNode = root.querySelector("[data-radio-title]");
+    const titleNodes = root.querySelectorAll("[data-radio-title]");
     const frame = root.querySelector("[data-radio-frame]");
+    const launchButton = root.querySelector("[data-radio-launch]");
+    const launchCommand = root.querySelector("[data-radio-launch-command]");
+    const panel = root.querySelector("[data-radio-panel]");
     const toggleButton = root.querySelector("[data-radio-toggle]");
     const previousButton = root.querySelector("[data-radio-prev]");
     const nextButton = root.querySelector("[data-radio-next]");
@@ -21,7 +24,7 @@
     let currentIndex = 0;
     let isPlaying = false;
 
-    if (!titleNode || !frame || !toggleButton || !previousButton || !nextButton || tracks.length === 0) {
+    if (!titleNodes.length || !frame || !launchButton || !launchCommand || !panel || !toggleButton || !previousButton || !nextButton || tracks.length === 0) {
         return;
     }
 
@@ -40,7 +43,9 @@
 
     function loadTrack() {
         const track = currentTrack();
-        titleNode.textContent = track.title;
+        titleNodes.forEach((node) => {
+            node.textContent = track.title;
+        });
         frame.title = `Jimfund radio: ${track.title}`;
 
         if (isPlaying) {
@@ -53,9 +58,11 @@
         previousButton.disabled = !hasMultipleTracks;
         nextButton.disabled = !hasMultipleTracks;
         root.classList.toggle("has-multiple-tracks", hasMultipleTracks);
-        toggleButton.textContent = isPlaying ? "Stop" : "Play";
-        toggleButton.setAttribute("aria-label", isPlaying ? "Stop radio" : "Play radio");
+        launchButton.setAttribute("aria-expanded", String(isPlaying));
+        launchCommand.textContent = isPlaying ? "On air" : "Turn on";
+        toggleButton.textContent = "Stop";
         root.classList.toggle("is-active", isPlaying);
+        panel.hidden = !isPlaying;
         loadTrack();
     }
 
@@ -66,6 +73,10 @@
     }
 
     function play() {
+        if (isPlaying) {
+            return;
+        }
+
         isPlaying = true;
         render();
     }
@@ -75,13 +86,9 @@
         render();
     }
 
+    launchButton.addEventListener("click", play);
     toggleButton.addEventListener("click", () => {
-        if (isPlaying) {
-            stop();
-            return;
-        }
-
-        play();
+        stop();
     });
 
     previousButton.addEventListener("click", () => move(-1));

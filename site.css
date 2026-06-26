@@ -314,7 +314,7 @@ img {
 }
 
 .radio-player {
-    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
     color: var(--muted);
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.66rem;
@@ -322,19 +322,32 @@ img {
     text-transform: uppercase;
 }
 
-.radio-player__bar {
+.radio-player__launch {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: stretch;
-    min-height: 40px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    gap: 14px;
+    padding: 8px 18px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    text-transform: inherit;
+    cursor: pointer;
 }
 
-.radio-player__meta {
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    gap: 12px;
-    padding: 8px 18px;
+.radio-player__launch:hover,
+.radio-player__launch:focus-visible {
+    color: var(--signal);
+}
+
+.radio-player__launch:focus-visible {
+    outline: 1px solid var(--signal);
+    outline-offset: -3px;
 }
 
 .radio-player__kicker {
@@ -350,9 +363,22 @@ img {
     white-space: nowrap;
 }
 
+.radio-player__launch-command {
+    color: var(--accent-strong);
+}
+
+.radio-player.is-active .radio-player__launch-command {
+    color: var(--muted);
+}
+
+.radio-player__panel {
+    border-top: 1px solid rgba(39, 49, 59, 0.72);
+}
+
 .radio-player__controls {
     display: flex;
-    border-left: 1px solid rgba(39, 49, 59, 0.72);
+    justify-content: flex-end;
+    min-height: 36px;
 }
 
 .radio-player__button {
@@ -395,19 +421,14 @@ img {
 }
 
 .radio-player__frame-shell {
-    display: none;
     border-top: 1px solid rgba(39, 49, 59, 0.72);
     background: #050608;
-}
-
-.radio-player.is-active .radio-player__frame-shell {
-    display: block;
 }
 
 .radio-player__frame {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: clamp(220px, 54vw, 420px);
     border: 0;
 }
 
@@ -987,17 +1008,17 @@ img {
         font-size: 0.61rem;
     }
 
-    .radio-player__bar {
-        grid-template-columns: 1fr;
-    }
-
-    .radio-player__meta {
+    .radio-player__launch {
+        grid-template-columns: auto minmax(0, 1fr);
         padding: 8px 12px;
     }
 
+    .radio-player__launch-command {
+        grid-column: 1 / -1;
+    }
+
     .radio-player__controls {
-        border-top: 1px solid rgba(39, 49, 59, 0.72);
-        border-left: 0;
+        justify-content: stretch;
     }
 
     .radio-player__button {
