@@ -184,7 +184,7 @@ img {
 
 .market-clock__dynamic {
     display: grid;
-    grid-template-columns: 5.9rem minmax(0, 1fr) 15.5rem 10rem;
+    grid-template-columns: 5.7rem minmax(18rem, 1fr) minmax(12rem, 14rem);
     align-items: stretch;
     height: 36px;
 }
@@ -192,27 +192,27 @@ img {
 .market-clock__time {
     display: flex;
     align-items: center;
-    padding: 8px 14px 8px 24px;
+    padding: 8px 12px 8px 18px;
     border-right: 1px solid var(--line);
     color: var(--accent);
     white-space: nowrap;
 }
 
 .market-clock__markets {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-content: stretch;
+    display: flex;
+    min-width: 0;
+    justify-content: flex-start;
     gap: 0;
 }
 
 .market-clock__market {
     position: relative;
     display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-columns: auto auto auto;
     gap: 6px;
     align-items: center;
     min-width: 0;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-left: 1px solid rgba(39, 49, 59, 0.72);
     white-space: nowrap;
 }
@@ -249,7 +249,6 @@ img {
     min-width: 0;
     overflow: hidden;
     color: var(--muted);
-    text-align: right;
     text-overflow: ellipsis;
 }
 
@@ -263,38 +262,18 @@ img {
 
 .market-ticker {
     display: grid;
-    grid-template-columns: auto auto minmax(4ch, 1fr) 56px;
-    gap: 7px;
+    grid-template-columns: auto minmax(6ch, 1fr) 48px;
+    gap: 8px;
     align-items: center;
     min-width: 0;
     overflow: hidden;
-    padding: 8px 24px 8px 14px;
-    border-left: 1px solid var(--line);
+    padding: 8px 18px 8px 12px;
+    border-left: 1px solid rgba(39, 49, 59, 0.72);
     white-space: nowrap;
 }
 
-.market-ticker__state {
-    width: 0.38rem;
-    height: 0.38rem;
-    border: 1px solid var(--line-strong);
-    background: transparent;
-    box-shadow: 0 0 0 1px rgba(9, 11, 15, 0.86);
-}
-
-.market-ticker.is-tick-up .market-ticker__state {
-    border-color: var(--positive);
-    background: var(--positive);
-    box-shadow: 0 0 6px rgba(49, 201, 107, 0.2);
-}
-
-.market-ticker.is-tick-down .market-ticker__state,
-.market-ticker.is-stale .market-ticker__state {
-    border-color: var(--signal);
-    background: var(--signal);
-}
-
 .market-ticker__label {
-    color: var(--text);
+    color: var(--muted);
 }
 
 .market-ticker__value {
@@ -305,14 +284,19 @@ img {
     text-overflow: ellipsis;
 }
 
+.market-ticker.is-tick-up .market-ticker__value {
+    color: var(--positive);
+}
+
+.market-ticker.is-tick-down .market-ticker__value,
 .market-ticker.is-stale .market-ticker__value {
     color: var(--signal);
 }
 
 .market-sparkline {
     display: block;
-    flex: 0 0 56px;
-    width: 56px;
+    flex: 0 0 48px;
+    width: 48px;
     height: 18px;
     max-height: 18px;
     color: var(--accent);
