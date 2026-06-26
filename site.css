@@ -165,6 +165,7 @@ img {
 }
 
 .market-clock,
+.radio-player,
 .agi-countdown,
 .archive-list--home {
     position: relative;
@@ -310,6 +311,104 @@ img {
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.25;
+}
+
+.radio-player {
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.radio-player__bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    min-height: 40px;
+}
+
+.radio-player__meta {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+    padding: 8px 18px;
+}
+
+.radio-player__kicker {
+    flex: 0 0 auto;
+    color: var(--accent);
+}
+
+.radio-player__title {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.radio-player__controls {
+    display: flex;
+    border-left: 1px solid rgba(39, 49, 59, 0.72);
+}
+
+.radio-player__button {
+    min-width: 4.5rem;
+    border: 0;
+    border-left: 1px solid rgba(39, 49, 59, 0.72);
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+}
+
+.radio-player__button:first-child {
+    border-left: 0;
+}
+
+.radio-player__button:hover,
+.radio-player__button:focus-visible {
+    color: var(--signal);
+}
+
+.radio-player__button:focus-visible {
+    outline: 1px solid var(--signal);
+    outline-offset: -3px;
+}
+
+.radio-player__button:disabled {
+    color: color-mix(in srgb, var(--muted) 48%, var(--bg));
+    cursor: default;
+}
+
+.radio-player__button--primary {
+    color: var(--accent-strong);
+}
+
+.radio-player:not(.has-multiple-tracks) .radio-player__button:not(.radio-player__button--primary) {
+    display: none;
+}
+
+.radio-player__frame-shell {
+    display: none;
+    border-top: 1px solid rgba(39, 49, 59, 0.72);
+    background: #050608;
+}
+
+.radio-player.is-active .radio-player__frame-shell {
+    display: block;
+}
+
+.radio-player__frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
 }
 
 .entry-stack {
@@ -882,6 +981,29 @@ img {
     .market-ticker__value {
         grid-column: auto;
         text-align: left;
+    }
+
+    .radio-player {
+        font-size: 0.61rem;
+    }
+
+    .radio-player__bar {
+        grid-template-columns: 1fr;
+    }
+
+    .radio-player__meta {
+        padding: 8px 12px;
+    }
+
+    .radio-player__controls {
+        border-top: 1px solid rgba(39, 49, 59, 0.72);
+        border-left: 0;
+    }
+
+    .radio-player__button {
+        min-height: 34px;
+        min-width: 0;
+        flex: 1 1 0;
     }
 
     .entry-card,

@@ -75,6 +75,22 @@
             <div class="market-clock__noscript">Market clock requires JavaScript.</div>
         </noscript>
     </aside>
+    <section class="radio-player" data-radio aria-label="Radio">
+        <div class="radio-player__bar">
+            <div class="radio-player__meta">
+                <span class="radio-player__kicker">Radio</span>
+                <span class="radio-player__title" data-radio-title>The Highwaymen Live in Las Vegas</span>
+            </div>
+            <div class="radio-player__controls">
+                <button class="radio-player__button" type="button" data-radio-prev aria-label="Previous video">Prev</button>
+                <button class="radio-player__button radio-player__button--primary" type="button" data-radio-toggle aria-label="Play radio">Play</button>
+                <button class="radio-player__button" type="button" data-radio-next aria-label="Next video">Next</button>
+            </div>
+        </div>
+        <div class="radio-player__frame-shell" aria-live="polite">
+            <iframe class="radio-player__frame" data-radio-frame title="Jimfund radio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </section>
     <ol class="archive-list archive-list--home">
         <li class="archive-list__entry archive-list__entry--series">
             <time datetime="2026-05-12">2026-05-12</time>
@@ -130,6 +146,7 @@
 </section>
 <script src="market-clock.js" defer></script>
 <script src="sp500-ticker.js" defer></script>
+<script src="radio.js" defer></script>
 <script src="organism-field.js" defer></script>
 
             </main>
