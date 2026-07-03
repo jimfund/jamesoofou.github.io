@@ -2,6 +2,8 @@
 
 const MONTH_DAYS = 365.2425 / 12;
 const START_DATE_MS = Date.UTC(2026, 4, 1, 0, 0, 0);
+const BACKCALC_START_DATE_MS = Date.UTC(2026, 0, 1, 0, 0, 0);
+const BACKCALC_DAYS = (START_DATE_MS - BACKCALC_START_DATE_MS) / 86400000;
 const MILESTONES = [100, 500, 1000];
 const TERMINAL_THRESHOLD_HOURS = 100000;
 const CAP_STOP_FRACTION = 0.999;
@@ -29,6 +31,7 @@ const els = {
   resetButton: document.getElementById("resetButton"),
   algorithmicShareOut: document.getElementById("algorithmicShareOut"),
   thresholdDate: document.getElementById("thresholdDate"),
+  janHorizon: document.getElementById("janHorizon"),
 };
 
 const fields = Object.keys(DEFAULTS).reduce((acc, key) => {
@@ -347,6 +350,76 @@ function simulate(params) {
   return { rows, milestones, terminalCrossing };
 }
 
+function simulateHorizonAtDay(params, targetDay) {
+  let day = 0;
+  let logHorizon = Math.log(params.startHours);
+  let releasedHorizon = params.startHours;
+  let nextReleaseDay = releaseRegime(releasedHorizon, params)[1];
+  const capStopHours = params.capHours * CAP_STOP_FRACTION;
+
+  while (day < targetDay) {
+    let horizon = Math.exp(logHorizon);
+    if (horizon >= capStopHours) return capStopHours;
+
+    const [frontierRegime, frontierInterval] = releaseRegime(horizon, params);
+    if (frontierRegime === "continuous") {
+      releasedHorizon = horizon;
+      nextReleaseDay = null;
+    } else if (frontierInterval !== null) {
+      const desiredNextReleaseDay = day + frontierInterval;
+      if (nextReleaseDay === null || desiredNextReleaseDay < nextReleaseDay) {
+        nextReleaseDay = desiredNextReleaseDay;
+      }
+    }
+
+    const continuousRelease = releaseRegime(horizon, params)[0] === "continuous";
+    if (continuousRelease) releasedHorizon = horizon;
+
+    const localRate = Math.max(doublingRatePerDay(horizon, releasedHorizon, params), 1e-12);
+    let dt = Math.min(0.05, 0.02 / localRate, targetDay - day);
+    if (nextReleaseDay !== null) {
+      dt = Math.min(dt, Math.max(nextReleaseDay - day, 0) || dt);
+    }
+
+    logHorizon = rk4Step(logHorizon, dt, releasedHorizon, params, continuousRelease);
+    day += dt;
+    horizon = Math.exp(logHorizon);
+
+    if (nextReleaseDay !== null && day >= nextReleaseDay - 1e-9) {
+      releasedHorizon = Math.max(releasedHorizon, horizon);
+      const [, interval] = releaseRegime(horizon, params);
+      nextReleaseDay = interval === null ? null : day + interval;
+    }
+  }
+
+  return Math.min(Math.exp(logHorizon), capStopHours);
+}
+
+function impliedJanHorizon(params) {
+  const targetHours = params.startHours;
+  let low = 0.01;
+  let high = Math.min(targetHours, params.capHours * CAP_STOP_FRACTION);
+
+  for (let i = 0; i < 64; i += 1) {
+    const candidate = Math.sqrt(low * high);
+    const candidateParams = { ...params, startHours: candidate };
+    const mayHours = simulateHorizonAtDay(candidateParams, BACKCALC_DAYS);
+
+    if (mayHours > targetHours) {
+      high = candidate;
+    } else {
+      low = candidate;
+    }
+  }
+
+  return Math.sqrt(low * high);
+}
+
+function updateBackcalc(params) {
+  if (!els.janHorizon) return;
+  els.janHorizon.textContent = formatDuration(impliedJanHorizon(params));
+}
+
 function updateThresholdClock(params, terminalCrossing) {
   if (!els.thresholdDate) return;
 
@@ -541,6 +614,7 @@ function render() {
   currentParams = params;
   currentTerminalCrossing = terminalCrossing;
   updateThresholdClock(currentParams, currentTerminalCrossing);
+  updateBackcalc(currentParams);
   drawChart(rows);
   queueEmbedHeight();
 }

@@ -167,6 +167,31 @@ input:focus-visible {
   text-align: center;
 }
 
+.backcalc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 6px 10px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.backcalc__value {
+  color: var(--accent-strong);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
 .tooltip {
   position: absolute;
   z-index: 2;
@@ -280,6 +305,12 @@ input:focus-visible {
   .threshold-clock__value {
     text-align: center;
     white-space: normal;
+  }
+
+  .backcalc {
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .controls {
