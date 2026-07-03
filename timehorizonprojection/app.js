@@ -76,7 +76,7 @@ function readParams() {
   params.startHours = Math.max(0.01, params.startHours);
   params.doublingMonths = Math.max(0.01, params.doublingMonths);
   params.capHours = Math.max(20000, params.capHours);
-  params.utilityExponent = Math.min(Math.max(0, params.utilityExponent), 2);
+  params.utilityExponent = Math.max(0, params.utilityExponent);
   params.biweeklyThreshold = Math.max(1, params.biweeklyThreshold);
   params.dailyThreshold = Math.max(params.biweeklyThreshold + 1, params.dailyThreshold);
   params.continuousThreshold = Math.max(params.dailyThreshold + 1, params.continuousThreshold);
