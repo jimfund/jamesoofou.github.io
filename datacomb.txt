@@ -3,43 +3,47 @@ jimfund datacomb
 
 scattered signal from beneath the archive
 
-01 //// 20260512 //// 2026 //// 2026-v
+01 //// 20260710 //// 2026 //// 2026-vi
+      2026 VI
+      https://jimfund.com/2026-vi.html
+
+02 //// 20260512 //// 2026 //// 2026-v
       2026 V
       https://jimfund.com/2026-v.html
 
-02 //// 20260226 //// fiction //// fiction
+03 //// 20260226 //// fiction //// fiction
       Fiction I
       https://jimfund.com/fiction.html
 
-03 //// 20260226 //// 2026 //// 2026-iv
+04 //// 20260226 //// 2026 //// 2026-iv
       2026 IV
       https://jimfund.com/2026-iv.html
 
-04 //// 20260222 //// 2026 //// 2026-iii
+05 //// 20260222 //// 2026 //// 2026-iii
       2026 III
       https://jimfund.com/2026-iii.html
 
-05 //// 20260221 //// 2026 //// 2026-ii
+06 //// 20260221 //// 2026 //// 2026-ii
       2026 II
       https://jimfund.com/2026-ii.html
 
-06 //// 20260212 //// 2026 //// 2026
+07 //// 20260212 //// 2026 //// 2026
       2026 I
       https://jimfund.com/2026.html
 
-07 //// 20250326 //// Mind Upload //// upload-ii
+08 //// 20250326 //// Mind Upload //// upload-ii
       Mind Upload II
       https://jimfund.com/upload-ii.html
 
-08 //// 20250308 //// Mind Upload //// upload
+09 //// 20250308 //// Mind Upload //// upload
       Mind Upload I
       https://jimfund.com/upload.html
 
-09 //// 20250306 //// unseries //// math
+10 //// 20250306 //// unseries //// math
       Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
       https://jimfund.com/math.html
 
-10 //// 20241010 //// unseries //// near-future-fiction
+11 //// 20241010 //// unseries //// near-future-fiction
       Near-Future Fiction
       https://jimfund.com/near-future-fiction.html
 

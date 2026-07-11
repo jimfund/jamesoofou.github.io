@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Time Horizon Model</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f7f7;
+        --ink: #182022;
+        --muted: #5d686c;
+        --line: #d4dcde;
+        --panel: #ffffff;
+        --soft: #eef3f3;
+        --accent: #0b7285;
+        --accent-dark: #074d5d;
+        --accent-2: #7c3aed;
+        --warn: #9a4d12;
+        --grid: rgba(93, 104, 108, 0.22);
+        --shadow: rgba(24, 32, 34, 0.12);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      main {
+        width: min(1240px, calc(100vw - 28px));
+        margin: 0 auto;
+        padding: 22px 0 34px;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        margin-bottom: 14px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(1.55rem, 3vw, 2.45rem);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        max-width: 820px;
+        margin-top: 7px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 355px;
+        gap: 14px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .chart-panel {
+        min-width: 0;
+      }
+
+      .chart-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid var(--line);
+        padding: 12px 14px;
+      }
+
+      .chart-top h2,
+      .controls h2,
+      .explain h2,
+      .table-panel h2 {
+        font-size: 0.98rem;
+        line-height: 1.2;
+      }
+
+      .chart-note {
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.35;
+        text-align: right;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        border-bottom: 1px solid var(--line);
+        padding: 9px 14px;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .swatch {
+        width: 28px;
+        height: 3px;
+        border-radius: 999px;
+        background: currentColor;
+      }
+
+      .chart-wrap {
+        position: relative;
+        height: min(62vh, 610px);
+        min-height: 410px;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .tooltip {
+        position: absolute;
+        z-index: 3;
+        width: 238px;
+        pointer-events: none;
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 16px 34px var(--shadow);
+        color: var(--ink);
+        font-size: 0.86rem;
+        padding: 10px 11px;
+      }
+
+      .tooltip strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1rem;
+      }
+
+      .tooltip span {
+        display: block;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 9px;
+        padding: 12px;
+        border-top: 1px solid var(--line);
+      }
+
+      .summary div {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--soft);
+        padding: 9px 10px;
+      }
+
+      .summary span,
+      label > span,
+      .label-line span,
+      .anchor-labels span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        line-height: 1.25;
+      }
+
+      .summary strong {
+        display: block;
+        margin-top: 3px;
+        overflow-wrap: anywhere;
+        font-size: 0.98rem;
+      }
+
+      .controls {
+        align-self: start;
+        padding: 14px;
+      }
+
+      .control-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+
+      button {
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fbfdfd;
+        color: var(--ink);
+        cursor: pointer;
+        padding: 0 11px;
+        white-space: nowrap;
+      }
+
+      button:hover {
+        border-color: var(--accent);
+      }
+
+      label {
+        display: grid;
+        gap: 5px;
+        margin-top: 11px;
+      }
+
+      .label-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .help {
+        position: relative;
+        display: inline-grid;
+        flex: 0 0 auto;
+        place-items: center;
+        width: 18px;
+        height: 18px;
+        min-height: 18px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: #fbfdfd;
+        color: var(--accent-dark);
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .help::after {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 8px);
+        z-index: 8;
+        display: none;
+        width: min(280px, calc(100vw - 36px));
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 14px 28px var(--shadow);
+        color: var(--ink);
+        content: attr(data-tip);
+        font-size: 0.78rem;
+        font-weight: 500;
+        line-height: 1.35;
+        padding: 8px 9px;
+        text-align: left;
+        white-space: normal;
+      }
+
+      .help:hover::after,
+      .help:focus-visible::after {
+        display: block;
+      }
+
+      input[type="number"],
+      select {
+        width: 100%;
+        min-height: 36px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        padding: 6px 8px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+
+      output {
+        color: var(--ink);
+        font-size: 0.9rem;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 9px;
+      }
+
+      h3 {
+        margin-top: 15px;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .anchor-grid {
+        display: grid;
+        gap: 7px;
+        margin-top: 8px;
+      }
+
+      .anchor-labels,
+      .anchor-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .anchor-row label {
+        margin: 0;
+      }
+
+      .readout {
+        margin-top: 13px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--soft);
+        padding: 9px 10px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.38;
+      }
+
+      .readout b {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      .lower {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .explain,
+      .table-panel {
+        padding: 15px;
+      }
+
+      .explain p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+
+      .explain a {
+        color: var(--accent-dark);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        margin-top: 11px;
+      }
+
+      table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 7px;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 650;
+      }
+
+      .status {
+        min-height: 18px;
+        margin-top: 10px;
+        color: var(--warn);
+        font-size: 0.84rem;
+        line-height: 1.35;
+      }
+
+      @media (max-width: 980px) {
+        .layout,
+        .lower {
+          grid-template-columns: 1fr;
+        }
+
+        .controls {
+          order: -1;
+        }
+      }
+
+      @media (max-width: 640px) {
+        main {
+          width: min(100vw - 18px, 1240px);
+          padding-top: 14px;
+        }
+
+        header,
+        .chart-top {
+          grid-template-columns: 1fr;
+          display: grid;
+          align-items: start;
+        }
+
+        .chart-note {
+          text-align: left;
+        }
+
+        .chart-wrap {
+          height: 430px;
+          min-height: 380px;
+        }
+
+        .summary,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>AI Time Horizon Model</h1>
+          <p class="subtitle">A monthly-release toy model for projecting and back-calculating model time horizon through 2026.</p>
+        </div>
+      </header>
+
+      <section class="layout">
+        <section class="panel chart-panel" aria-label="Interactive model chart">
+          <div class="chart-top">
+            <h2>50% and 80% time horizon</h2>
+            <p class="chart-note">Hover the curve for 50% TH, 80% TH, latest released model, uplift, difficulty, and instantaneous doubling time.</p>
+          </div>
+          <div class="legend" aria-label="Chart legend">
+            <span style="color: var(--accent)"><i class="swatch"></i>50% TH</span>
+            <span style="color: var(--accent-2)"><i class="swatch"></i>80% TH</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart" aria-label="Projected AI model time horizon from Jan 1 2026 through Dec 31 2026"></canvas>
+            <div id="tooltip" class="tooltip" hidden></div>
+          </div>
+          <div class="summary" aria-live="polite">
+            <div><span>Jan 1 back-solved 50% TH</span><strong id="janSummary">-</strong></div>
+            <div><span>Apr 1 release 50% TH</span><strong id="aprSummary">-</strong></div>
+            <div><span>May 1 anchor 50% TH</span><strong id="maySummary">-</strong></div>
+            <div><span>May 1 80% TH</span><strong id="may80Summary">-</strong></div>
+            <div><span>Dec 31 projected TH</span><strong id="decSummary">-</strong></div>
+          </div>
+        </section>
+
+        <aside class="panel controls" aria-label="Model parameters">
+          <div class="control-head">
+            <h2>Parameters</h2>
+            <button id="reset" type="button">Reset</button>
+          </div>
+
+          <label>
+            <div class="label-line">
+              <span>Jan 1 target preset</span>
+              <button class="help" type="button" aria-label="Explain Jan 1 target preset" data-tip="Applies parameter sets that back-solve Jan 1 2026 to the selected target while fixing May 1 50% TH, May 1 uplift, cap, and the default difficulty anchors.">?</button>
+            </div>
+            <select id="presetSelect">
+              <option value="">Manual / app default</option>
+              <optgroup label="Jan 1 = 10h 12m">
+                <option value="no-algo-scaling">2.693816 mo, 0% algo, exp 1.0</option>
+                <option value="flat-algo-effect">2.693816 mo, 50% algo, exp 0.0</option>
+                <option value="one-percent-algo">2.68208 mo, 1% algo, exp 1.0</option>
+                <option value="ten-percent-algo">2.57585 mo, 10% algo, exp 1.0</option>
+                <option value="half-algo-linear">2.08705 mo, 50% algo, exp 1.0</option>
+                <option value="all-algo-linear">1.41619 mo, 100% algo, exp 1.0</option>
+                <option value="default-doubling-tiny-share">2.69 mo, 0.3254% algo, exp 1.0</option>
+                <option value="default-doubling-tiny-exp">2.69 mo, 50% algo, exp 0.00467</option>
+              </optgroup>
+              <optgroup label="Jan 1 = 6h 00m">
+                <option value="six-no-algo-scaling">1.738080 mo, 0% algo, exp 1.0</option>
+                <option value="six-flat-algo-effect">1.738080 mo, 50% algo, exp 0.0</option>
+                <option value="six-one-percent-algo">1.728095 mo, 1% algo, exp 1.0</option>
+                <option value="six-ten-percent-algo">1.637640 mo, 10% algo, exp 1.0</option>
+                <option value="six-half-algo-linear">1.219445 mo, 50% algo, exp 1.0</option>
+                <option value="six-all-algo-linear">0.625291 mo, 100% algo, exp 1.0</option>
+              </optgroup>
+            </select>
+          </label>
+
+          <div class="two-col">
+            <label>
+              <div class="label-line">
+                <span>May 1 50% TH, hours</span>
+                <button class="help" type="button" aria-label="Explain May 1 50 percent TH hours" data-tip="The hour component of the observed 50%-success frontier model time horizon at the May 1 calibration point. The default is 26 hours plus 53 minutes.">?</button>
+              </div>
+              <input id="mayHours" type="number" min="0.01" max="100000" step="0.01" value="26">
+            </label>
+            <label>
+              <div class="label-line">
+                <span>May 1 50% TH, minutes</span>
+                <button class="help" type="button" aria-label="Explain May 1 50 percent TH minutes" data-tip="The minute component of the May 1 50%-success calibration TH. Together with hours, this defines the exact May 1 anchor the model must hit.">?</button>
+              </div>
+              <input id="mayMinutes" type="number" min="0" max="59.99" step="1" value="53">
+            </label>
+          </div>
+
+          <label>
+            <div class="label-line">
+              <span>May 1 observed doubling period, months</span>
+              <button class="help" type="button" aria-label="Explain May 1 observed doubling period" data-tip="The instantaneous observed TH doubling time at May 1, after the May model has completed. It calibrates the aggregate raw progress rate.">?</button>
+            </div>
+            <input id="doublingMonths" type="number" min="0.01" max="120" step="0.000001" value="2.69">
+          </label>
+
+          <label>
+            <div class="label-line">
+              <span>80% TH divisor</span>
+              <button class="help" type="button" aria-label="Explain 80 percent TH divisor" data-tip="The 80%-success time horizon is modeled as the 50%-success TH divided by this number. Default 5 means May 1 80% TH is one-fifth of May 1 50% TH.">?</button>
+            </div>
+            <input id="h80Divisor" type="number" min="1" max="1000" step="0.1" value="5">
+          </label>
+
+          <label>
+            <div class="label-line">
+              <span>Algorithmic share of raw progress</span>
+              <button class="help" type="button" aria-label="Explain algorithmic share" data-tip="The fraction of calibrated raw progress attributed to algorithmic efficiency rather than other sources. This part scales with released model TH.">?</button>
+            </div>
+            <input id="algoShare" type="range" min="0" max="100" step="0.0001" value="50">
+            <output id="algoShareOut">50%</output>
+          </label>
+
+          <div class="two-col">
+            <label>
+              <div class="label-line">
+                <span>Algorithmic TH exponent</span>
+                <button class="help" type="button" aria-label="Explain algorithmic TH exponent" data-tip="Controls how algorithmic progress scales with released time horizon. 1 is linear; 0 means no TH scaling; values above 1 make it superlinear.">?</button>
+              </div>
+              <input id="algoExponent" type="number" min="0" max="5" step="0.00001" value="1">
+            </label>
+            <label>
+              <div class="label-line">
+                <span>May 1 uplift, %</span>
+                <button class="help" type="button" aria-label="Explain May 1 uplift" data-tip="The displayed labor/productivity uplift at the May 1 released model. Other dates scale from this value according to the selected utility mode and are capped at 500%.">?</button>
+              </div>
+              <input id="mayUplift" type="number" min="0" max="10000" step="0.1" value="41.4">
+            </label>
+          </div>
+
+          <label>
+            <div class="label-line">
+              <span>Utility mode</span>
+              <button class="help" type="button" aria-label="Explain utility mode" data-tip="Controls how displayed uplift is derived from model progress. This only affects the utility/uplift readout, not the TH trajectory.">?</button>
+            </div>
+            <select id="utilityMode">
+              <option value="released-th">Released TH power</option>
+              <option value="total-raw">Total raw progress</option>
+              <option value="log-raw">Log raw progress</option>
+            </select>
+          </label>
+
+          <label>
+            <div class="label-line">
+              <span>AGI/cap horizon, hours</span>
+              <button class="help" type="button" aria-label="Explain AGI cap horizon" data-tip="The frontier TH ceiling used by the simulation. The difficulty curve includes cap pressure but effective difficulty is capped at 100%.">?</button>
+            </div>
+            <input id="capHours" type="number" min="1000" max="10000000" step="1000" value="100000">
+          </label>
+
+          <h3>Difficulty anchors</h3>
+          <div class="anchor-grid">
+            <div class="anchor-labels">
+              <div class="label-line">
+                <span>TH hours</span>
+                <button class="help" type="button" aria-label="Explain anchor TH" data-tip="Time-horizon points used to fit the difficulty curve. Anchor rows are sorted by TH before fitting.">?</button>
+              </div>
+              <div class="label-line">
+                <span>Difficulty, %</span>
+                <button class="help" type="button" aria-label="Explain anchor difficulty" data-tip="Effective doubling difficulty at each anchor TH, capped at 100%. Lower percentages mean TH is easier to double.">?</button>
+              </div>
+            </div>
+            <div class="anchor-row">
+              <label><input id="anchorH1" type="number" min="0.01" step="1" value="27"></label>
+              <label><input id="anchorD1" type="number" min="0.000001" step="0.01" value="95"></label>
+            </div>
+            <div class="anchor-row">
+              <label><input id="anchorH2" type="number" min="0.01" step="1" value="500"></label>
+              <label><input id="anchorD2" type="number" min="0.000001" step="0.01" value="40"></label>
+            </div>
+            <div class="anchor-row">
+              <label><input id="anchorH3" type="number" min="0.01" step="1" value="2000"></label>
+              <label><input id="anchorD3" type="number" min="0.000001" step="0.01" value="5"></label>
+            </div>
+            <div class="anchor-row">
+              <label><input id="anchorH4" type="number" min="0.01" step="1" value="10000"></label>
+              <label><input id="anchorD4" type="number" min="0.000001" step="0.001" value="0.1"></label>
+            </div>
+          </div>
+
+          <div id="calibrationReadout" class="readout">-</div>
+          <div id="status" class="status" role="status"></div>
+        </aside>
+      </section>
+
+      <section class="lower">
+        <section class="panel explain">
+          <h2>Model explanation</h2>
+          <p>
+            The page uses a toy effective-scaling model inspired by Anthropic's
+            <a href="https://www-cdn.anthropic.com/files/4zrzovbb/website/bf04581e4f329735fd90634f6a1962c13c0bd351.pdf">Responsible Scaling Policy v3.1</a>:
+            compute progress and algorithmic efficiency multiply, so their rates add in log space.
+            The May 1 observed doubling period calibrates the aggregate raw progress rate.
+          </p>
+          <p>
+            Algorithmic progress is lagged to completed models. A model completes on the first day of each month,
+            and that released model sets the algorithmic term until the next month completes. Difficulty is evaluated
+            continuously from the current frontier TH, so doubling time can change inside a month even when the released
+            model is fixed. Effective difficulty is capped at 100%, so anchor extrapolation cannot make early dates harder
+            than baseline.
+          </p>
+          <p>
+            The main growth model treats TH as the 50%-success horizon. The 80%-success horizon is shown as a
+            proportional readout and second chart line: by default, 80% TH equals one-fifth of 50% TH, so May 1
+            26h 53m at 50% success corresponds to about 5h 23m at 80% success.
+          </p>
+          <p>
+            The Jan-Apr values are solved backward month by month. Given the May 1 TH, the model first finds the Apr 1
+            released TH that would grow to May 1 while using only the Apr 1 model for algorithmic progress. It then repeats
+            the same calculation for Mar 1, Feb 1, and Jan 1.
+          </p>
+          <p>
+            The utility mode only changes the displayed uplift. Released TH power scales uplift with released model TH,
+            total raw progress scales it with the full calibrated raw progress rate, and log raw progress uses a slower
+            additive response to raw-progress multiples. Displayed uplift is capped at 500% in all modes.
+          </p>
+        </section>
+
+        <section class="panel table-panel" aria-label="Monthly model values">
+          <h2>Monthly values</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Released 50% TH</th>
+                  <th>End 50% TH</th>
+                  <th>End 80% TH</th>
+                  <th>Uplift</th>
+                  <th>Start difficulty</th>
+                  <th>Start doubling</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      "use strict";
+
+      const DAY_MS = 86400000;
+      const MONTH_DAYS = 365.2425 / 12;
+      const START_MS = Date.UTC(2026, 0, 1);
+      const END_MS = Date.UTC(2026, 11, 31);
+      const MAY_INDEX = 4;
+      const MAX_UPLIFT = 5;
+      const SAMPLE_STEP_DAYS = 0.25;
+      const INTEGRATION_STEP_DAYS = 0.05;
+
+      const DEFAULTS = {
+        mayHours: 26,
+        mayMinutes: 53,
+        doublingMonths: 2.69,
+        h80Divisor: 5,
+        algoShare: 50,
+        algoExponent: 1,
+        mayUplift: 41.4,
+        utilityMode: "released-th",
+        capHours: 100000,
+        anchorH1: 27,
+        anchorD1: 95,
+        anchorH2: 500,
+        anchorD2: 40,
+        anchorH3: 2000,
+        anchorD3: 5,
+        anchorH4: 10000,
+        anchorD4: 0.1,
+      };
+
+      const JAN_TARGET_BASE = {
+        mayHours: 26,
+        mayMinutes: 53,
+        h80Divisor: 5,
+        mayUplift: 41.4,
+        utilityMode: "released-th",
+        capHours: 100000,
+        anchorH1: 27,
+        anchorD1: 95,
+        anchorH2: 500,
+        anchorD2: 40,
+        anchorH3: 2000,
+        anchorD3: 5,
+        anchorH4: 10000,
+        anchorD4: 0.1,
+      };
+
+      const PRESETS = {
+        "no-algo-scaling": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.693816,
+          algoShare: 0,
+          algoExponent: 1,
+        },
+        "flat-algo-effect": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.693816,
+          algoShare: 50,
+          algoExponent: 0,
+        },
+        "one-percent-algo": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.68208,
+          algoShare: 1,
+          algoExponent: 1,
+        },
+        "ten-percent-algo": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.57585,
+          algoShare: 10,
+          algoExponent: 1,
+        },
+        "half-algo-linear": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.08705,
+          algoShare: 50,
+          algoExponent: 1,
+        },
+        "all-algo-linear": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.41619,
+          algoShare: 100,
+          algoExponent: 1,
+        },
+        "default-doubling-tiny-share": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.69,
+          algoShare: 0.32536571598029695,
+          algoExponent: 1,
+        },
+        "default-doubling-tiny-exp": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.69,
+          algoShare: 50,
+          algoExponent: 0.004670276794058736,
+        },
+        "six-no-algo-scaling": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.73807994,
+          algoShare: 0,
+          algoExponent: 1,
+        },
+        "six-flat-algo-effect": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.73807994,
+          algoShare: 50,
+          algoExponent: 0,
+        },
+        "six-one-percent-algo": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.72809488,
+          algoShare: 1,
+          algoExponent: 1,
+        },
+        "six-ten-percent-algo": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.63764013,
+          algoShare: 10,
+          algoExponent: 1,
+        },
+        "six-half-algo-linear": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.21944464,
+          algoShare: 50,
+          algoExponent: 1,
+        },
+        "six-all-algo-linear": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 0.62529086,
+          algoShare: 100,
+          algoExponent: 1,
+        },
+      };
+
+      const ids = Object.keys(DEFAULTS);
+      const fields = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
+      const els = {
+        chart: document.getElementById("chart"),
+        tooltip: document.getElementById("tooltip"),
+        reset: document.getElementById("reset"),
+        presetSelect: document.getElementById("presetSelect"),
+        algoShareOut: document.getElementById("algoShareOut"),
+        janSummary: document.getElementById("janSummary"),
+        aprSummary: document.getElementById("aprSummary"),
+        maySummary: document.getElementById("maySummary"),
+        may80Summary: document.getElementById("may80Summary"),
+        decSummary: document.getElementById("decSummary"),
+        monthlyRows: document.getElementById("monthlyRows"),
+        calibrationReadout: document.getElementById("calibrationReadout"),
+        status: document.getElementById("status"),
+      };
+
+      let rows = [];
+      let monthRows = [];
+      let model = null;
+      let hoverRow = null;
+      let plot = null;
+      let applyingPreset = false;
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function readNumber(id) {
+        const value = Number(fields[id].value);
+        return Number.isFinite(value) ? value : DEFAULTS[id];
+      }
+
+      function readValue(id) {
+        return fields[id].value || DEFAULTS[id];
+      }
+
+      function monthStarts() {
+        const dates = [];
+        for (let month = 0; month <= 12; month += 1) {
+          dates.push(new Date(Date.UTC(2026, month, 1)));
+        }
+        return dates;
+      }
+
+      const MONTH_STARTS = monthStarts();
+
+      function daysBetween(a, b) {
+        return (b.getTime() - a.getTime()) / DAY_MS;
+      }
+
+      function dayForDate(date) {
+        return (date.getTime() - START_MS) / DAY_MS;
+      }
+
+      function dateForDay(day) {
+        return new Date(START_MS + day * DAY_MS);
+      }
+
+      function fmtDate(date) {
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          day: "numeric",
+          timeZone: "UTC",
+        }).format(date);
+      }
+
+      function fmtMonth(date) {
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          timeZone: "UTC",
+        }).format(date);
+      }
+
+      function fmtTH(hours) {
+        if (!Number.isFinite(hours)) return "inf";
+        if (hours < 48) {
+          const wholeHours = Math.floor(hours);
+          const minutes = Math.round((hours - wholeHours) * 60);
+          if (minutes === 60) return `${wholeHours + 1}h 00m`;
+          return `${wholeHours}h ${String(minutes).padStart(2, "0")}m`;
+        }
+        if (hours < 1000) return `${hours.toFixed(1)}h`;
+        return `${Math.round(hours).toLocaleString("en-US")}h`;
+      }
+
+      function fmtDays(days) {
+        if (!Number.isFinite(days)) return "inf";
+        if (days >= 90) return `${(days / MONTH_DAYS).toFixed(2)} mo`;
+        if (days >= 2) return `${days.toFixed(1)} d`;
+        const hours = days * 24;
+        if (hours >= 1) return `${hours.toFixed(1)} h`;
+        return `${(hours * 60).toFixed(0)} min`;
+      }
+
+      function fmtPct(value, digits = 1) {
+        if (!Number.isFinite(value)) return "inf";
+        return `${(value * 100).toFixed(digits)}%`;
+      }
+
+      function fmtControlPct(value) {
+        if (!Number.isFinite(value)) return "0%";
+        if (Math.abs(value - Math.round(value)) < 0.00005) return `${Math.round(value)}%`;
+        if (Math.abs(value) < 1) return `${value.toFixed(4)}%`;
+        return `${value.toFixed(2).replace(/\.?0+$/, "")}%`;
+      }
+
+      function readParams() {
+        const mayH = Math.max(0.01, readNumber("mayHours") + readNumber("mayMinutes") / 60);
+        const capHours = Math.max(mayH * 2, readNumber("capHours"));
+        const anchors = [1, 2, 3, 4].map((i) => ({
+          h: Math.max(0.01, readNumber(`anchorH${i}`)),
+          d: clamp(readNumber(`anchorD${i}`) / 100, 1e-9, 1),
+        })).sort((a, b) => a.h - b.h);
+        const usableAnchors = [];
+        for (const anchor of anchors) {
+          if (anchor.h >= capHours) continue;
+          if (usableAnchors.length && Math.abs(anchor.h - usableAnchors[usableAnchors.length - 1].h) < 1e-9) {
+            usableAnchors[usableAnchors.length - 1] = anchor;
+          } else {
+            usableAnchors.push(anchor);
+          }
+        }
+        return {
+          mayH,
+          h80Divisor: Math.max(1, readNumber("h80Divisor")),
+          doublingDays: Math.max(0.01, readNumber("doublingMonths") * MONTH_DAYS),
+          algoShare: clamp(readNumber("algoShare") / 100, 0, 1),
+          algoExponent: Math.max(0, readNumber("algoExponent")),
+          mayUplift: Math.max(0, readNumber("mayUplift") / 100),
+          utilityMode: readValue("utilityMode"),
+          capHours,
+          anchors: usableAnchors,
+        };
+      }
+
+      function makeDifficulty(params) {
+        const anchors = params.anchors;
+        if (anchors.length < 2) {
+          throw new Error("Use at least two distinct difficulty anchors below the cap horizon.");
+        }
+        const points = anchors.map((anchor) => ({
+          x: Math.log(anchor.h),
+          y: Math.log(Math.max(1e-12, anchor.d * (1 - anchor.h / params.capHours))),
+        }));
+
+        return function difficulty(hours) {
+          const h = Math.max(1e-9, Math.min(hours, params.capHours * 0.999999));
+          const x = Math.log(h);
+          let base;
+          if (x >= points[points.length - 1].x) {
+            base = Math.exp(points[points.length - 1].y);
+          } else {
+            let left = 0;
+            for (let i = 0; i < points.length - 1; i += 1) {
+              if (x <= points[i + 1].x) {
+                left = i;
+                break;
+              }
+            }
+            const a = points[left];
+            const b = points[left + 1];
+            const t = (x - a.x) / (b.x - a.x || 1);
+            base = Math.exp(a.y + t * (b.y - a.y));
+          }
+          return clamp(base / (1 - h / params.capHours), 1e-12, 1);
+        };
+      }
+
+      function makeModel(params) {
+        const difficulty = makeDifficulty(params);
+        const rawMay = (1 / params.doublingDays) * difficulty(params.mayH);
+        const nonAlgoRaw = rawMay * (1 - params.algoShare);
+        const algoRawMay = rawMay * params.algoShare;
+        return { params, difficulty, rawMay, nonAlgoRaw, algoRawMay };
+      }
+
+      function totalRawForRelease(releasedH, m) {
+        const ratio = Math.max(1e-12, releasedH / m.params.mayH);
+        return m.nonAlgoRaw + m.algoRawMay * Math.pow(ratio, m.params.algoExponent);
+      }
+
+      function utilityForRelease(releasedH, m) {
+        const ratio = Math.max(1e-12, releasedH / m.params.mayH);
+        const algoMultiplier = Math.pow(ratio, m.params.algoExponent);
+        const totalRaw = totalRawForRelease(releasedH, m);
+        const totalRawMay = totalRawForRelease(m.params.mayH, m);
+        const rawMultiple = Math.max(1e-12, totalRaw / totalRawMay);
+
+        if (m.params.utilityMode === "total-raw") {
+          return {
+            uplift: Math.min(MAX_UPLIFT, m.params.mayUplift * rawMultiple),
+            utilityFactor: rawMultiple,
+            utilityLabel: "total raw progress",
+          };
+        }
+
+        if (m.params.utilityMode === "log-raw") {
+          return {
+            uplift: Math.min(MAX_UPLIFT, m.params.mayUplift * Math.max(0, 1 + Math.log(rawMultiple))),
+            utilityFactor: Math.max(0, 1 + Math.log(rawMultiple)),
+            utilityLabel: "log raw progress",
+          };
+        }
+
+        return {
+          uplift: Math.min(MAX_UPLIFT, m.params.mayUplift * algoMultiplier),
+          utilityFactor: algoMultiplier,
+          utilityLabel: "released TH power",
+        };
+      }
+
+      function derivative(logH, totalRaw, m) {
+        const h = Math.exp(logH);
+        return Math.LN2 * totalRaw / m.difficulty(h);
+      }
+
+      function rk4(logH, dt, totalRaw, m) {
+        const k1 = derivative(logH, totalRaw, m);
+        const k2 = derivative(logH + 0.5 * dt * k1, totalRaw, m);
+        const k3 = derivative(logH + 0.5 * dt * k2, totalRaw, m);
+        const k4 = derivative(logH + dt * k3, totalRaw, m);
+        return logH + (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
+      }
+
+      function advance(startH, releasedH, days, m) {
+        let remaining = Math.max(0, days);
+        let logH = Math.log(Math.max(1e-12, startH));
+        const totalRaw = totalRawForRelease(releasedH, m);
+        while (remaining > 1e-10) {
+          const dt = Math.min(INTEGRATION_STEP_DAYS, remaining);
+          logH = rk4(logH, dt, totalRaw, m);
+          remaining -= dt;
+          if (Math.exp(logH) >= m.params.capHours * 0.999) {
+            return m.params.capHours * 0.999;
+          }
+        }
+        return Math.exp(logH);
+      }
+
+      function solveMonthStart(endH, days, m) {
+        let low = Math.max(1e-9, endH / 1024);
+        let high = Math.min(endH, m.params.capHours * 0.998);
+        let lowValue = advance(low, low, days, m) - endH;
+        let guard = 0;
+        while (lowValue > 0 && guard < 60) {
+          low /= 2;
+          lowValue = advance(low, low, days, m) - endH;
+          guard += 1;
+        }
+        for (let i = 0; i < 80; i += 1) {
+          const mid = Math.sqrt(low * high);
+          const value = advance(mid, mid, days, m) - endH;
+          if (value > 0) high = mid;
+          else low = mid;
+        }
+        return Math.sqrt(low * high);
+      }
+
+      function rowAt(day, h, releasedH, m) {
+        const difficulty = m.difficulty(h);
+        const totalRaw = totalRawForRelease(releasedH, m);
+        const doublingDays = difficulty / totalRaw;
+        const algoMultiplier = Math.pow(Math.max(1e-12, releasedH / m.params.mayH), m.params.algoExponent);
+        const utility = utilityForRelease(releasedH, m);
+        return {
+          day,
+          date: dateForDay(day),
+          h,
+          releasedH,
+          h80: h / m.params.h80Divisor,
+          releasedH80: releasedH / m.params.h80Divisor,
+          difficulty,
+          doublingDays,
+          uplift: utility.uplift,
+          utilityFactor: utility.utilityFactor,
+          utilityLabel: utility.utilityLabel,
+          algoMultiplier,
+          preMay: day < dayForDate(MONTH_STARTS[MAY_INDEX]),
+        };
+      }
+
+      function simulate(m) {
+        const releases = new Array(12);
+        releases[MAY_INDEX] = m.params.mayH;
+        for (let i = MAY_INDEX - 1; i >= 0; i -= 1) {
+          releases[i] = solveMonthStart(releases[i + 1], daysBetween(MONTH_STARTS[i], MONTH_STARTS[i + 1]), m);
+        }
+
+        const allRows = [];
+        const monthly = [];
+        let h = releases[0];
+        const endDay = dayForDate(new Date(END_MS));
+        for (let i = 0; i < 12; i += 1) {
+          if (i <= MAY_INDEX) {
+            h = releases[i];
+          } else {
+            releases[i] = h;
+          }
+
+          const startDate = MONTH_STARTS[i];
+          const nextDate = MONTH_STARTS[i + 1];
+          const monthStartDay = dayForDate(startDate);
+          const monthEndDay = Math.min(dayForDate(nextDate), endDay);
+          const releasedH = releases[i];
+          const startRow = rowAt(monthStartDay, h, releasedH, m);
+          if (!allRows.length || Math.abs(allRows[allRows.length - 1].day - startRow.day) > 1e-9) {
+            allRows.push(startRow);
+          }
+
+          let cursor = monthStartDay;
+          while (cursor < monthEndDay - 1e-9) {
+            const next = Math.min(cursor + SAMPLE_STEP_DAYS, monthEndDay);
+            h = advance(h, releasedH, next - cursor, m);
+            cursor = next;
+            allRows.push(rowAt(cursor, h, releasedH, m));
+          }
+
+          monthly.push({
+            month: startDate,
+            releasedH,
+            endH: h,
+            startRow,
+            endDate: dateForDay(monthEndDay),
+          });
+        }
+
+        return { releases, rows: allRows, monthRows: monthly };
+      }
+
+      function yTicks(minH, maxH) {
+        const ticks = [];
+        for (let magnitude = 0.01; magnitude <= 10000000; magnitude *= 10) {
+          for (const multiple of [1, 2, 5]) {
+            const tick = magnitude * multiple;
+            if (tick >= minH && tick <= maxH) ticks.push(tick);
+          }
+        }
+        return ticks;
+      }
+
+      function css(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      function draw() {
+        const canvas = els.chart;
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+        canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, rect.width, rect.height);
+
+        const pad = { top: 18, right: 30, bottom: 46, left: 82 };
+        const width = rect.width - pad.left - pad.right;
+        const height = rect.height - pad.top - pad.bottom;
+        const minDay = 0;
+        const maxDay = dayForDate(new Date(END_MS));
+        const minH = Math.max(0.01, Math.min(...rows.flatMap((r) => [r.h, r.h80])) * 0.82);
+        const maxH = Math.max(...rows.map((r) => r.h)) * 1.18;
+        const minY = Math.log(minH);
+        const maxY = Math.log(maxH);
+
+        const xForDay = (day) => pad.left + ((day - minDay) / (maxDay - minDay || 1)) * width;
+        const yForH = (h) => pad.top + (1 - (Math.log(h) - minY) / (maxY - minY || 1)) * height;
+        const ink = css("--ink");
+        const muted = css("--muted");
+        const grid = css("--grid");
+        const panel = css("--panel");
+        const accent = css("--accent");
+        const accent2 = css("--accent-2");
+        const warn = css("--warn");
+
+        ctx.fillStyle = panel;
+        ctx.fillRect(0, 0, rect.width, rect.height);
+
+        ctx.strokeStyle = grid;
+        ctx.lineWidth = 1;
+        ctx.fillStyle = muted;
+        ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        for (const tick of yTicks(minH, maxH)) {
+          const y = yForH(tick);
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(rect.width - pad.right, y);
+          ctx.stroke();
+          ctx.fillText(fmtTH(tick), pad.left - 8, y);
+        }
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        for (let i = 0; i < 12; i += 1) {
+          const day = dayForDate(MONTH_STARTS[i]);
+          const x = xForDay(day);
+          ctx.strokeStyle = i === MAY_INDEX ? warn : grid;
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, rect.height - pad.bottom);
+          ctx.stroke();
+          ctx.fillStyle = i === MAY_INDEX ? warn : muted;
+          ctx.fillText(fmtMonth(MONTH_STARTS[i]), x, rect.height - pad.bottom + 12);
+        }
+
+        ctx.strokeStyle = ink;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, rect.height - pad.bottom);
+        ctx.lineTo(rect.width - pad.right, rect.height - pad.bottom);
+        ctx.stroke();
+
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        rows.forEach((row, index) => {
+          const x = xForDay(row.day);
+          const y = yForH(row.h);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        ctx.strokeStyle = accent2;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([7, 5]);
+        ctx.beginPath();
+        rows.forEach((row, index) => {
+          const x = xForDay(row.day);
+          const y = yForH(row.h80);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        if (hoverRow) {
+          const x = xForDay(hoverRow.day);
+          const y = yForH(hoverRow.h);
+          const y80 = yForH(hoverRow.h80);
+          ctx.strokeStyle = warn;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, rect.height - pad.bottom);
+          ctx.stroke();
+          ctx.fillStyle = warn;
+          ctx.beginPath();
+          ctx.arc(x, y, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = accent2;
+          ctx.beginPath();
+          ctx.arc(x, y80, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        plot = { pad, width, minDay, maxDay, xForDay, yForH, rect };
+      }
+
+      function nearestRow(day) {
+        let best = rows[0];
+        let distance = Infinity;
+        for (const row of rows) {
+          const d = Math.abs(row.day - day);
+          if (d < distance) {
+            best = row;
+            distance = d;
+          }
+        }
+        return best;
+      }
+
+      function moveTooltip(event) {
+        if (!plot || !rows.length) return;
+        const rect = els.chart.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const day = plot.minDay + ((x - plot.pad.left) / plot.width) * (plot.maxDay - plot.minDay);
+        hoverRow = nearestRow(clamp(day, plot.minDay, plot.maxDay));
+        draw();
+        const px = plot.xForDay(hoverRow.day);
+        const py = plot.yForH(hoverRow.h);
+        els.tooltip.hidden = false;
+        els.tooltip.innerHTML = `
+          <strong>${fmtDate(hoverRow.date)}: ${fmtTH(hoverRow.h)} 50% TH</strong>
+          <span>80% TH: ${fmtTH(hoverRow.h80)}</span>
+          <span>Released 50% model: ${fmtTH(hoverRow.releasedH)}</span>
+          <span>Released 80% model: ${fmtTH(hoverRow.releasedH80)}</span>
+          <span>Uplift: ${fmtPct(hoverRow.uplift)}</span>
+          <span>Utility mode: ${hoverRow.utilityLabel}</span>
+          <span>Difficulty: ${fmtPct(hoverRow.difficulty)}</span>
+          <span>Doubling time: ${fmtDays(hoverRow.doublingDays)}</span>
+          <span>${hoverRow.preMay ? "Back-solved before May anchor" : "Projected after May anchor"}</span>
+        `;
+        els.tooltip.style.left = `${clamp(px + 14, 8, rect.width - 248)}px`;
+        els.tooltip.style.top = `${clamp(py - 72, 8, rect.height - 168)}px`;
+      }
+
+      function hideTooltip() {
+        hoverRow = null;
+        els.tooltip.hidden = true;
+        draw();
+      }
+
+      function updateTable() {
+        els.monthlyRows.innerHTML = monthRows.map((row) => `
+          <tr>
+            <td>${fmtMonth(row.month)}</td>
+            <td>${fmtTH(row.releasedH)}</td>
+            <td>${fmtTH(row.endH)}</td>
+            <td>${fmtTH(row.endH / model.params.h80Divisor)}</td>
+            <td>${fmtPct(row.startRow.uplift)}</td>
+            <td>${fmtPct(row.startRow.difficulty)}</td>
+            <td>${fmtDays(row.startRow.doublingDays)}</td>
+          </tr>
+        `).join("");
+      }
+
+      function updateSummaries(result) {
+        const jan = result.releases[0];
+        const apr = result.releases[3];
+        const may = result.releases[4];
+        const dec = rows[rows.length - 1].h;
+        els.janSummary.textContent = fmtTH(jan);
+        els.aprSummary.textContent = fmtTH(apr);
+        els.maySummary.textContent = fmtTH(may);
+        els.may80Summary.textContent = fmtTH(may / model.params.h80Divisor);
+        els.decSummary.textContent = fmtTH(dec);
+        els.calibrationReadout.innerHTML = `
+          May raw progress: <b>${model.rawMay.toFixed(5)}</b> difficulty-adjusted doublings/day.<br>
+          Non-algo raw: <b>${model.nonAlgoRaw.toFixed(5)}</b>; algo raw at May: <b>${model.algoRawMay.toFixed(5)}</b>.<br>
+          Utility mode: <b>${model.params.utilityMode.replace("-", " ")}</b>.<br>
+          Jan 1 was solved by four monthly inverse steps, not by applying one constant doubling time.
+        `;
+      }
+
+      function render() {
+        els.algoShareOut.textContent = fmtControlPct(readNumber("algoShare"));
+        try {
+          const params = readParams();
+          model = makeModel(params);
+          const result = simulate(model);
+          rows = result.rows;
+          monthRows = result.monthRows;
+          updateSummaries(result);
+          updateTable();
+          els.status.textContent = "";
+          draw();
+        } catch (error) {
+          els.status.textContent = error.message;
+        }
+      }
+
+      function reset() {
+        els.presetSelect.value = "";
+        for (const [id, value] of Object.entries(DEFAULTS)) {
+          fields[id].value = String(value);
+        }
+        render();
+      }
+
+      function applyPreset(id) {
+        const preset = PRESETS[id];
+        if (!preset) return;
+        applyingPreset = true;
+        try {
+          for (const [field, value] of Object.entries(preset)) {
+            fields[field].value = String(value);
+          }
+        } finally {
+          applyingPreset = false;
+        }
+        render();
+      }
+
+      for (const input of Object.values(fields)) {
+        input.addEventListener("input", () => {
+          if (!applyingPreset) els.presetSelect.value = "";
+          render();
+        });
+      }
+      els.presetSelect.addEventListener("change", () => {
+        if (els.presetSelect.value) {
+          applyPreset(els.presetSelect.value);
+        } else {
+          reset();
+        }
+      });
+      els.reset.addEventListener("click", reset);
+      els.chart.addEventListener("pointermove", moveTooltip);
+      els.chart.addEventListener("pointerleave", hideTooltip);
+      window.addEventListener("resize", draw);
+
+      render();
+    </script>
+  </body>
+</html>
