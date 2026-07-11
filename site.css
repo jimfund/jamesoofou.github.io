@@ -68,6 +68,10 @@ img {
     padding: 20px 0 40px;
 }
 
+.page-shell:has(.article-page[data-slug="2026-vi"]) {
+    width: min(1320px, calc(100vw - 28px));
+}
+
 .site-header,
 .site-main,
 .site-footer {
@@ -530,6 +534,12 @@ img {
     max-width: 720px;
 }
 
+.article-page[data-slug="2026-vi"] {
+    max-width: min(1260px, calc(100vw - 28px));
+    overflow: hidden;
+    padding: 22px 24px 28px;
+}
+
 .breadcrumbs {
     display: flex;
     gap: 10px;
@@ -551,6 +561,20 @@ img {
     max-width: 650px;
     margin: 0;
     padding: 0 0 18px;
+}
+
+.article-page[data-slug="2026-vi"] .article-header,
+.article-page[data-slug="2026-vi"] .article-content,
+.article-page[data-slug="2026-vi"] .article-nav {
+    max-width: none;
+}
+
+.article-page[data-slug="2026-vi"] .article-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: end;
+    padding-bottom: 14px;
 }
 
 .article-header h1 {
@@ -577,6 +601,10 @@ img {
     line-height: 1.7;
 }
 
+.article-page[data-slug="2026-vi"] .article-content {
+    margin-top: 18px;
+}
+
 .article-content p,
 .article-content ul,
 .article-content ol,
@@ -587,6 +615,22 @@ img {
 
 .article-page--post .article-content p {
     margin-bottom: 1.45rem;
+}
+
+.article-content .tool-deck {
+    max-width: 46rem;
+    margin-bottom: 0.6rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+}
+
+.article-content .tool-actions {
+    margin-bottom: 1rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
 .article-content a {
@@ -708,18 +752,17 @@ img {
 }
 
 .article-wide-embed {
-    width: min(calc(100vw - 56px), 980px);
+    width: 100%;
     max-width: none;
     margin: 0 0 1.6rem;
-    margin-left: calc((min(calc(100vw - 56px), 980px) - 100%) / -2);
 }
 
 .timehorizon-model-widget {
     display: block;
     width: 100%;
-    min-height: 760px;
+    min-height: 1040px;
     border: 1px solid var(--line);
-    background: #f5f7f7;
+    background: #090b0f;
 }
 
 .article-nav {
@@ -1052,6 +1095,16 @@ img {
     .article-content,
     .article-nav {
         max-width: none;
+    }
+
+    .article-page[data-slug="2026-vi"] {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .article-page[data-slug="2026-vi"] .article-header {
+        grid-template-columns: 1fr;
+        gap: 6px;
     }
 
     .article-wide-embed {

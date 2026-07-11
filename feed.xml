@@ -5,20 +5,20 @@
     <link>https://jimfund.com/</link>
     <description>Archive of essays and fiction.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Jul 2026 02:33:28 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jul 2026 02:49:17 GMT</lastBuildDate>
     <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
     <item>
       <title>2026 VI</title>
       <link>https://jimfund.com/2026-vi.html</link>
       <guid isPermaLink="true">https://jimfund.com/2026-vi.html</guid>
       <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
-      <description>Interactive version of the 2026 time-horizon toy model. Open the calculator full-width.</description>
-      <content:encoded><![CDATA[<p>Interactive version of the 2026 time-horizon toy model.</p>
+      <description>Interactive calculator for the July 2026 time-horizon model. Open standalone</description>
+      <content:encoded><![CDATA[<p class="tool-deck">Interactive calculator for the July 2026 time-horizon model.</p>
 
-<p><a href="timehorizonmodel/index.html">Open the calculator full-width.</a></p>
+<p class="tool-actions"><a href="timehorizonmodel/index.html">Open standalone</a></p>
 
 <div class="article-wide-embed">
-    <iframe class="timehorizon-model-widget" src="timehorizonmodel/index.html" title="AI Time Horizon Model" loading="eager"></iframe>
+    <iframe class="timehorizon-model-widget" src="timehorizonmodel/index.html" title="AI Time Horizon Model" loading="eager" scrolling="no"></iframe>
 </div>
 
 <script src="timehorizonmodel/embed.js" defer></script>]]></content:encoded>

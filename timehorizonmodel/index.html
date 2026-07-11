@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Time Horizon Model</title>
+    <title>2026 VI Time Horizon Model</title>
     <style>
       :root {
         color-scheme: light;
@@ -459,53 +459,468 @@
           grid-template-columns: 1fr;
         }
       }
+
+      :root {
+        color-scheme: dark;
+        --bg: #090b0f;
+        --ink: #e3e9ef;
+        --muted: #84909b;
+        --line: #25313d;
+        --panel: #0c1117;
+        --soft: #111820;
+        --accent: #7fd0e8;
+        --accent-dark: #bde7f4;
+        --accent-2: #e33821;
+        --warn: #d7b56d;
+        --grid: rgba(132, 144, 155, 0.18);
+        --shadow: rgba(0, 0, 0, 0.42);
+        --field: #070a0e;
+        --field-line: #344252;
+        --focus: #e33821;
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(227, 233, 239, 0.055) 1px, transparent 1px),
+          var(--bg);
+        background-size: 100% 4px;
+      }
+
+      main {
+        width: min(1280px, calc(100vw - 28px));
+        padding: 16px 0 24px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin: 0 0 14px;
+        padding: 0 0 13px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        color: var(--ink);
+        font-size: clamp(1.35rem, 2.2vw, 2.05rem);
+        font-weight: 520;
+      }
+
+      .subtitle {
+        max-width: none;
+        margin-top: 4px;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+
+      .layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 12px;
+      }
+
+      .panel {
+        border-color: var(--line);
+        border-radius: 0;
+        background: rgba(12, 17, 23, 0.96);
+      }
+
+      .chart-panel {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .controls,
+      .explain,
+      .table-panel,
+      .table-wrap {
+        min-width: 0;
+      }
+
+      .chart-top {
+        align-items: baseline;
+        min-height: 48px;
+        padding: 12px 14px;
+        border-bottom-color: var(--line);
+      }
+
+      .chart-top h2,
+      .controls h2,
+      .explain h2,
+      .table-panel h2 {
+        color: var(--ink);
+        font-size: 0.82rem;
+        font-weight: 520;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .chart-note {
+        max-width: 34rem;
+        color: color-mix(in srgb, var(--muted) 82%, var(--bg));
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68rem;
+      }
+
+      .legend {
+        gap: 8px 18px;
+        padding: 8px 14px;
+        border-bottom-color: rgba(37, 49, 61, 0.78);
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .swatch {
+        width: 24px;
+        height: 2px;
+        border-radius: 0;
+      }
+
+      .chart-wrap {
+        height: clamp(430px, 58vh, 640px);
+        min-height: 430px;
+        background: #070a0e;
+      }
+
+      .tooltip {
+        width: 250px;
+        border-color: #556676;
+        border-radius: 0;
+        background: rgba(7, 10, 14, 0.96);
+        box-shadow: 0 18px 42px var(--shadow);
+        color: var(--ink);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+      }
+
+      .tooltip strong {
+        color: var(--accent-dark);
+        font-size: 0.78rem;
+        font-weight: 520;
+      }
+
+      .tooltip span {
+        color: var(--muted);
+      }
+
+      .summary {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0;
+        padding: 0;
+        border-top-color: var(--line);
+      }
+
+      .summary div {
+        border: 0;
+        border-right: 1px solid rgba(37, 49, 61, 0.72);
+        border-radius: 0;
+        background: transparent;
+        padding: 11px 12px 12px;
+      }
+
+      .summary div:last-child {
+        border-right: 0;
+      }
+
+      .summary span,
+      label > span,
+      .label-line span,
+      .anchor-labels span {
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.67rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .summary strong {
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 1.05rem;
+        font-weight: 520;
+      }
+
+      .controls {
+        position: sticky;
+        top: 12px;
+        max-height: calc(100vh - 24px);
+        overflow: auto;
+        padding: 13px 14px 16px;
+        scrollbar-width: thin;
+      }
+
+      .control-head {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(37, 49, 61, 0.78);
+      }
+
+      button {
+        min-height: 32px;
+        border-color: var(--field-line);
+        border-radius: 0;
+        background: transparent;
+        color: var(--accent-dark);
+        padding: 0 10px;
+      }
+
+      button:hover,
+      button:focus-visible {
+        border-color: var(--focus);
+        color: var(--ink);
+        outline: none;
+      }
+
+      label {
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .help {
+        width: 17px;
+        height: 17px;
+        min-height: 17px;
+        border-color: #3a4856;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.68rem;
+      }
+
+      .help::after {
+        border-color: #526271;
+        border-radius: 0;
+        background: rgba(7, 10, 14, 0.98);
+        color: var(--ink);
+      }
+
+      input[type="number"],
+      select {
+        min-height: 34px;
+        border-color: var(--field-line);
+        border-radius: 0;
+        background: var(--field);
+        color: var(--ink);
+      }
+
+      input[type="number"]:focus,
+      select:focus {
+        border-color: var(--focus);
+        outline: none;
+      }
+
+      input[type="range"] {
+        accent-color: var(--accent-2);
+      }
+
+      output {
+        color: var(--accent-dark);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.76rem;
+      }
+
+      h3 {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(37, 49, 61, 0.78);
+        color: var(--accent-dark);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+      }
+
+      .readout {
+        border-color: rgba(37, 49, 61, 0.86);
+        border-radius: 0;
+        background: rgba(7, 10, 14, 0.52);
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.7rem;
+      }
+
+      .readout b {
+        color: var(--ink);
+        font-weight: 520;
+      }
+
+      .lower {
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .table-panel {
+        order: -1;
+      }
+
+      .explain,
+      .table-panel {
+        padding: 13px 14px 16px;
+      }
+
+      .explain p {
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+
+      .explain a {
+        color: var(--accent-dark);
+      }
+
+      .table-wrap {
+        max-width: 100%;
+      }
+
+      table {
+        min-width: 760px;
+        color: var(--ink);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+      }
+
+      th,
+      td {
+        border-bottom-color: rgba(37, 49, 61, 0.86);
+        padding: 9px 7px;
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 520;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .status {
+        color: var(--warn);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+      }
+
+      @media (max-width: 1040px) {
+        .layout,
+        .lower {
+          grid-template-columns: 1fr;
+        }
+
+        .controls {
+          position: static;
+          max-height: none;
+          order: 0;
+        }
+
+        .table-panel {
+          order: 0;
+        }
+      }
+
+      @media (max-width: 700px) {
+        body {
+          overflow-x: hidden;
+        }
+
+        main {
+          width: 100%;
+          padding-top: 12px;
+        }
+
+        header,
+        .chart-top {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .chart-note {
+          display: none;
+        }
+
+        .chart-wrap {
+          height: 390px;
+          min-height: 360px;
+        }
+
+        .legend {
+          gap: 8px 14px;
+        }
+
+        .summary,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .summary div {
+          border-right: 0;
+          border-bottom: 1px solid rgba(37, 49, 61, 0.72);
+        }
+
+        .summary div:last-child {
+          border-bottom: 0;
+        }
+
+        .table-wrap {
+          overflow-x: auto;
+        }
+
+        table {
+          min-width: 620px;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
       <header>
         <div>
-          <h1>AI Time Horizon Model</h1>
-          <p class="subtitle">A monthly-release toy model for projecting and back-calculating model time horizon through 2026.</p>
+          <h1>Time Horizon Model</h1>
+          <p class="subtitle">2026 VI / July calibration</p>
         </div>
       </header>
 
       <section class="layout">
         <section class="panel chart-panel" aria-label="Interactive model chart">
           <div class="chart-top">
-            <h2>50% and 80% time horizon</h2>
-            <p class="chart-note">Hover the curve for 50% TH, 80% TH, latest released model, uplift, difficulty, and instantaneous doubling time.</p>
+            <h2>Trajectory</h2>
+            <p class="chart-note">50% and 80% task-success horizons, January through December 2026.</p>
           </div>
           <div class="legend" aria-label="Chart legend">
-            <span style="color: var(--accent)"><i class="swatch"></i>50% TH</span>
-            <span style="color: var(--accent-2)"><i class="swatch"></i>80% TH</span>
+            <span style="color: var(--accent)"><i class="swatch"></i>50% horizon</span>
+            <span style="color: var(--accent-2)"><i class="swatch"></i>80% horizon</span>
           </div>
           <div class="chart-wrap">
             <canvas id="chart" aria-label="Projected AI model time horizon from Jan 1 2026 through Dec 31 2026"></canvas>
             <div id="tooltip" class="tooltip" hidden></div>
           </div>
           <div class="summary" aria-live="polite">
-            <div><span>Jan 1 back-solved 50% TH</span><strong id="janSummary">-</strong></div>
-            <div><span>Apr 1 release 50% TH</span><strong id="aprSummary">-</strong></div>
-            <div><span>May 1 anchor 50% TH</span><strong id="maySummary">-</strong></div>
-            <div><span>May 1 80% TH</span><strong id="may80Summary">-</strong></div>
-            <div><span>Dec 31 projected TH</span><strong id="decSummary">-</strong></div>
+            <div><span>Jan 1 solved</span><strong id="janSummary">-</strong></div>
+            <div><span>Apr release</span><strong id="aprSummary">-</strong></div>
+            <div><span>May anchor</span><strong id="maySummary">-</strong></div>
+            <div><span>May 80%</span><strong id="may80Summary">-</strong></div>
+            <div><span>Dec 31</span><strong id="decSummary">-</strong></div>
           </div>
         </section>
 
         <aside class="panel controls" aria-label="Model parameters">
           <div class="control-head">
-            <h2>Parameters</h2>
+            <h2>Assumptions</h2>
             <button id="reset" type="button">Reset</button>
           </div>
 
           <label>
             <div class="label-line">
-              <span>Jan 1 target preset</span>
+              <span>Preset</span>
               <button class="help" type="button" aria-label="Explain Jan 1 target preset" data-tip="Applies parameter sets that back-solve Jan 1 2026 to the selected target while fixing May 1 50% TH, May 1 uplift, cap, and the default difficulty anchors.">?</button>
             </div>
             <select id="presetSelect">
-              <option value="">Manual / app default</option>
+              <option value="">Manual</option>
               <optgroup label="Jan 1 = 10h 12m">
                 <option value="no-algo-scaling">2.693816 mo, 0% algo, exp 1.0</option>
                 <option value="flat-algo-effect">2.693816 mo, 50% algo, exp 0.0</option>
@@ -1228,6 +1643,7 @@
 
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
+        const monthLabelEvery = width < 320 ? 2 : 1;
         for (let i = 0; i < 12; i += 1) {
           const day = dayForDate(MONTH_STARTS[i]);
           const x = xForDay(day);
@@ -1236,8 +1652,10 @@
           ctx.moveTo(x, pad.top);
           ctx.lineTo(x, rect.height - pad.bottom);
           ctx.stroke();
-          ctx.fillStyle = i === MAY_INDEX ? warn : muted;
-          ctx.fillText(fmtMonth(MONTH_STARTS[i]), x, rect.height - pad.bottom + 12);
+          if (i % monthLabelEvery === 0 || i === MAY_INDEX) {
+            ctx.fillStyle = i === MAY_INDEX ? warn : muted;
+            ctx.fillText(fmtMonth(MONTH_STARTS[i]), x, rect.height - pad.bottom + 12);
+          }
         }
 
         ctx.strokeStyle = ink;
@@ -1370,6 +1788,18 @@
         `;
       }
 
+      function postEmbedHeight() {
+        if (window.parent === window) return;
+        requestAnimationFrame(() => {
+          const height = Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight,
+            760
+          );
+          window.parent.postMessage({ type: "timehorizonmodel:resize", height: height + 8 }, "*");
+        });
+      }
+
       function render() {
         els.algoShareOut.textContent = fmtControlPct(readNumber("algoShare"));
         try {
@@ -1382,8 +1812,10 @@
           updateTable();
           els.status.textContent = "";
           draw();
+          postEmbedHeight();
         } catch (error) {
           els.status.textContent = error.message;
+          postEmbedHeight();
         }
       }
 
@@ -1425,7 +1857,16 @@
       els.reset.addEventListener("click", reset);
       els.chart.addEventListener("pointermove", moveTooltip);
       els.chart.addEventListener("pointerleave", hideTooltip);
-      window.addEventListener("resize", draw);
+      window.addEventListener("resize", () => {
+        draw();
+        postEmbedHeight();
+      });
+      window.addEventListener("load", postEmbedHeight);
+      if (window.ResizeObserver) {
+        const heightObserver = new ResizeObserver(postEmbedHeight);
+        heightObserver.observe(document.body);
+        heightObserver.observe(document.documentElement);
+      }
 
       render();
     </script>
