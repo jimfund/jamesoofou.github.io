@@ -471,6 +471,18 @@
       .help-tooltip.is-pinned {
         pointer-events: auto;
         border-color: var(--accent);
+        cursor: grab;
+        min-width: 220px;
+        min-height: 82px;
+        max-width: calc(100vw - 16px);
+        max-height: calc(100vh - 16px);
+        overflow: auto;
+        resize: both;
+      }
+
+      .help-tooltip.is-dragging {
+        cursor: grabbing;
+        user-select: none;
       }
 
       .help-tooltip-icon {
@@ -501,6 +513,16 @@
         line-height: 1;
         padding: 0;
         cursor: pointer;
+      }
+
+      .help-tooltip.is-pinned .help-tooltip-icon,
+      .help-tooltip.is-pinned .help-tooltip-body {
+        cursor: grab;
+      }
+
+      .help-tooltip.is-dragging .help-tooltip-icon,
+      .help-tooltip.is-dragging .help-tooltip-body {
+        cursor: grabbing;
       }
 
       .help-tooltip.is-pinned .help-tooltip-close {
@@ -1089,6 +1111,10 @@
         border-color: var(--accent-dark);
       }
 
+      .help-tooltip.is-dragging {
+        box-shadow: 0 24px 52px var(--shadow);
+      }
+
       .help-tooltip-close {
         color: var(--muted);
       }
@@ -1564,7 +1590,7 @@
         </aside>
 
         <section class="panel explain">
-          <h2><span class="ai-symbol" aria-hidden="true"></span>Model explanation</h2>
+          <h2><span class="ai-symbol" title="AI-generated content" role="img" aria-label="AI-generated content"></span>Model explanation</h2>
           <p>
             The page uses a toy effective-scaling model inspired by Anthropic's
             <a href="https://www-cdn.anthropic.com/files/4zrzovbb/website/bf04581e4f329735fd90634f6a1962c13c0bd351.pdf">Responsible Scaling Policy v3.1</a>:
@@ -1953,7 +1979,11 @@
       let ieMode = "cdf";
       let applyingPreset = false;
       let activeHelpTrigger = null;
-      let pinnedHelpTrigger = null;
+      let pinnedHelpTooltips = new Map();
+      let draggingHelpTooltip = null;
+      let suppressHelpTooltipCloseClick = false;
+      let resizingHelpTooltip = false;
+      let helpTooltipZ = 30;
       let renderFrame = 0;
       let heavyQuantTimer = 0;
       const scenarioCache = new Map();
@@ -2617,12 +2647,9 @@
         const text = trigger.dataset.tip || "";
         if (!text) return;
 
-        const isPinned = pinnedHelpTrigger === trigger;
-        els.helpTooltip.classList.toggle("is-pinned", isPinned);
         els.helpTooltip.innerHTML = `
-          <span class="help-tooltip-icon" aria-hidden="true"></span>
+          <span class="help-tooltip-icon" title="AI-generated content" role="img" aria-label="AI-generated content"></span>
           <span class="help-tooltip-body">${escapeHTML(text)}</span>
-          <button class="help-tooltip-close" type="button" aria-label="Close tooltip">&times;</button>
         `;
         els.helpTooltip.hidden = false;
         els.helpTooltip.style.left = "0px";
@@ -2648,42 +2675,161 @@
         els.helpTooltip.style.top = `${Math.round(top)}px`;
       }
 
+      function positionPinnedHelpTooltip(trigger, tooltip) {
+        const triggerRect = trigger.getBoundingClientRect();
+        tooltip.style.left = "0px";
+        tooltip.style.top = "0px";
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const margin = 8;
+        const maxLeft = Math.max(margin, window.innerWidth - tooltipRect.width - margin);
+        const maxTop = Math.max(margin, window.innerHeight - tooltipRect.height - margin);
+        const left = clamp(triggerRect.right - tooltipRect.width, margin, maxLeft);
+        let top = triggerRect.top - tooltipRect.height - margin;
+        if (top < margin) {
+          top = triggerRect.bottom + margin;
+        }
+        if (top > maxTop) {
+          top = clamp(triggerRect.top + (triggerRect.height - tooltipRect.height) / 2, margin, maxTop);
+        }
+        tooltip.style.left = `${Math.round(left)}px`;
+        tooltip.style.top = `${Math.round(top)}px`;
+      }
+
+      function createPinnedHelpTooltip(trigger) {
+        const text = trigger.dataset.tip || "";
+        if (!text) return null;
+        const tooltip = document.createElement("div");
+        tooltip.className = "help-tooltip is-pinned";
+        tooltip.setAttribute("role", "tooltip");
+        tooltip.innerHTML = `
+          <span class="help-tooltip-icon" title="AI-generated content" role="img" aria-label="AI-generated content"></span>
+          <span class="help-tooltip-body">${escapeHTML(text)}</span>
+          <button class="help-tooltip-close" type="button" aria-label="Close tooltip">&times;</button>
+        `;
+        tooltip.style.zIndex = String(++helpTooltipZ);
+        document.body.appendChild(tooltip);
+        positionPinnedHelpTooltip(trigger, tooltip);
+        tooltip.addEventListener("pointerdown", startHelpTooltipDrag);
+        tooltip.querySelector(".help-tooltip-close").addEventListener("click", (event) => {
+          event.stopPropagation();
+          closePinnedHelpTooltip(trigger);
+        });
+        return tooltip;
+      }
+
       function showHelpTooltip(event) {
+        if (pinnedHelpTooltips.has(event.currentTarget)) return;
         activeHelpTrigger = event.currentTarget;
         positionHelpTooltip(activeHelpTrigger);
       }
 
       function hideHelpTooltip() {
-        if (pinnedHelpTrigger) return;
         activeHelpTrigger = null;
         els.helpTooltip.hidden = true;
       }
 
-      function closePinnedHelpTooltip() {
-        pinnedHelpTrigger = null;
-        activeHelpTrigger = null;
-        els.helpTooltip.classList.remove("is-pinned");
-        els.helpTooltip.hidden = true;
+      function closePinnedHelpTooltip(trigger) {
+        const tooltip = pinnedHelpTooltips.get(trigger);
+        if (!tooltip) return;
+        if (draggingHelpTooltip && draggingHelpTooltip.tooltip === tooltip) {
+          draggingHelpTooltip = null;
+        }
+        tooltip.remove();
+        pinnedHelpTooltips.delete(trigger);
+      }
+
+      function closeAllPinnedHelpTooltips() {
+        for (const trigger of Array.from(pinnedHelpTooltips.keys())) {
+          closePinnedHelpTooltip(trigger);
+        }
       }
 
       function togglePinnedHelpTooltip(event) {
         event.preventDefault();
         event.stopPropagation();
         const trigger = event.currentTarget;
-        if (pinnedHelpTrigger === trigger) {
-          closePinnedHelpTooltip();
+        if (pinnedHelpTooltips.has(trigger)) {
+          closePinnedHelpTooltip(trigger);
           trigger.blur();
           return;
         }
-        pinnedHelpTrigger = trigger;
-        activeHelpTrigger = trigger;
-        positionHelpTooltip(trigger);
+        hideHelpTooltip();
+        const tooltip = createPinnedHelpTooltip(trigger);
+        if (tooltip) pinnedHelpTooltips.set(trigger, tooltip);
       }
 
       function refreshHelpTooltip() {
         if (activeHelpTrigger) {
           positionHelpTooltip(activeHelpTrigger);
         }
+        for (const [trigger, tooltip] of pinnedHelpTooltips) {
+          if (!tooltip.dataset.dragged) {
+            positionPinnedHelpTooltip(trigger, tooltip);
+          }
+        }
+      }
+
+      function isHelpTooltipResizeHandle(event, tooltip) {
+        const rect = tooltip.getBoundingClientRect();
+        return event.clientX >= rect.right - 18 && event.clientY >= rect.bottom - 18;
+      }
+
+      function startHelpTooltipDrag(event) {
+        if (event.target.closest(".help-tooltip-close")) return;
+        if (event.button !== 0) return;
+        const tooltip = event.currentTarget;
+        if (isHelpTooltipResizeHandle(event, tooltip)) {
+          resizingHelpTooltip = true;
+          suppressHelpTooltipCloseClick = true;
+          return;
+        }
+        const rect = tooltip.getBoundingClientRect();
+        draggingHelpTooltip = {
+          tooltip,
+          pointerId: event.pointerId,
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false,
+        };
+        tooltip.dataset.dragged = "true";
+        tooltip.classList.add("is-dragging");
+        tooltip.style.zIndex = String(++helpTooltipZ);
+        tooltip.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      }
+
+      function dragHelpTooltip(event) {
+        if (!draggingHelpTooltip || draggingHelpTooltip.pointerId !== event.pointerId) return;
+        const { tooltip, offsetX, offsetY, startX, startY } = draggingHelpTooltip;
+        if (Math.hypot(event.clientX - startX, event.clientY - startY) > 3) {
+          draggingHelpTooltip.moved = true;
+        }
+        const rect = tooltip.getBoundingClientRect();
+        const margin = 8;
+        const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
+        const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
+        tooltip.style.left = `${Math.round(clamp(event.clientX - offsetX, margin, maxLeft))}px`;
+        tooltip.style.top = `${Math.round(clamp(event.clientY - offsetY, margin, maxTop))}px`;
+      }
+
+      function stopHelpTooltipDrag(event) {
+        if (resizingHelpTooltip) {
+          window.setTimeout(() => {
+            resizingHelpTooltip = false;
+            suppressHelpTooltipCloseClick = false;
+          }, 150);
+        }
+        if (!draggingHelpTooltip || draggingHelpTooltip.pointerId !== event.pointerId) return;
+        if (draggingHelpTooltip.moved) {
+          suppressHelpTooltipCloseClick = true;
+          window.setTimeout(() => {
+            suppressHelpTooltipCloseClick = false;
+          }, 150);
+        }
+        draggingHelpTooltip.tooltip.classList.remove("is-dragging");
+        draggingHelpTooltip = null;
       }
 
       function setupQuantCanvas(canvas) {
@@ -3275,21 +3421,20 @@
         trigger.addEventListener("blur", hideHelpTooltip);
         trigger.addEventListener("click", togglePinnedHelpTooltip);
       });
-      document.addEventListener("click", (event) => {
-        if (!pinnedHelpTrigger) return;
-        if (event.target.closest(".help")) return;
-        if (event.target.closest(".help-tooltip-close")) {
-          closePinnedHelpTooltip();
-          return;
-        }
-        if (event.target.closest("#helpTooltip")) return;
-        closePinnedHelpTooltip();
-      });
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && pinnedHelpTrigger) {
-          closePinnedHelpTooltip();
+        if (event.key === "Escape" && pinnedHelpTooltips.size) {
+          closeAllPinnedHelpTooltips();
         }
       });
+      document.addEventListener("click", (event) => {
+        if (!pinnedHelpTooltips.size) return;
+        if (event.target.closest(".help")) return;
+        if (suppressHelpTooltipCloseClick || resizingHelpTooltip) return;
+        closeAllPinnedHelpTooltips();
+      });
+      document.addEventListener("pointermove", dragHelpTooltip);
+      document.addEventListener("pointerup", stopHelpTooltipDrag);
+      document.addEventListener("pointercancel", stopHelpTooltipDrag);
       window.addEventListener("resize", () => {
         draw();
         drawIEChart();
