@@ -254,14 +254,6 @@
         padding: 15px;
       }
 
-      .quant-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 14px;
-      }
-
-      .quant-head p,
       .quant-note {
         color: var(--muted);
         font-size: 0.86rem;
@@ -298,47 +290,47 @@
 
       .quant-chart {
         position: relative;
-        height: 172px;
+        height: 190px;
         margin-top: 10px;
         border: 1px solid var(--line);
         border-radius: 6px;
         background: var(--panel);
+      }
+
+      .ie-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .ie-hero div {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        padding: 10px;
+      }
+
+      .ie-hero span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.7rem;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+
+      .ie-hero strong {
+        display: block;
+        margin-top: 4px;
+        overflow-wrap: anywhere;
+        font-size: 1rem;
+        font-weight: 680;
       }
 
       .ie-tooltip {
         z-index: 4;
         width: 250px;
-      }
-
-      .band-summary div {
-        min-width: 0;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        background: var(--panel);
-        padding: 9px 10px;
-      }
-
-      .band-summary span {
-        display: block;
-        color: var(--muted);
-        font-size: 0.72rem;
-        line-height: 1.25;
-        text-transform: uppercase;
-      }
-
-      .band-summary strong {
-        display: block;
-        margin-top: 4px;
-        overflow-wrap: anywhere;
-        font-size: 0.92rem;
-        font-weight: 650;
-      }
-
-      .band-summary {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        margin-top: 10px;
       }
 
       .ie-controls {
@@ -619,7 +611,7 @@
         .summary,
         .today-strip,
         .quant-grid,
-        .band-summary,
+        .ie-hero,
         .two-col {
           grid-template-columns: 1fr;
         }
@@ -905,13 +897,6 @@
         padding: 0;
       }
 
-      .quant-head {
-        min-height: 48px;
-        padding: 12px 14px;
-        border-bottom: 1px solid rgba(37, 49, 61, 0.78);
-      }
-
-      .quant-head p,
       .quant-note {
         color: color-mix(in srgb, var(--muted) 82%, var(--bg));
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -951,23 +936,23 @@
         background: #070a0e;
       }
 
-      .band-summary div {
+      .ie-hero div {
         border-color: rgba(37, 49, 61, 0.86);
         border-radius: 0;
         background: rgba(7, 10, 14, 0.54);
       }
 
-      .band-summary span {
+      .ie-hero span {
         color: var(--muted);
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 0.65rem;
         letter-spacing: 0.06em;
       }
 
-      .band-summary strong {
+      .ie-hero strong {
         color: var(--ink);
-        font-size: 0.84rem;
-        font-weight: 520;
+        font-size: 1rem;
+        font-weight: 560;
       }
 
       .segmented {
@@ -986,12 +971,7 @@
       }
 
       .controls {
-        position: sticky;
-        top: 12px;
-        max-height: calc(100vh - 24px);
-        overflow: auto;
         padding: 13px 14px 16px;
-        scrollbar-width: thin;
       }
 
       .control-head {
@@ -1190,15 +1170,9 @@
         .summary,
         .today-strip,
         .quant-grid,
-        .band-summary,
+        .ie-hero,
         .two-col {
           grid-template-columns: 1fr;
-        }
-
-        .quant-head {
-          display: grid;
-          grid-template-columns: 1fr;
-          align-items: start;
         }
 
         .quant-grid {
@@ -1289,15 +1263,12 @@
           </div>
         </section>
 
-        <section class="panel quant-panel" aria-label="Quantitative model diagnostics">
-          <div class="quant-head">
-            <h2>Quant</h2>
-            <p>Intelligence explosion date distribution from the current time-horizon model.</p>
-          </div>
+        <section class="panel quant-panel" aria-label="Intelligence explosion date distribution">
           <div class="quant-grid">
             <section class="quant-block quant-block-wide" aria-label="Intelligence explosion date distribution">
-              <h3>IE date distribution</h3>
+              <h3>Intelligence explosion date distribution</h3>
               <p class="quant-note">Algo share is modeled as a truncated normal centered at 50%; IE means reaching 99,900h 50% TH.</p>
+              <div id="ieHero" class="ie-hero" aria-live="polite"></div>
               <div class="ie-controls">
                 <label class="compact-control">
                   <span>Algo share std dev, percentage points</span>
@@ -1312,7 +1283,6 @@
                 <canvas id="ieChart" aria-label="Intelligence explosion date distribution chart"></canvas>
                 <div id="ieTooltip" class="tooltip ie-tooltip" hidden></div>
               </div>
-              <div id="ieSummary" class="band-summary" aria-live="polite"></div>
             </section>
           </div>
         </section>
@@ -1886,7 +1856,7 @@
         ieCdfMode: document.getElementById("ieCdfMode"),
         ieChart: document.getElementById("ieChart"),
         ieTooltip: document.getElementById("ieTooltip"),
-        ieSummary: document.getElementById("ieSummary"),
+        ieHero: document.getElementById("ieHero"),
         monthlyRows: document.getElementById("monthlyRows"),
         calibrationReadout: document.getElementById("calibrationReadout"),
         status: document.getElementById("status"),
@@ -2706,7 +2676,6 @@
         const reached = samples.filter((sample) => Number.isFinite(sample.crossingDay));
         const finiteDays = reached.map((sample) => sample.crossingDay);
         const reachedMass = reached.reduce((sum, sample) => sum + sample.weight, 0);
-        const baseDay = baseSummary.crossing ? baseSummary.crossing.day : dayForDate(new Date(END_MS));
         const minFiniteDay = finiteDays.length ? Math.min(...finiteDays) : 0;
         const maxFiniteDay = finiteDays.length ? Math.max(...finiteDays) : dayForDate(new Date(END_MS));
         const spread = Math.max(3, maxFiniteDay - minFiniteDay);
@@ -2722,11 +2691,9 @@
           q10: weightedDayQuantile(samples, 0.1),
           q50: weightedDayQuantile(samples, 0.5),
           q90: weightedDayQuantile(samples, 0.9),
-          probByBase: cdfAtDay(samples, baseDay),
           minDay,
           maxDay,
           pdfBandwidth: Math.max(1.5, (Math.max(maxDay, minDay + 1) - minDay) / 48),
-          baseDay,
         };
       }
 
@@ -2735,6 +2702,78 @@
         els.ieCdfMode.classList.toggle("is-active", ieMode === "cdf");
         els.iePdfMode.setAttribute("aria-pressed", String(ieMode === "pdf"));
         els.ieCdfMode.setAttribute("aria-pressed", String(ieMode === "cdf"));
+      }
+
+      function ieAxisTicks(minDay, maxDay, width) {
+        const targetCount = width >= 620 ? 7 : 5;
+        const span = maxDay - minDay;
+        if (span <= 0) return [minDay];
+        return Array.from({ length: targetCount }, (_, index) => (
+          minDay + (span * index) / (targetCount - 1 || 1)
+        ));
+      }
+
+      function drawIEAxisTicks(ctx, ticks, xForDay, pad, width, height) {
+        const drawn = [];
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        for (const day of ticks) {
+          const x = xForDay(day);
+          const label = fmtDate(dateForDay(day));
+          const textWidth = ctx.measureText(label).width;
+          const safeX = clamp(x, pad.left + textWidth / 2, width - pad.right - textWidth / 2);
+          const left = safeX - textWidth / 2;
+          const right = safeX + textWidth / 2;
+          const isEndpoint = day === ticks[0] || day === ticks[ticks.length - 1];
+          const overlaps = drawn.some((range) => left < range.right + 10 && right > range.left - 10);
+          if (overlaps && !isEndpoint) continue;
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, height - pad.bottom);
+          ctx.stroke();
+          ctx.fillText(label, safeX, height - pad.bottom + 8);
+          drawn.push({ left, right });
+        }
+      }
+
+      function drawIEMarker(ctx, options) {
+        const {
+          day,
+          label,
+          color,
+          xForDay,
+          pad,
+          width,
+          height,
+          labelRow = 0,
+          dash = [4, 5],
+        } = options;
+        if (!Number.isFinite(day)) return;
+        const x = xForDay(day);
+        if (x < pad.left || x > width - pad.right) return;
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.setLineDash(dash);
+        ctx.beginPath();
+        ctx.moveTo(x, pad.top);
+        ctx.lineTo(x, height - pad.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.font = "10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+        const labelWidth = ctx.measureText(label).width;
+        const labelX = clamp(x, pad.left + labelWidth / 2 + 5, width - pad.right - labelWidth / 2 - 5);
+        const labelY = pad.top + 4 + labelRow * 17;
+        ctx.fillStyle = css("--panel");
+        ctx.globalAlpha = 0.9;
+        ctx.fillRect(labelX - labelWidth / 2 - 5, labelY - 1, labelWidth + 10, 13);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.fillText(label, labelX, labelY);
+        ctx.restore();
       }
 
       function drawIEChart(distribution = latestIEDistribution) {
@@ -2756,7 +2795,7 @@
           return;
         }
 
-        const pad = { top: 14, right: 18, bottom: 30, left: 60 };
+        const pad = { top: 44, right: 18, bottom: 32, left: 60 };
         const plotW = Math.max(1, width - pad.left - pad.right);
         const plotH = Math.max(1, height - pad.top - pad.bottom);
         const { minDay, maxDay } = ieChartDomain(distribution);
@@ -2800,30 +2839,23 @@
           ctx.fillText(ieMode === "cdf" ? fmtPct(tick, 0) : `${fmtPct(tick, 1)}/d`, pad.left - 7, y);
         }
 
-        ctx.textAlign = "center";
-        ctx.textBaseline = "top";
-        for (const day of [minDay, (minDay + maxDay) / 2, maxDay]) {
-          const x = xForDay(day);
-          ctx.beginPath();
-          ctx.moveTo(x, pad.top);
-          ctx.lineTo(x, height - pad.bottom);
-          ctx.stroke();
-          ctx.fillText(fmtDate(dateForDay(day)), x, height - pad.bottom + 8);
-        }
+        drawIEAxisTicks(ctx, ieAxisTicks(minDay, maxDay, width), xForDay, pad, width, height);
 
-        if (Number.isFinite(distribution.baseDay)) {
-          const x = xForDay(distribution.baseDay);
-          if (x >= pad.left && x <= width - pad.right) {
-            ctx.strokeStyle = warn;
-            ctx.lineWidth = 1;
-            ctx.setLineDash([4, 5]);
-            ctx.beginPath();
-            ctx.moveTo(x, pad.top);
-            ctx.lineTo(x, height - pad.bottom);
-            ctx.stroke();
-            ctx.setLineDash([]);
-          }
-        }
+        const medianLabel = Number.isFinite(distribution.q50)
+          ? `Median ${fmtDate(dateForDay(distribution.q50))}`
+          : "Median after 2026";
+
+        drawIEMarker(ctx, {
+          day: distribution.q50,
+          label: medianLabel,
+          color: accent,
+          xForDay,
+          pad,
+          width,
+          height,
+          labelRow: 0,
+          dash: [2, 4],
+        });
 
         if (ieMode === "pdf") {
           ctx.beginPath();
@@ -2883,10 +2915,9 @@
 
       function updateIEDistribution(baseSummary, baseParams) {
         latestIEDistribution = buildIEDistribution(baseSummary, baseParams);
-        els.ieSummary.innerHTML = `
+        els.ieHero.innerHTML = `
           <div><span>Median IE date</span><strong>${fmtMaybeDay(latestIEDistribution.q50)}</strong></div>
           <div><span>10-90% window</span><strong>${fmtMaybeDay(latestIEDistribution.q10)} - ${fmtMaybeDay(latestIEDistribution.q90)}</strong></div>
-          <div><span>P by current crossing</span><strong>${fmtPct(latestIEDistribution.probByBase, 1)}</strong></div>
           <div><span>P by Dec 31</span><strong>${fmtPct(latestIEDistribution.reachedMass, 1)}</strong></div>
         `;
         drawIEChart();
@@ -2896,7 +2927,7 @@
         const distribution = latestIEDistribution;
         if (!distribution || !distribution.reached.length) return;
         const rect = els.ieChart.getBoundingClientRect();
-        const pad = { top: 14, right: 18, bottom: 30, left: 60 };
+        const pad = { top: 44, right: 18, bottom: 32, left: 60 };
         const plotW = Math.max(1, rect.width - pad.left - pad.right);
         const x = clamp(event.clientX - rect.left, pad.left, rect.width - pad.right);
         const { minDay, maxDay } = ieChartDomain(distribution);
