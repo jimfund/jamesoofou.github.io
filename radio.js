@@ -18,6 +18,10 @@
             id: "6G0NFv3738s",
             title: "Stories",
         },
+        {
+            id: "HIavGD36vtg",
+            title: "Neutral Milk Hotel - Little Birds",
+        },
     ];
 
     const titleNodes = root.querySelectorAll("[data-radio-title]");

@@ -108,6 +108,7 @@
       .chart-top h2,
       .controls h2,
       .explain h2,
+      .quant-panel h2,
       .table-panel h2 {
         font-size: 0.98rem;
         line-height: 1.2;
@@ -246,6 +247,133 @@
         margin-top: 3px;
         overflow-wrap: anywhere;
         font-size: 0.98rem;
+      }
+
+      .quant-panel {
+        overflow: hidden;
+        padding: 15px;
+      }
+
+      .quant-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .quant-head p,
+      .quant-note {
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.4;
+      }
+
+      .quant-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .quant-block {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--soft);
+        padding: 12px;
+      }
+
+      .quant-block-wide {
+        grid-column: 1 / -1;
+      }
+
+      .quant-block h3 {
+        margin: 0 0 9px;
+        color: var(--ink);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .quant-chart {
+        position: relative;
+        height: 172px;
+        margin-top: 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+      }
+
+      .ie-tooltip {
+        z-index: 4;
+        width: 250px;
+      }
+
+      .band-summary div {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        padding: 9px 10px;
+      }
+
+      .band-summary span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.72rem;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+
+      .band-summary strong {
+        display: block;
+        margin-top: 4px;
+        overflow-wrap: anywhere;
+        font-size: 0.92rem;
+        font-weight: 650;
+      }
+
+      .band-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .ie-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: end;
+        margin-top: 10px;
+      }
+
+      .compact-control {
+        margin-top: 0;
+      }
+
+      .segmented {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .segmented button {
+        min-height: 36px;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-radius: 0;
+      }
+
+      .segmented button:last-child {
+        border-right: 0;
+      }
+
+      .segmented button.is-active {
+        background: var(--accent);
+        color: var(--panel);
       }
 
       .controls {
@@ -490,7 +618,17 @@
 
         .summary,
         .today-strip,
+        .quant-grid,
+        .band-summary,
         .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .quant-block-wide {
+          grid-column: auto;
+        }
+
+        .ie-controls {
           grid-template-columns: 1fr;
         }
 
@@ -610,6 +748,7 @@
       .chart-top h2,
       .controls h2,
       .explain h2,
+      .quant-panel h2,
       .table-panel h2 {
         color: var(--ink);
         font-size: 0.82rem;
@@ -762,6 +901,90 @@
         letter-spacing: 0.04em;
       }
 
+      .quant-panel {
+        padding: 0;
+      }
+
+      .quant-head {
+        min-height: 48px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(37, 49, 61, 0.78);
+      }
+
+      .quant-head p,
+      .quant-note {
+        color: color-mix(in srgb, var(--muted) 82%, var(--bg));
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68rem;
+      }
+
+      .quant-grid {
+        gap: 12px;
+        margin-top: 0;
+        padding: 12px 14px 14px;
+      }
+
+      .quant-block {
+        border-color: rgba(37, 49, 61, 0.86);
+        border-radius: 0;
+        background: rgba(7, 10, 14, 0.38);
+        padding: 12px;
+      }
+
+      .quant-block-wide {
+        grid-column: 1 / -1;
+      }
+
+      .quant-block h3 {
+        margin: 0 0 10px;
+        color: var(--accent-dark);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .quant-chart {
+        border-color: rgba(37, 49, 61, 0.86);
+        border-radius: 0;
+        background: #070a0e;
+      }
+
+      .band-summary div {
+        border-color: rgba(37, 49, 61, 0.86);
+        border-radius: 0;
+        background: rgba(7, 10, 14, 0.54);
+      }
+
+      .band-summary span {
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.06em;
+      }
+
+      .band-summary strong {
+        color: var(--ink);
+        font-size: 0.84rem;
+        font-weight: 520;
+      }
+
+      .segmented {
+        border-color: var(--field-line);
+        border-radius: 0;
+      }
+
+      .segmented button {
+        border-right-color: var(--field-line);
+        color: var(--muted);
+      }
+
+      .segmented button.is-active {
+        background: var(--accent-2);
+        color: var(--ink);
+      }
+
       .controls {
         position: sticky;
         top: 12px;
@@ -869,8 +1092,13 @@
       }
 
       .explain,
+      .quant-panel,
       .table-panel {
         padding: 13px 14px 16px;
+      }
+
+      .quant-panel {
+        padding: 0;
       }
 
       .explain p {
@@ -961,7 +1189,27 @@
 
         .summary,
         .today-strip,
+        .quant-grid,
+        .band-summary,
         .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .quant-head {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .quant-grid {
+          padding: 10px;
+        }
+
+        .quant-block-wide {
+          grid-column: auto;
+        }
+
+        .ie-controls {
           grid-template-columns: 1fr;
         }
 
@@ -1038,6 +1286,34 @@
             <div><span>May anchor</span><strong id="maySummary">-</strong></div>
             <div><span>May 80%</span><strong id="may80Summary">-</strong></div>
             <div><span>Dec 31</span><strong id="decSummary">-</strong></div>
+          </div>
+        </section>
+
+        <section class="panel quant-panel" aria-label="Quantitative model diagnostics">
+          <div class="quant-head">
+            <h2>Quant</h2>
+            <p>Intelligence explosion date distribution from the current time-horizon model.</p>
+          </div>
+          <div class="quant-grid">
+            <section class="quant-block quant-block-wide" aria-label="Intelligence explosion date distribution">
+              <h3>IE date distribution</h3>
+              <p class="quant-note">Algo share is modeled as a truncated normal centered at 50%; IE means reaching 99,900h 50% TH.</p>
+              <div class="ie-controls">
+                <label class="compact-control">
+                  <span>Algo share std dev, percentage points</span>
+                  <input id="ieAlgoSigma" type="number" min="0.1" max="50" step="0.1" value="20">
+                </label>
+                <div class="segmented" aria-label="Distribution view">
+                  <button id="iePdfMode" type="button">PDF</button>
+                  <button id="ieCdfMode" class="is-active" type="button">CDF</button>
+                </div>
+              </div>
+              <div class="quant-chart">
+                <canvas id="ieChart" aria-label="Intelligence explosion date distribution chart"></canvas>
+                <div id="ieTooltip" class="tooltip ie-tooltip" hidden></div>
+              </div>
+              <div id="ieSummary" class="band-summary" aria-live="polite"></div>
+            </section>
           </div>
         </section>
 
@@ -1285,7 +1561,15 @@
       const MAX_UPLIFT = 5;
       const SAMPLE_STEP_DAYS = 0.25;
       const INTEGRATION_STEP_DAYS = 0.05;
+      const CROSSING_STEP_DAYS = 0.001;
       const DEFAULT_PRESET = "half-algo-linear";
+      const QUANT_TARGET_HOURS = 99900;
+      const IE_ALGO_MEAN_PERCENT = 50;
+      const IE_ALGO_STEP_PERCENT = 2;
+      const IE_DEFAULT_SIGMA_PERCENT = 20;
+      const HEAVY_QUANT_DELAY_MS = 150;
+      const SCENARIO_CACHE_LIMIT = 180;
+      const IE_SAMPLE_CACHE_LIMIT = 10;
 
       const DEFAULTS = {
         mayHours: 26,
@@ -1597,6 +1881,12 @@
         todayUplift: document.getElementById("todayUplift"),
         may80Summary: document.getElementById("may80Summary"),
         decSummary: document.getElementById("decSummary"),
+        ieAlgoSigma: document.getElementById("ieAlgoSigma"),
+        iePdfMode: document.getElementById("iePdfMode"),
+        ieCdfMode: document.getElementById("ieCdfMode"),
+        ieChart: document.getElementById("ieChart"),
+        ieTooltip: document.getElementById("ieTooltip"),
+        ieSummary: document.getElementById("ieSummary"),
         monthlyRows: document.getElementById("monthlyRows"),
         calibrationReadout: document.getElementById("calibrationReadout"),
         status: document.getElementById("status"),
@@ -1605,10 +1895,19 @@
       let rows = [];
       let monthRows = [];
       let model = null;
+      let latestResult = null;
+      let latestBaseSummary = null;
       let hoverRow = null;
       let plot = null;
+      let latestIEDistribution = null;
+      let ieHoverDay = null;
+      let ieMode = "cdf";
       let applyingPreset = false;
       let activeHelpTrigger = null;
+      let renderFrame = 0;
+      let heavyQuantTimer = 0;
+      const scenarioCache = new Map();
+      const ieSampleCache = new Map();
 
       function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -1698,6 +1997,27 @@
         return `${value.toFixed(2).replace(/\.?0+$/, "")}%`;
       }
 
+      function fmtDateTime(date) {
+        if (!(date instanceof Date) || !Number.isFinite(date.getTime())) return "-";
+        const hours = String(date.getUTCHours()).padStart(2, "0");
+        const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+        return `${fmtDate(date)} ${hours}:${minutes} UTC`;
+      }
+
+      function fmtCrossing(crossing) {
+        return crossing ? fmtDateTime(crossing.date) : "not reached";
+      }
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#39;",
+        })[char]);
+      }
+
       function readParams() {
         const mayH = Math.max(0.01, readNumber("mayHours") + readNumber("mayMinutes") / 60);
         const capHours = Math.max(mayH * 2, readNumber("capHours"));
@@ -1724,6 +2044,13 @@
           utilityMode: readValue("utilityMode"),
           capHours,
           anchors: usableAnchors,
+        };
+      }
+
+      function cloneParams(params) {
+        return {
+          ...params,
+          anchors: params.anchors.map((anchor) => ({ ...anchor })),
         };
       }
 
@@ -1816,12 +2143,12 @@
         return logH + (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
       }
 
-      function advance(startH, releasedH, days, m) {
+      function advanceWithStep(startH, releasedH, days, m, stepDays) {
         let remaining = Math.max(0, days);
         let logH = Math.log(Math.max(1e-12, startH));
         const totalRaw = totalRawForRelease(releasedH, m);
         while (remaining > 1e-10) {
-          const dt = Math.min(INTEGRATION_STEP_DAYS, remaining);
+          const dt = Math.min(stepDays, remaining);
           logH = rk4(logH, dt, totalRaw, m);
           remaining -= dt;
           if (Math.exp(logH) >= m.params.capHours * 0.999) {
@@ -1829,6 +2156,10 @@
           }
         }
         return Math.exp(logH);
+      }
+
+      function advance(startH, releasedH, days, m) {
+        return advanceWithStep(startH, releasedH, days, m, INTEGRATION_STEP_DAYS);
       }
 
       function solveMonthStart(endH, days, m) {
@@ -1919,6 +2250,119 @@
         }
 
         return { releases, rows: allRows, monthRows: monthly };
+      }
+
+      function nearestInRows(sourceRows, day) {
+        let best = sourceRows[0];
+        let distance = Infinity;
+        for (const row of sourceRows) {
+          const d = Math.abs(row.day - day);
+          if (d < distance) {
+            best = row;
+            distance = d;
+          }
+        }
+        return best;
+      }
+
+      function findCrossing(sourceRows, scenarioModel, targetH = QUANT_TARGET_HOURS) {
+        if (!sourceRows.length) return null;
+        if (sourceRows[0].h >= targetH) {
+          return { day: sourceRows[0].day, date: sourceRows[0].date };
+        }
+        for (let i = 1; i < sourceRows.length; i += 1) {
+          const prev = sourceRows[i - 1];
+          const next = sourceRows[i];
+          if (prev.h < targetH && next.h >= targetH) {
+            let low = 0;
+            let high = next.day - prev.day;
+            for (let j = 0; j < 30; j += 1) {
+              const mid = (low + high) / 2;
+              const h = advanceWithStep(prev.h, prev.releasedH, mid, scenarioModel, CROSSING_STEP_DAYS);
+              if (h >= targetH) high = mid;
+              else low = mid;
+            }
+            const day = prev.day + high;
+            return { day, date: dateForDay(day) };
+          }
+        }
+        return null;
+      }
+
+      function normalizedPart(value, digits = 8) {
+        if (typeof value === "string") return value;
+        if (!Number.isFinite(value)) return String(value);
+        return Number(value).toFixed(digits);
+      }
+
+      function scenarioKey(params, options = {}) {
+        const parts = [
+          normalizedPart(params.mayH),
+          normalizedPart(params.h80Divisor),
+          normalizedPart(params.doublingDays),
+          options.excludeAlgoShare ? "*" : normalizedPart(params.algoShare),
+          normalizedPart(params.algoExponent),
+          normalizedPart(params.mayUplift),
+          params.utilityMode,
+          normalizedPart(params.capHours),
+        ];
+        for (const anchor of params.anchors) {
+          parts.push(normalizedPart(anchor.h), normalizedPart(anchor.d));
+        }
+        return parts.join("|");
+      }
+
+      function rememberCache(map, key, value, limit) {
+        if (map.has(key)) map.delete(key);
+        map.set(key, value);
+        while (map.size > limit) {
+          map.delete(map.keys().next().value);
+        }
+        return value;
+      }
+
+      function readCache(map, key) {
+        if (!map.has(key)) return null;
+        const value = map.get(key);
+        map.delete(key);
+        map.set(key, value);
+        return value;
+      }
+
+      function summarizeScenario(result, scenarioModel, options = {}) {
+        const sourceRows = result.rows;
+        const todayDate = currentChartDate();
+        const todayDay = dayForDate(todayDate);
+        const endDay = dayForDate(new Date(END_MS));
+        const todayRow = todayDay >= 0 && todayDay <= endDay
+          ? nearestInRows(sourceRows, todayDay)
+          : null;
+        const includeCrossing = options.includeCrossing !== false;
+        return {
+          janH: result.releases[0],
+          mayH: result.releases[MAY_INDEX],
+          decH: sourceRows[sourceRows.length - 1].h,
+          todayRow,
+          todayH: todayRow ? todayRow.h : NaN,
+          todayUplift: todayRow ? todayRow.uplift : NaN,
+          crossing: includeCrossing ? findCrossing(sourceRows, scenarioModel) : null,
+          model: scenarioModel,
+        };
+      }
+
+      function runScenario(params) {
+        const key = scenarioKey(params);
+        const cached = readCache(scenarioCache, key);
+        if (cached) return cached;
+
+        const scenarioModel = makeModel(params);
+        const result = simulate(scenarioModel);
+        return rememberCache(scenarioCache, key, {
+          model: scenarioModel,
+          result,
+          rows: result.rows,
+          summary: summarizeScenario(result, scenarioModel),
+        }, SCENARIO_CACHE_LIMIT);
       }
 
       function yTicks(minH, maxH) {
@@ -2076,16 +2520,7 @@
       }
 
       function nearestRow(day) {
-        let best = rows[0];
-        let distance = Infinity;
-        for (const row of rows) {
-          const d = Math.abs(row.day - day);
-          if (d < distance) {
-            best = row;
-            distance = d;
-          }
-        }
-        return best;
+        return nearestInRows(rows, day);
       }
 
       function moveTooltip(event) {
@@ -2173,6 +2608,342 @@
         }
       }
 
+      function setupQuantCanvas(canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const width = Math.max(1, rect.width);
+        const height = Math.max(1, rect.height);
+        canvas.width = Math.max(1, Math.floor(width * dpr));
+        canvas.height = Math.max(1, Math.floor(height * dpr));
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        return { ctx, width, height };
+      }
+
+      function readIESigma() {
+        const value = Number(els.ieAlgoSigma.value);
+        return clamp(Number.isFinite(value) ? value : IE_DEFAULT_SIGMA_PERCENT, 0.1, 50);
+      }
+
+      function normalWeight(value, mean, sigma) {
+        const z = (value - mean) / Math.max(0.1, sigma);
+        return Math.exp(-0.5 * z * z);
+      }
+
+      function cdfAtDay(samples, day) {
+        return samples.reduce((sum, sample) => (
+          Number.isFinite(sample.crossingDay) && sample.crossingDay <= day
+            ? sum + sample.weight
+            : sum
+        ), 0);
+      }
+
+      function ieDensityAtDay(distribution, day) {
+        if (!distribution || !distribution.reached.length) return 0;
+        const bandwidth = distribution.pdfBandwidth || 1.5;
+        const normalizer = bandwidth * Math.sqrt(2 * Math.PI);
+        return distribution.reached.reduce((sum, sample) => {
+          const z = (day - sample.crossingDay) / bandwidth;
+          return sum + sample.weight * Math.exp(-0.5 * z * z) / normalizer;
+        }, 0);
+      }
+
+      function ieChartDomain(distribution) {
+        const minDay = distribution ? distribution.minDay : 0;
+        const maxDay = Math.max(distribution ? distribution.maxDay : 1, minDay + 1);
+        return { minDay, maxDay };
+      }
+
+      function weightedDayQuantile(samples, q) {
+        let cumulative = 0;
+        const sorted = [...samples].sort((a, b) => a.crossingDay - b.crossingDay);
+        for (const sample of sorted) {
+          cumulative += sample.weight;
+          if (cumulative >= q) {
+            return Number.isFinite(sample.crossingDay) ? sample.crossingDay : null;
+          }
+        }
+        return null;
+      }
+
+      function fmtMaybeDay(day) {
+        return Number.isFinite(day) ? fmtDateTime(dateForDay(day)) : "after 2026";
+      }
+
+      function getIESampleSet(baseParams) {
+        const key = scenarioKey(baseParams, { excludeAlgoShare: true });
+        const cached = readCache(ieSampleCache, key);
+        if (cached) return cached;
+
+        const sampleSet = [];
+        for (let share = 0; share <= 100 + 1e-9; share += IE_ALGO_STEP_PERCENT) {
+          const params = cloneParams(baseParams);
+          params.algoShare = share / 100;
+          const scenario = runScenario(params);
+          sampleSet.push({
+            share,
+            crossingDay: scenario.summary.crossing ? scenario.summary.crossing.day : Infinity,
+          });
+        }
+        return rememberCache(ieSampleCache, key, sampleSet, IE_SAMPLE_CACHE_LIMIT);
+      }
+
+      function buildIEDistribution(baseSummary, baseParams) {
+        const sigma = readIESigma();
+        const samples = getIESampleSet(baseParams).map((sample) => ({ ...sample }));
+        let totalWeight = 0;
+        for (const sample of samples) {
+          const rawWeight = normalWeight(sample.share, IE_ALGO_MEAN_PERCENT, sigma);
+          totalWeight += rawWeight;
+          sample.weight = rawWeight;
+        }
+
+        for (const sample of samples) {
+          sample.weight /= totalWeight || 1;
+        }
+
+        const reached = samples.filter((sample) => Number.isFinite(sample.crossingDay));
+        const finiteDays = reached.map((sample) => sample.crossingDay);
+        const reachedMass = reached.reduce((sum, sample) => sum + sample.weight, 0);
+        const baseDay = baseSummary.crossing ? baseSummary.crossing.day : dayForDate(new Date(END_MS));
+        const minFiniteDay = finiteDays.length ? Math.min(...finiteDays) : 0;
+        const maxFiniteDay = finiteDays.length ? Math.max(...finiteDays) : dayForDate(new Date(END_MS));
+        const spread = Math.max(3, maxFiniteDay - minFiniteDay);
+        const domainPad = Math.max(5, spread * 0.12);
+        const minDay = clamp(minFiniteDay - domainPad, 0, dayForDate(new Date(END_MS)));
+        const maxDay = clamp(maxFiniteDay + domainPad, 0, dayForDate(new Date(END_MS)));
+
+        return {
+          sigma,
+          samples,
+          reached,
+          reachedMass,
+          q10: weightedDayQuantile(samples, 0.1),
+          q50: weightedDayQuantile(samples, 0.5),
+          q90: weightedDayQuantile(samples, 0.9),
+          probByBase: cdfAtDay(samples, baseDay),
+          minDay,
+          maxDay,
+          pdfBandwidth: Math.max(1.5, (Math.max(maxDay, minDay + 1) - minDay) / 48),
+          baseDay,
+        };
+      }
+
+      function syncIEModeButtons() {
+        els.iePdfMode.classList.toggle("is-active", ieMode === "pdf");
+        els.ieCdfMode.classList.toggle("is-active", ieMode === "cdf");
+        els.iePdfMode.setAttribute("aria-pressed", String(ieMode === "pdf"));
+        els.ieCdfMode.setAttribute("aria-pressed", String(ieMode === "cdf"));
+      }
+
+      function drawIEChart(distribution = latestIEDistribution) {
+        const { ctx, width, height } = setupQuantCanvas(els.ieChart);
+        const panel = css("--panel");
+        const grid = css("--grid");
+        const muted = css("--muted");
+        const ink = css("--ink");
+        const accent = css("--accent");
+        const accent2 = css("--accent-2");
+        const warn = css("--warn");
+        ctx.fillStyle = panel;
+        ctx.fillRect(0, 0, width, height);
+        syncIEModeButtons();
+        if (!distribution || !distribution.reached.length) {
+          ctx.fillStyle = muted;
+          ctx.font = "11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+          ctx.fillText("No 99,900h crossings inside 2026 under this distribution.", 14, 28);
+          return;
+        }
+
+        const pad = { top: 14, right: 18, bottom: 30, left: 60 };
+        const plotW = Math.max(1, width - pad.left - pad.right);
+        const plotH = Math.max(1, height - pad.top - pad.bottom);
+        const { minDay, maxDay } = ieChartDomain(distribution);
+        const xForDay = (day) => pad.left + ((day - minDay) / (maxDay - minDay || 1)) * plotW;
+        const pointCount = 150;
+        const points = [];
+        let yMax = ieMode === "cdf" ? 1 : 0;
+
+        if (ieMode === "pdf") {
+          for (let i = 0; i < pointCount; i += 1) {
+            const t = i / (pointCount - 1 || 1);
+            const day = minDay + t * (maxDay - minDay);
+            const density = ieDensityAtDay(distribution, day);
+            yMax = Math.max(yMax, density);
+            points.push({ day, value: density });
+          }
+          yMax = Math.max(0.0001, yMax * 1.18);
+        } else {
+          for (let i = 0; i < pointCount; i += 1) {
+            const t = i / (pointCount - 1 || 1);
+            const day = minDay + t * (maxDay - minDay);
+            points.push({ day, value: cdfAtDay(distribution.samples, day) });
+          }
+        }
+
+        const yFor = (value) => pad.top + (1 - value / (yMax || 1)) * plotH;
+        ctx.strokeStyle = grid;
+        ctx.fillStyle = muted;
+        ctx.font = "10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        const yTicksList = ieMode === "cdf"
+          ? [0, 0.25, 0.5, 0.75, 1]
+          : [0, yMax / 2, yMax];
+        for (const tick of yTicksList) {
+          const y = yFor(tick);
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+          ctx.fillText(ieMode === "cdf" ? fmtPct(tick, 0) : `${fmtPct(tick, 1)}/d`, pad.left - 7, y);
+        }
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        for (const day of [minDay, (minDay + maxDay) / 2, maxDay]) {
+          const x = xForDay(day);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, height - pad.bottom);
+          ctx.stroke();
+          ctx.fillText(fmtDate(dateForDay(day)), x, height - pad.bottom + 8);
+        }
+
+        if (Number.isFinite(distribution.baseDay)) {
+          const x = xForDay(distribution.baseDay);
+          if (x >= pad.left && x <= width - pad.right) {
+            ctx.strokeStyle = warn;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 5]);
+            ctx.beginPath();
+            ctx.moveTo(x, pad.top);
+            ctx.lineTo(x, height - pad.bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          }
+        }
+
+        if (ieMode === "pdf") {
+          ctx.beginPath();
+          points.forEach((point, index) => {
+            const x = xForDay(point.day);
+            const y = yFor(point.value);
+            if (index === 0) ctx.moveTo(x, height - pad.bottom);
+            ctx.lineTo(x, y);
+          });
+          ctx.lineTo(xForDay(points[points.length - 1].day), height - pad.bottom);
+          ctx.closePath();
+          ctx.globalAlpha = 0.18;
+          ctx.fillStyle = accent2;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+
+        ctx.strokeStyle = ieMode === "pdf" ? accent2 : accent;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        points.forEach((point, index) => {
+          const x = xForDay(point.day);
+          const y = yFor(point.value);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        if (Number.isFinite(ieHoverDay)) {
+          const hoverDay = clamp(ieHoverDay, minDay, maxDay);
+          const probability = cdfAtDay(distribution.samples, hoverDay);
+          const hoverValue = ieMode === "pdf" ? ieDensityAtDay(distribution, hoverDay) : probability;
+          const x = xForDay(hoverDay);
+          const y = yFor(hoverValue);
+          ctx.strokeStyle = warn;
+          ctx.lineWidth = 1;
+          ctx.setLineDash([3, 4]);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, height - pad.bottom);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = warn;
+          ctx.beginPath();
+          ctx.arc(x, clamp(y, pad.top, height - pad.bottom), 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.strokeStyle = ink;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, height - pad.bottom);
+        ctx.lineTo(width - pad.right, height - pad.bottom);
+        ctx.stroke();
+      }
+
+      function updateIEDistribution(baseSummary, baseParams) {
+        latestIEDistribution = buildIEDistribution(baseSummary, baseParams);
+        els.ieSummary.innerHTML = `
+          <div><span>Median IE date</span><strong>${fmtMaybeDay(latestIEDistribution.q50)}</strong></div>
+          <div><span>10-90% window</span><strong>${fmtMaybeDay(latestIEDistribution.q10)} - ${fmtMaybeDay(latestIEDistribution.q90)}</strong></div>
+          <div><span>P by current crossing</span><strong>${fmtPct(latestIEDistribution.probByBase, 1)}</strong></div>
+          <div><span>P by Dec 31</span><strong>${fmtPct(latestIEDistribution.reachedMass, 1)}</strong></div>
+        `;
+        drawIEChart();
+      }
+
+      function moveIETooltip(event) {
+        const distribution = latestIEDistribution;
+        if (!distribution || !distribution.reached.length) return;
+        const rect = els.ieChart.getBoundingClientRect();
+        const pad = { top: 14, right: 18, bottom: 30, left: 60 };
+        const plotW = Math.max(1, rect.width - pad.left - pad.right);
+        const x = clamp(event.clientX - rect.left, pad.left, rect.width - pad.right);
+        const { minDay, maxDay } = ieChartDomain(distribution);
+        const day = minDay + ((x - pad.left) / plotW) * (maxDay - minDay);
+        const probability = cdfAtDay(distribution.samples, day);
+        const density = ieDensityAtDay(distribution, day);
+        ieHoverDay = day;
+        drawIEChart();
+
+        els.ieTooltip.hidden = false;
+        els.ieTooltip.innerHTML = `
+          <strong>${fmtDateTime(dateForDay(day))}</strong>
+          <span>Probability by this date: ${fmtPct(probability, 1)}</span>
+          <span>Remaining after this date: ${fmtPct(Math.max(0, 1 - probability), 1)}</span>
+          ${ieMode === "pdf" ? `<span>Local density: ${fmtPct(density, 2)} per day</span>` : ""}
+        `;
+        els.ieTooltip.style.left = "0px";
+        els.ieTooltip.style.top = "0px";
+        const tipWidth = els.ieTooltip.offsetWidth || 250;
+        const tipHeight = els.ieTooltip.offsetHeight || 130;
+        const leftCandidate = x + tipWidth + 14 <= rect.width - 8
+          ? x + 14
+          : x - tipWidth - 14;
+        const maxLeft = Math.max(8, rect.width - tipWidth - 8);
+        const maxTop = Math.max(8, rect.height - tipHeight - 8);
+        els.ieTooltip.style.left = `${clamp(leftCandidate, 8, maxLeft)}px`;
+        els.ieTooltip.style.top = `${clamp(event.clientY - rect.top - tipHeight / 2, 8, maxTop)}px`;
+      }
+
+      function hideIETooltip() {
+        ieHoverDay = null;
+        els.ieTooltip.hidden = true;
+        drawIEChart();
+      }
+
+      function updateQuantCore() {
+      }
+
+      function updateHeavyQuant(result, baseSummary, baseParams) {
+        updateIEDistribution(baseSummary, baseParams);
+      }
+
+      function updateQuant(result) {
+        const baseSummary = summarizeScenario(result, model);
+        updateHeavyQuant(result, baseSummary, model.params);
+      }
+
       function updateTable() {
         els.monthlyRows.innerHTML = monthRows.map((row) => `
           <tr>
@@ -2224,22 +2995,84 @@
         });
       }
 
-      function render() {
+      function refreshControlOutputs() {
         els.algoShareOut.textContent = fmtControlPct(readNumber("algoShare"));
+      }
+
+      function renderCore() {
+        refreshControlOutputs();
         try {
           const params = readParams();
           model = makeModel(params);
           const result = simulate(model);
           rows = result.rows;
           monthRows = result.monthRows;
+          latestResult = result;
+          latestBaseSummary = summarizeScenario(result, model, { includeCrossing: false });
           updateSummaries(result);
           updateTable();
+          updateQuantCore(result, latestBaseSummary);
           els.status.textContent = "";
           draw();
+          postEmbedHeight();
+          return true;
+        } catch (error) {
+          els.status.textContent = error.message;
+          latestResult = null;
+          latestBaseSummary = null;
+          postEmbedHeight();
+          return false;
+        }
+      }
+
+      function runHeavyQuantNow() {
+        if (heavyQuantTimer) {
+          clearTimeout(heavyQuantTimer);
+          heavyQuantTimer = 0;
+        }
+        if (!latestResult || !model) return;
+
+        try {
+          const baseSummary = summarizeScenario(latestResult, model);
+          latestBaseSummary = baseSummary;
+          updateHeavyQuant(latestResult, baseSummary, model.params);
+          els.status.textContent = "";
           postEmbedHeight();
         } catch (error) {
           els.status.textContent = error.message;
           postEmbedHeight();
+        }
+      }
+
+      function scheduleHeavyQuant(delay = HEAVY_QUANT_DELAY_MS) {
+        if (!latestResult || !model) return;
+        if (heavyQuantTimer) clearTimeout(heavyQuantTimer);
+        heavyQuantTimer = setTimeout(() => {
+          heavyQuantTimer = 0;
+          runHeavyQuantNow();
+        }, delay);
+      }
+
+      function scheduleRender() {
+        refreshControlOutputs();
+        if (renderFrame) return;
+        renderFrame = requestAnimationFrame(() => {
+          renderFrame = 0;
+          if (renderCore()) {
+            scheduleHeavyQuant();
+          }
+        });
+      }
+
+      function render(options = {}) {
+        if (renderFrame) {
+          cancelAnimationFrame(renderFrame);
+          renderFrame = 0;
+        }
+        const ok = renderCore();
+        if (ok) {
+          if (options.immediateHeavy) runHeavyQuantNow();
+          else scheduleHeavyQuant();
         }
       }
 
@@ -2259,25 +3092,43 @@
         } finally {
           applyingPreset = false;
         }
-        render();
+        render({ immediateHeavy: true });
       }
 
       for (const input of Object.values(fields)) {
         input.addEventListener("input", () => {
           if (!applyingPreset) els.presetSelect.value = "";
-          render();
+          scheduleRender();
         });
       }
       els.presetSelect.addEventListener("change", () => {
         if (els.presetSelect.value) {
           applyPreset(els.presetSelect.value);
         } else {
-          render();
+          render({ immediateHeavy: true });
         }
       });
       els.reset.addEventListener("click", reset);
       els.chart.addEventListener("pointermove", moveTooltip);
       els.chart.addEventListener("pointerleave", hideTooltip);
+      els.ieAlgoSigma.addEventListener("input", () => {
+        if (latestResult && model) scheduleHeavyQuant();
+        else scheduleRender();
+      });
+      els.iePdfMode.addEventListener("click", () => {
+        ieMode = "pdf";
+        ieHoverDay = null;
+        els.ieTooltip.hidden = true;
+        drawIEChart();
+      });
+      els.ieCdfMode.addEventListener("click", () => {
+        ieMode = "cdf";
+        ieHoverDay = null;
+        els.ieTooltip.hidden = true;
+        drawIEChart();
+      });
+      els.ieChart.addEventListener("pointermove", moveIETooltip);
+      els.ieChart.addEventListener("pointerleave", hideIETooltip);
       document.querySelectorAll(".help").forEach((trigger) => {
         trigger.addEventListener("pointerenter", showHelpTooltip);
         trigger.addEventListener("pointerleave", hideHelpTooltip);
@@ -2286,6 +3137,7 @@
       });
       window.addEventListener("resize", () => {
         draw();
+        drawIEChart();
         refreshHelpTooltip();
         postEmbedHeight();
       });
