@@ -143,6 +143,37 @@
         background: currentColor;
       }
 
+      .today-strip {
+        display: grid;
+        grid-template-columns: minmax(150px, 1.25fr) repeat(3, minmax(105px, 1fr));
+        border-bottom: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .today-strip div {
+        min-width: 0;
+        border-right: 1px solid var(--line);
+        padding: 10px 14px;
+      }
+
+      .today-strip div:last-child {
+        border-right: 0;
+      }
+
+      .today-strip span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        line-height: 1.25;
+      }
+
+      .today-strip strong {
+        display: block;
+        margin-top: 3px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
       .chart-wrap {
         position: relative;
         height: min(62vh, 610px);
@@ -456,8 +487,26 @@
         }
 
         .summary,
+        .today-strip,
         .two-col {
           grid-template-columns: 1fr;
+        }
+
+        .today-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .today-strip div {
+          border-right: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
+        }
+
+        .today-strip div:nth-child(2n) {
+          border-right: 0;
+        }
+
+        .today-strip div:nth-last-child(-n+2) {
+          border-bottom: 0;
         }
       }
 
@@ -591,6 +640,53 @@
         border-radius: 0;
       }
 
+      .today-strip {
+        grid-template-columns: minmax(150px, 1.15fr) repeat(3, minmax(110px, 1fr));
+        border-bottom-color: rgba(37, 49, 61, 0.78);
+        background: rgba(7, 10, 14, 0.64);
+      }
+
+      .today-strip div {
+        border-right-color: rgba(37, 49, 61, 0.72);
+        padding: 12px 14px 13px;
+      }
+
+      .today-strip span {
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.67rem;
+        letter-spacing: 0.08em;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+
+      .today-strip strong {
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 1.18rem;
+        font-weight: 520;
+      }
+
+      .today-date strong {
+        color: var(--today);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .today-horizon strong {
+        color: var(--accent-dark);
+      }
+
+      .today-80 strong {
+        color: color-mix(in srgb, var(--accent-2) 72%, var(--ink));
+      }
+
+      .today-uplift strong {
+        color: var(--today);
+      }
+
       .chart-wrap {
         height: clamp(430px, 58vh, 640px);
         min-height: 430px;
@@ -619,7 +715,7 @@
       }
 
       .summary {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 0;
         padding: 0;
         border-top-color: var(--line);
@@ -862,8 +958,13 @@
         }
 
         .summary,
+        .today-strip,
         .two-col {
           grid-template-columns: 1fr;
+        }
+
+        .today-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .summary div {
@@ -872,6 +973,19 @@
         }
 
         .summary div:last-child {
+          border-bottom: 0;
+        }
+
+        .today-strip div {
+          border-right: 1px solid rgba(37, 49, 61, 0.72);
+          border-bottom: 1px solid rgba(37, 49, 61, 0.72);
+        }
+
+        .today-strip div:nth-child(2n) {
+          border-right: 0;
+        }
+
+        .today-strip div:nth-last-child(-n+2) {
           border-bottom: 0;
         }
 
@@ -906,6 +1020,12 @@
             <span style="color: var(--accent-2)"><i class="swatch"></i>80% horizon</span>
             <span style="color: var(--today)"><i class="swatch"></i>today</span>
           </div>
+          <div class="today-strip" aria-live="polite">
+            <div class="today-date"><span>Current date</span><strong id="todayDate">-</strong></div>
+            <div class="today-horizon"><span>Today 50% horizon</span><strong id="todayHorizon">-</strong></div>
+            <div class="today-80"><span>Today 80% horizon</span><strong id="todayHorizon80">-</strong></div>
+            <div class="today-uplift"><span>Today uplift</span><strong id="todayUplift">-</strong></div>
+          </div>
           <div class="chart-wrap">
             <canvas id="chart" aria-label="Projected AI model time horizon from Jan 1 2026 through Dec 31 2026"></canvas>
             <div id="tooltip" class="tooltip" hidden></div>
@@ -914,7 +1034,6 @@
             <div><span>Jan 1 solved</span><strong id="janSummary">-</strong></div>
             <div><span>Apr release</span><strong id="aprSummary">-</strong></div>
             <div><span>May anchor</span><strong id="maySummary">-</strong></div>
-            <div><span id="todaySummaryLabel">Today</span><strong id="todaySummary">-</strong><small id="todayUpliftSummary">-</small></div>
             <div><span>May 80%</span><strong id="may80Summary">-</strong></div>
             <div><span>Dec 31</span><strong id="decSummary">-</strong></div>
           </div>
@@ -1272,9 +1391,10 @@
         janSummary: document.getElementById("janSummary"),
         aprSummary: document.getElementById("aprSummary"),
         maySummary: document.getElementById("maySummary"),
-        todaySummaryLabel: document.getElementById("todaySummaryLabel"),
-        todaySummary: document.getElementById("todaySummary"),
-        todayUpliftSummary: document.getElementById("todayUpliftSummary"),
+        todayDate: document.getElementById("todayDate"),
+        todayHorizon: document.getElementById("todayHorizon"),
+        todayHorizon80: document.getElementById("todayHorizon80"),
+        todayUplift: document.getElementById("todayUplift"),
         may80Summary: document.getElementById("may80Summary"),
         decSummary: document.getElementById("decSummary"),
         monthlyRows: document.getElementById("monthlyRows"),
@@ -1817,16 +1937,18 @@
         const apr = result.releases[3];
         const may = result.releases[4];
         const dec = rows[rows.length - 1].h;
-        const todayDay = dayForDate(currentChartDate());
+        const todayDate = currentChartDate();
+        const todayDay = dayForDate(todayDate);
         const todayRow = todayDay >= 0 && todayDay <= dayForDate(new Date(END_MS))
           ? nearestRow(todayDay)
           : null;
         els.janSummary.textContent = fmtTH(jan);
         els.aprSummary.textContent = fmtTH(apr);
         els.maySummary.textContent = fmtTH(may);
-        els.todaySummaryLabel.textContent = todayRow ? `Today ${fmtDate(todayRow.date)}` : "Today";
-        els.todaySummary.textContent = todayRow ? fmtTH(todayRow.h) : "outside 2026";
-        els.todayUpliftSummary.textContent = todayRow ? `${fmtPct(todayRow.uplift)} uplift` : "-";
+        els.todayDate.textContent = `Today ${fmtDate(todayRow ? todayRow.date : todayDate)}`;
+        els.todayHorizon.textContent = todayRow ? fmtTH(todayRow.h) : "outside 2026";
+        els.todayHorizon80.textContent = todayRow ? fmtTH(todayRow.h80) : "-";
+        els.todayUplift.textContent = todayRow ? fmtPct(todayRow.uplift) : "-";
         els.may80Summary.textContent = fmtTH(may / model.params.h80Divisor);
         els.decSummary.textContent = fmtTH(dec);
         els.calibrationReadout.innerHTML = `
