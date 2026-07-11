@@ -471,6 +471,7 @@
         --accent: #7fd0e8;
         --accent-dark: #bde7f4;
         --accent-2: #e33821;
+        --today: #31c96b;
         --warn: #d7b56d;
         --grid: rgba(132, 144, 155, 0.18);
         --shadow: rgba(0, 0, 0, 0.42);
@@ -894,6 +895,7 @@
           <div class="legend" aria-label="Chart legend">
             <span style="color: var(--accent)"><i class="swatch"></i>50% horizon</span>
             <span style="color: var(--accent-2)"><i class="swatch"></i>80% horizon</span>
+            <span style="color: var(--today)"><i class="swatch"></i>today</span>
           </div>
           <div class="chart-wrap">
             <canvas id="chart" aria-label="Projected AI model time horizon from Jan 1 2026 through Dec 31 2026"></canvas>
@@ -1307,6 +1309,11 @@
         return new Date(START_MS + day * DAY_MS);
       }
 
+      function currentChartDate() {
+        const now = new Date();
+        return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+      }
+
       function fmtDate(date) {
         return new Intl.DateTimeFormat("en-US", {
           month: "short",
@@ -1621,6 +1628,7 @@
         const panel = css("--panel");
         const accent = css("--accent");
         const accent2 = css("--accent-2");
+        const today = css("--today");
         const warn = css("--warn");
 
         ctx.fillStyle = panel;
@@ -1656,6 +1664,25 @@
             ctx.fillStyle = i === MAY_INDEX ? warn : muted;
             ctx.fillText(fmtMonth(MONTH_STARTS[i]), x, rect.height - pad.bottom + 12);
           }
+        }
+
+        const todayDate = currentChartDate();
+        const todayDay = dayForDate(todayDate);
+        if (todayDay >= minDay && todayDay <= maxDay) {
+          const x = xForDay(todayDay);
+          ctx.strokeStyle = today;
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([4, 5]);
+          ctx.beginPath();
+          ctx.moveTo(x, pad.top);
+          ctx.lineTo(x, rect.height - pad.bottom);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = today;
+          ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(`Today ${fmtDate(todayDate)}`, clamp(x, pad.left + 42, rect.width - pad.right - 42), pad.top - 5);
         }
 
         ctx.strokeStyle = ink;
