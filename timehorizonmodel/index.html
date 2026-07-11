@@ -1124,13 +1124,14 @@
       const MAX_UPLIFT = 5;
       const SAMPLE_STEP_DAYS = 0.25;
       const INTEGRATION_STEP_DAYS = 0.05;
+      const DEFAULT_PRESET = "default-doubling-tiny-share";
 
       const DEFAULTS = {
         mayHours: 26,
         mayMinutes: 53,
         doublingMonths: 2.69,
         h80Divisor: 5,
-        algoShare: 50,
+        algoShare: 0.32536571598029695,
         algoExponent: 1,
         mayUplift: 41.4,
         utilityMode: "released-th",
@@ -1847,11 +1848,8 @@
       }
 
       function reset() {
-        els.presetSelect.value = "";
-        for (const [id, value] of Object.entries(DEFAULTS)) {
-          fields[id].value = String(value);
-        }
-        render();
+        els.presetSelect.value = DEFAULT_PRESET;
+        applyPreset(DEFAULT_PRESET);
       }
 
       function applyPreset(id) {
@@ -1878,7 +1876,7 @@
         if (els.presetSelect.value) {
           applyPreset(els.presetSelect.value);
         } else {
-          reset();
+          render();
         }
       });
       els.reset.addEventListener("click", reset);
@@ -1895,7 +1893,7 @@
         heightObserver.observe(document.documentElement);
       }
 
-      render();
+      reset();
     </script>
   </body>
 </html>
