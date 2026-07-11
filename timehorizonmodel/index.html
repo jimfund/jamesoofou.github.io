@@ -72,6 +72,21 @@
         line-height: 1.45;
       }
 
+      .ai-symbol,
+      .tooltip::before,
+      .help-tooltip-icon {
+        content: "";
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='8' y1='8' x2='56' y2='58' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23b84af6'/%3E%3Cstop offset='0.58' stop-color='%236e88f6'/%3E%3Cstop offset='1' stop-color='%233bd7ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M39 4c2.7 14.5 7.5 19.3 21 22-13.5 2.7-18.3 7.5-21 22-2.7-14.5-7.5-19.3-21-22C31.5 23.3 36.3 18.5 39 4Z'/%3E%3Cpath fill='url(%23g)' d='M18 36c1.5 8 4.2 10.7 12 12-7.8 1.3-10.5 4-12 12-1.5-8-4.2-10.7-12-12 7.8-1.3 10.5-4 12-12Z'/%3E%3Cpath fill='url(%23g)' d='M13 17c.9 4.9 2.6 6.5 7 7.5-4.4 1-6.1 2.6-7 7.5-1-4.9-2.7-6.5-7-7.5 4.3-1 6-2.6 7-7.5Z'/%3E%3C/svg%3E");
+      }
+
+      .tooltip::before {
+        float: left;
+        margin: 0 7px 2px 0;
+      }
+
       .dashboard {
         display: grid;
         grid-template-columns: minmax(0, 1fr) 355px;
@@ -112,6 +127,12 @@
       .table-panel h2 {
         font-size: 0.98rem;
         line-height: 1.2;
+      }
+
+      .explain h2 {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
 
       .chart-note {
@@ -432,19 +453,64 @@
         top: 0;
         left: 0;
         z-index: 20;
-        width: min(280px, calc(100vw - 36px));
+        width: min(340px, calc(100vw - 32px));
         pointer-events: none;
         border: 1px solid var(--ink);
         border-radius: 6px;
         background: rgba(255, 255, 255, 0.98);
         box-shadow: 0 14px 28px var(--shadow);
         color: var(--ink);
-        font-size: 0.78rem;
+        font-size: 0.84rem;
         font-weight: 500;
-        line-height: 1.35;
-        padding: 8px 9px;
+        line-height: 1.45;
+        padding: 12px 14px;
         text-align: left;
         white-space: normal;
+      }
+
+      .help-tooltip.is-pinned {
+        pointer-events: auto;
+        border-color: var(--accent);
+      }
+
+      .help-tooltip-icon {
+        position: absolute;
+        top: 8px;
+        left: 9px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .help-tooltip-body {
+        display: block;
+        padding-left: 22px;
+        padding-right: 18px;
+      }
+
+      .help-tooltip-close {
+        position: absolute;
+        top: 5px;
+        right: 7px;
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        line-height: 1;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .help-tooltip.is-pinned .help-tooltip-close {
+        display: grid;
+        place-items: center;
+      }
+
+      .help-tooltip-close:hover,
+      .help-tooltip-close:focus-visible {
+        color: var(--ink);
       }
 
       .help:hover::after,
@@ -1019,6 +1085,19 @@
         color: var(--ink);
       }
 
+      .help-tooltip.is-pinned {
+        border-color: var(--accent-dark);
+      }
+
+      .help-tooltip-close {
+        color: var(--muted);
+      }
+
+      .help-tooltip-close:hover,
+      .help-tooltip-close:focus-visible {
+        color: var(--ink);
+      }
+
       input[type="number"],
       select {
         min-height: 34px;
@@ -1485,7 +1564,7 @@
         </aside>
 
         <section class="panel explain">
-          <h2>Model explanation</h2>
+          <h2><span class="ai-symbol" aria-hidden="true"></span>Model explanation</h2>
           <p>
             The page uses a toy effective-scaling model inspired by Anthropic's
             <a href="https://www-cdn.anthropic.com/files/4zrzovbb/website/bf04581e4f329735fd90634f6a1962c13c0bd351.pdf">Responsible Scaling Policy v3.1</a>:
@@ -1874,6 +1953,7 @@
       let ieMode = "cdf";
       let applyingPreset = false;
       let activeHelpTrigger = null;
+      let pinnedHelpTrigger = null;
       let renderFrame = 0;
       let heavyQuantTimer = 0;
       const scenarioCache = new Map();
@@ -2537,7 +2617,13 @@
         const text = trigger.dataset.tip || "";
         if (!text) return;
 
-        els.helpTooltip.textContent = text;
+        const isPinned = pinnedHelpTrigger === trigger;
+        els.helpTooltip.classList.toggle("is-pinned", isPinned);
+        els.helpTooltip.innerHTML = `
+          <span class="help-tooltip-icon" aria-hidden="true"></span>
+          <span class="help-tooltip-body">${escapeHTML(text)}</span>
+          <button class="help-tooltip-close" type="button" aria-label="Close tooltip">&times;</button>
+        `;
         els.helpTooltip.hidden = false;
         els.helpTooltip.style.left = "0px";
         els.helpTooltip.style.top = "0px";
@@ -2568,8 +2654,30 @@
       }
 
       function hideHelpTooltip() {
+        if (pinnedHelpTrigger) return;
         activeHelpTrigger = null;
         els.helpTooltip.hidden = true;
+      }
+
+      function closePinnedHelpTooltip() {
+        pinnedHelpTrigger = null;
+        activeHelpTrigger = null;
+        els.helpTooltip.classList.remove("is-pinned");
+        els.helpTooltip.hidden = true;
+      }
+
+      function togglePinnedHelpTooltip(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const trigger = event.currentTarget;
+        if (pinnedHelpTrigger === trigger) {
+          closePinnedHelpTooltip();
+          trigger.blur();
+          return;
+        }
+        pinnedHelpTrigger = trigger;
+        activeHelpTrigger = trigger;
+        positionHelpTooltip(trigger);
       }
 
       function refreshHelpTooltip() {
@@ -3165,6 +3273,22 @@
         trigger.addEventListener("pointerleave", hideHelpTooltip);
         trigger.addEventListener("focus", showHelpTooltip);
         trigger.addEventListener("blur", hideHelpTooltip);
+        trigger.addEventListener("click", togglePinnedHelpTooltip);
+      });
+      document.addEventListener("click", (event) => {
+        if (!pinnedHelpTrigger) return;
+        if (event.target.closest(".help")) return;
+        if (event.target.closest(".help-tooltip-close")) {
+          closePinnedHelpTooltip();
+          return;
+        }
+        if (event.target.closest("#helpTooltip")) return;
+        closePinnedHelpTooltip();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && pinnedHelpTrigger) {
+          closePinnedHelpTooltip();
+        }
       });
       window.addEventListener("resize", () => {
         draw();
