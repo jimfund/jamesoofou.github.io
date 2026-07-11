@@ -190,6 +190,9 @@
         position: absolute;
         z-index: 3;
         width: 238px;
+        max-width: calc(100% - 16px);
+        max-height: calc(100% - 16px);
+        overflow: auto;
         pointer-events: none;
         border: 1px solid var(--ink);
         border-radius: 6px;
@@ -304,19 +307,18 @@
         padding: 0;
       }
 
-      .help::after {
-        position: absolute;
-        right: 0;
-        bottom: calc(100% + 8px);
-        z-index: 8;
-        display: none;
+      .help-tooltip {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 20;
         width: min(280px, calc(100vw - 36px));
+        pointer-events: none;
         border: 1px solid var(--ink);
         border-radius: 6px;
         background: rgba(255, 255, 255, 0.98);
         box-shadow: 0 14px 28px var(--shadow);
         color: var(--ink);
-        content: attr(data-tip);
         font-size: 0.78rem;
         font-weight: 500;
         line-height: 1.35;
@@ -327,7 +329,7 @@
 
       .help:hover::after,
       .help:focus-visible::after {
-        display: block;
+        display: none;
       }
 
       input[type="number"],
@@ -807,7 +809,7 @@
         font-size: 0.68rem;
       }
 
-      .help::after {
+      .help-tooltip {
         border-color: #526271;
         border-radius: 0;
         background: rgba(7, 10, 14, 0.98);
@@ -1242,6 +1244,7 @@
         </div>
       </section>
     </main>
+    <div id="helpTooltip" class="help-tooltip" role="tooltip" hidden></div>
 
     <script>
       "use strict";
@@ -1385,6 +1388,7 @@
       const els = {
         chart: document.getElementById("chart"),
         tooltip: document.getElementById("tooltip"),
+        helpTooltip: document.getElementById("helpTooltip"),
         reset: document.getElementById("reset"),
         presetSelect: document.getElementById("presetSelect"),
         algoShareOut: document.getElementById("algoShareOut"),
@@ -1408,6 +1412,7 @@
       let hoverRow = null;
       let plot = null;
       let applyingPreset = false;
+      let activeHelpTrigger = null;
 
       function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -1908,14 +1913,68 @@
           <span>Doubling time: ${fmtDays(hoverRow.doublingDays)}</span>
           <span>${hoverRow.preMay ? "Back-solved before May anchor" : "Projected after May anchor"}</span>
         `;
-        els.tooltip.style.left = `${clamp(px + 14, 8, rect.width - 248)}px`;
-        els.tooltip.style.top = `${clamp(py - 72, 8, rect.height - 168)}px`;
+        els.tooltip.style.left = "0px";
+        els.tooltip.style.top = "0px";
+        const tipWidth = els.tooltip.offsetWidth || 250;
+        const tipHeight = els.tooltip.offsetHeight || 160;
+        const leftCandidate = px + tipWidth + 14 <= rect.width - 8
+          ? px + 14
+          : px - tipWidth - 14;
+        const maxLeft = Math.max(8, rect.width - tipWidth - 8);
+        const maxTop = Math.max(8, rect.height - tipHeight - 8);
+        els.tooltip.style.left = `${clamp(leftCandidate, 8, maxLeft)}px`;
+        els.tooltip.style.top = `${clamp(py - tipHeight / 2, 8, maxTop)}px`;
       }
 
       function hideTooltip() {
         hoverRow = null;
         els.tooltip.hidden = true;
         draw();
+      }
+
+      function positionHelpTooltip(trigger) {
+        const text = trigger.dataset.tip || "";
+        if (!text) return;
+
+        els.helpTooltip.textContent = text;
+        els.helpTooltip.hidden = false;
+        els.helpTooltip.style.left = "0px";
+        els.helpTooltip.style.top = "0px";
+
+        const triggerRect = trigger.getBoundingClientRect();
+        const tooltipRect = els.helpTooltip.getBoundingClientRect();
+        const margin = 8;
+        const maxLeft = Math.max(margin, window.innerWidth - tooltipRect.width - margin);
+        const maxTop = Math.max(margin, window.innerHeight - tooltipRect.height - margin);
+        const left = clamp(triggerRect.right - tooltipRect.width, margin, maxLeft);
+        let top = triggerRect.top - tooltipRect.height - margin;
+
+        if (top < margin) {
+          top = triggerRect.bottom + margin;
+        }
+
+        if (top > maxTop) {
+          top = clamp(triggerRect.top + (triggerRect.height - tooltipRect.height) / 2, margin, maxTop);
+        }
+
+        els.helpTooltip.style.left = `${Math.round(left)}px`;
+        els.helpTooltip.style.top = `${Math.round(top)}px`;
+      }
+
+      function showHelpTooltip(event) {
+        activeHelpTrigger = event.currentTarget;
+        positionHelpTooltip(activeHelpTrigger);
+      }
+
+      function hideHelpTooltip() {
+        activeHelpTrigger = null;
+        els.helpTooltip.hidden = true;
+      }
+
+      function refreshHelpTooltip() {
+        if (activeHelpTrigger) {
+          positionHelpTooltip(activeHelpTrigger);
+        }
       }
 
       function updateTable() {
@@ -2023,10 +2082,18 @@
       els.reset.addEventListener("click", reset);
       els.chart.addEventListener("pointermove", moveTooltip);
       els.chart.addEventListener("pointerleave", hideTooltip);
+      document.querySelectorAll(".help").forEach((trigger) => {
+        trigger.addEventListener("pointerenter", showHelpTooltip);
+        trigger.addEventListener("pointerleave", hideHelpTooltip);
+        trigger.addEventListener("focus", showHelpTooltip);
+        trigger.addEventListener("blur", hideHelpTooltip);
+      });
       window.addEventListener("resize", () => {
         draw();
+        refreshHelpTooltip();
         postEmbedHeight();
       });
+      document.addEventListener("scroll", refreshHelpTooltip, true);
       window.addEventListener("load", postEmbedHeight);
       if (window.ResizeObserver) {
         const heightObserver = new ResizeObserver(postEmbedHeight);
