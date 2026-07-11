@@ -613,7 +613,7 @@
       }
 
       .summary {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 0;
         padding: 0;
         border-top-color: var(--line);
@@ -647,6 +647,15 @@
         color: var(--ink);
         font-size: 1.05rem;
         font-weight: 520;
+      }
+
+      .summary small {
+        display: block;
+        margin-top: 3px;
+        color: var(--today);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
       }
 
       .controls {
@@ -905,6 +914,7 @@
             <div><span>Jan 1 solved</span><strong id="janSummary">-</strong></div>
             <div><span>Apr release</span><strong id="aprSummary">-</strong></div>
             <div><span>May anchor</span><strong id="maySummary">-</strong></div>
+            <div><span id="todaySummaryLabel">Today</span><strong id="todaySummary">-</strong><small id="todayUpliftSummary">-</small></div>
             <div><span>May 80%</span><strong id="may80Summary">-</strong></div>
             <div><span>Dec 31</span><strong id="decSummary">-</strong></div>
           </div>
@@ -1261,6 +1271,9 @@
         janSummary: document.getElementById("janSummary"),
         aprSummary: document.getElementById("aprSummary"),
         maySummary: document.getElementById("maySummary"),
+        todaySummaryLabel: document.getElementById("todaySummaryLabel"),
+        todaySummary: document.getElementById("todaySummary"),
+        todayUpliftSummary: document.getElementById("todayUpliftSummary"),
         may80Summary: document.getElementById("may80Summary"),
         decSummary: document.getElementById("decSummary"),
         monthlyRows: document.getElementById("monthlyRows"),
@@ -1803,9 +1816,16 @@
         const apr = result.releases[3];
         const may = result.releases[4];
         const dec = rows[rows.length - 1].h;
+        const todayDay = dayForDate(currentChartDate());
+        const todayRow = todayDay >= 0 && todayDay <= dayForDate(new Date(END_MS))
+          ? nearestRow(todayDay)
+          : null;
         els.janSummary.textContent = fmtTH(jan);
         els.aprSummary.textContent = fmtTH(apr);
         els.maySummary.textContent = fmtTH(may);
+        els.todaySummaryLabel.textContent = todayRow ? `Today ${fmtDate(todayRow.date)}` : "Today";
+        els.todaySummary.textContent = todayRow ? fmtTH(todayRow.h) : "outside 2026";
+        els.todayUpliftSummary.textContent = todayRow ? `${fmtPct(todayRow.uplift)} uplift` : "-";
         els.may80Summary.textContent = fmtTH(may / model.params.h80Divisor);
         els.decSummary.textContent = fmtTH(dec);
         els.calibrationReadout.innerHTML = `
