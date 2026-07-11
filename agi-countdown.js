@@ -1,6 +1,6 @@
 "use strict";
 
-const ASI_TARGET_MS = Date.UTC(2026, 7, 29, 0, 24, 34);
+const ASI_TARGET_MS = Date.UTC(2026, 7, 29, 0, 23, 48);
 const MS_PER_DAY = 86400000;
 const MS_PER_HOUR = 3600000;
 const MS_PER_MINUTE = 60000;

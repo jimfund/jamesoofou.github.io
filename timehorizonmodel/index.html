@@ -1077,22 +1077,22 @@
             <select id="presetSelect">
               <option value="">Manual</option>
               <optgroup label="Jan 1 = 10h 12m">
-                <option value="no-algo-scaling">2.693816 mo, 0% algo, exp 1.0</option>
-                <option value="flat-algo-effect">2.693816 mo, 50% algo, exp 0.0</option>
-                <option value="one-percent-algo">2.68208 mo, 1% algo, exp 1.0</option>
-                <option value="ten-percent-algo">2.57585 mo, 10% algo, exp 1.0</option>
+                <option value="jan10-algo-30">2.33522 mo, 30% algo, exp 1.0</option>
+                <option value="jan10-algo-35">2.27395 mo, 35% algo, exp 1.0</option>
+                <option value="jan10-algo-40">2.21219 mo, 40% algo, exp 1.0</option>
+                <option value="jan10-algo-45">2.14990 mo, 45% algo, exp 1.0</option>
                 <option value="half-algo-linear">2.08705 mo, 50% algo, exp 1.0</option>
-                <option value="all-algo-linear">1.41619 mo, 100% algo, exp 1.0</option>
-                <option value="default-doubling-tiny-share">2.69 mo, 0.3254% algo, exp 1.0</option>
-                <option value="default-doubling-tiny-exp">2.69 mo, 50% algo, exp 0.00467</option>
+                <option value="jan10-algo-55">2.02360 mo, 55% algo, exp 1.0</option>
+                <option value="jan10-algo-60">1.95950 mo, 60% algo, exp 1.0</option>
               </optgroup>
               <optgroup label="Jan 1 = 6h 00m">
-                <option value="six-no-algo-scaling">1.738080 mo, 0% algo, exp 1.0</option>
-                <option value="six-flat-algo-effect">1.738080 mo, 50% algo, exp 0.0</option>
-                <option value="six-one-percent-algo">1.728095 mo, 1% algo, exp 1.0</option>
-                <option value="six-ten-percent-algo">1.637640 mo, 10% algo, exp 1.0</option>
+                <option value="six-algo-30">1.43231 mo, 30% algo, exp 1.0</option>
+                <option value="six-algo-35">1.37989 mo, 35% algo, exp 1.0</option>
+                <option value="six-algo-40">1.32697 mo, 40% algo, exp 1.0</option>
+                <option value="six-algo-45">1.27350 mo, 45% algo, exp 1.0</option>
                 <option value="six-half-algo-linear">1.219445 mo, 50% algo, exp 1.0</option>
-                <option value="six-all-algo-linear">0.625291 mo, 100% algo, exp 1.0</option>
+                <option value="six-algo-55">1.16473 mo, 55% algo, exp 1.0</option>
+                <option value="six-algo-60">1.10931 mo, 60% algo, exp 1.0</option>
               </optgroup>
             </select>
           </label>
@@ -1262,7 +1262,7 @@
       const DEFAULTS = {
         mayHours: 26,
         mayMinutes: 53,
-        doublingMonths: 2.08705,
+        doublingMonths: 2.08704508,
         h80Divisor: 5,
         algoShare: 50,
         algoExponent: 1,
@@ -1297,88 +1297,88 @@
       };
 
       const PRESETS = {
-        "no-algo-scaling": {
+        "jan10-algo-30": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.693816,
-          algoShare: 0,
+          doublingMonths: 2.33521744,
+          algoShare: 30,
           algoExponent: 1,
         },
-        "flat-algo-effect": {
+        "jan10-algo-35": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.693816,
-          algoShare: 50,
-          algoExponent: 0,
-        },
-        "one-percent-algo": {
-          ...JAN_TARGET_BASE,
-          doublingMonths: 2.68208,
-          algoShare: 1,
+          doublingMonths: 2.27394953,
+          algoShare: 35,
           algoExponent: 1,
         },
-        "ten-percent-algo": {
+        "jan10-algo-40": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.57585,
-          algoShare: 10,
+          doublingMonths: 2.21218593,
+          algoShare: 40,
+          algoExponent: 1,
+        },
+        "jan10-algo-45": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 2.14989584,
+          algoShare: 45,
           algoExponent: 1,
         },
         "half-algo-linear": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.08705,
+          doublingMonths: 2.08704508,
           algoShare: 50,
           algoExponent: 1,
         },
-        "all-algo-linear": {
+        "jan10-algo-55": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 1.41619,
-          algoShare: 100,
+          doublingMonths: 2.02359557,
+          algoShare: 55,
           algoExponent: 1,
         },
-        "default-doubling-tiny-share": {
+        "jan10-algo-60": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.69,
-          algoShare: 0.32536571598029695,
+          doublingMonths: 1.95950466,
+          algoShare: 60,
           algoExponent: 1,
         },
-        "default-doubling-tiny-exp": {
+        "six-algo-30": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 2.69,
-          algoShare: 50,
-          algoExponent: 0.004670276794058736,
-        },
-        "six-no-algo-scaling": {
-          ...JAN_TARGET_BASE,
-          doublingMonths: 1.73807994,
-          algoShare: 0,
+          doublingMonths: 1.43230844,
+          algoShare: 30,
           algoExponent: 1,
         },
-        "six-flat-algo-effect": {
+        "six-algo-35": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 1.73807994,
-          algoShare: 50,
-          algoExponent: 0,
-        },
-        "six-one-percent-algo": {
-          ...JAN_TARGET_BASE,
-          doublingMonths: 1.72809488,
-          algoShare: 1,
+          doublingMonths: 1.37989032,
+          algoShare: 35,
           algoExponent: 1,
         },
-        "six-ten-percent-algo": {
+        "six-algo-40": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 1.63764013,
-          algoShare: 10,
+          doublingMonths: 1.32696978,
+          algoShare: 40,
+          algoExponent: 1,
+        },
+        "six-algo-45": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.27350423,
+          algoShare: 45,
           algoExponent: 1,
         },
         "six-half-algo-linear": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 1.21944464,
+          doublingMonths: 1.21944460,
           algoShare: 50,
           algoExponent: 1,
         },
-        "six-all-algo-linear": {
+        "six-algo-55": {
           ...JAN_TARGET_BASE,
-          doublingMonths: 0.62529086,
-          algoShare: 100,
+          doublingMonths: 1.16473392,
+          algoShare: 55,
+          algoExponent: 1,
+        },
+        "six-algo-60": {
+          ...JAN_TARGET_BASE,
+          doublingMonths: 1.10930534,
+          algoShare: 60,
           algoExponent: 1,
         },
       };
