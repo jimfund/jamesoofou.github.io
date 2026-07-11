@@ -72,10 +72,19 @@
         line-height: 1.45;
       }
 
-      .layout {
+      .dashboard {
         display: grid;
         grid-template-columns: minmax(0, 1fr) 355px;
+        align-items: start;
         gap: 14px;
+      }
+
+      .primary-stack,
+      .secondary-stack {
+        display: grid;
+        align-content: start;
+        gap: 14px;
+        min-width: 0;
       }
 
       .panel {
@@ -360,13 +369,6 @@
         font-weight: 650;
       }
 
-      .lower {
-        display: grid;
-        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-        gap: 14px;
-        margin-top: 14px;
-      }
-
       .explain,
       .table-panel {
         padding: 15px;
@@ -422,8 +424,7 @@
       }
 
       @media (max-width: 980px) {
-        .layout,
-        .lower {
+        .dashboard {
           grid-template-columns: 1fr;
         }
 
@@ -520,8 +521,13 @@
         text-transform: uppercase;
       }
 
-      .layout {
+      .dashboard {
         grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 12px;
+      }
+
+      .primary-stack,
+      .secondary-stack {
         gap: 12px;
       }
 
@@ -760,14 +766,8 @@
         font-weight: 520;
       }
 
-      .lower {
-        grid-template-columns: minmax(0, 1fr) 360px;
-        gap: 12px;
-        margin-top: 12px;
-      }
-
       .table-panel {
-        order: -1;
+        order: 0;
       }
 
       .explain,
@@ -816,8 +816,7 @@
       }
 
       @media (max-width: 1040px) {
-        .layout,
-        .lower {
+        .dashboard {
           grid-template-columns: 1fr;
         }
 
@@ -895,7 +894,8 @@
         </div>
       </header>
 
-      <section class="layout">
+      <section class="dashboard">
+        <div class="primary-stack">
         <section class="panel chart-panel" aria-label="Interactive model chart">
           <div class="chart-top">
             <h2>Trajectory</h2>
@@ -920,6 +920,28 @@
           </div>
         </section>
 
+        <section class="panel table-panel" aria-label="Monthly model values">
+          <h2>Monthly values</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Released 50% TH</th>
+                  <th>End 50% TH</th>
+                  <th>End 80% TH</th>
+                  <th>Uplift</th>
+                  <th>Start difficulty</th>
+                  <th>Start doubling</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyRows"></tbody>
+            </table>
+          </div>
+        </section>
+        </div>
+
+        <div class="secondary-stack">
         <aside class="panel controls" aria-label="Model parameters">
           <div class="control-head">
             <h2>Assumptions</h2>
@@ -1066,9 +1088,7 @@
           <div id="calibrationReadout" class="readout">-</div>
           <div id="status" class="status" role="status"></div>
         </aside>
-      </section>
 
-      <section class="lower">
         <section class="panel explain">
           <h2>Model explanation</h2>
           <p>
@@ -1100,26 +1120,7 @@
             additive response to raw-progress multiples. Displayed uplift is capped at 500% in all modes.
           </p>
         </section>
-
-        <section class="panel table-panel" aria-label="Monthly model values">
-          <h2>Monthly values</h2>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>Released 50% TH</th>
-                  <th>End 50% TH</th>
-                  <th>End 80% TH</th>
-                  <th>Uplift</th>
-                  <th>Start difficulty</th>
-                  <th>Start doubling</th>
-                </tr>
-              </thead>
-              <tbody id="monthlyRows"></tbody>
-            </table>
-          </div>
-        </section>
+        </div>
       </section>
     </main>
 
