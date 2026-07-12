@@ -206,6 +206,12 @@
         height: 100%;
       }
 
+      #chart,
+      #ieChart {
+        cursor: crosshair;
+        touch-action: pan-y;
+      }
+
       .tooltip {
         position: absolute;
         z-index: 3;
@@ -3423,6 +3429,42 @@
         drawIEChart();
       }
 
+      function enableCanvasScrubbing(canvas, move, hide) {
+        let activePointer = null;
+
+        canvas.addEventListener("pointerdown", (event) => {
+          if (event.pointerType === "mouse") return;
+          activePointer = event.pointerId;
+          canvas.setPointerCapture(event.pointerId);
+          move(event);
+        });
+
+        canvas.addEventListener("pointermove", (event) => {
+          if (event.pointerType === "mouse" || event.pointerId === activePointer) {
+            move(event);
+          }
+        });
+
+        canvas.addEventListener("pointerup", (event) => {
+          if (event.pointerId !== activePointer) return;
+          move(event);
+          if (canvas.hasPointerCapture(event.pointerId)) {
+            canvas.releasePointerCapture(event.pointerId);
+          }
+          activePointer = null;
+        });
+
+        canvas.addEventListener("pointercancel", (event) => {
+          if (event.pointerId !== activePointer) return;
+          activePointer = null;
+          hide();
+        });
+
+        canvas.addEventListener("pointerleave", (event) => {
+          if (event.pointerType === "mouse") hide();
+        });
+      }
+
       function updateQuantCore() {
       }
 
@@ -3624,8 +3666,7 @@
         if (!compactLayout.matches) return;
         setAssumptionsExpanded(els.assumptionsBody.hidden);
       });
-      els.chart.addEventListener("pointermove", moveTooltip);
-      els.chart.addEventListener("pointerleave", hideTooltip);
+      enableCanvasScrubbing(els.chart, moveTooltip, hideTooltip);
       els.ieAlgoSigma.addEventListener("input", () => {
         if (latestResult && model) scheduleHeavyQuant();
         else scheduleRender();
@@ -3642,8 +3683,7 @@
         els.ieTooltip.hidden = true;
         drawIEChart();
       });
-      els.ieChart.addEventListener("pointermove", moveIETooltip);
-      els.ieChart.addEventListener("pointerleave", hideIETooltip);
+      enableCanvasScrubbing(els.ieChart, moveIETooltip, hideIETooltip);
       document.querySelectorAll(".help").forEach((trigger) => {
         trigger.addEventListener("pointerenter", showHelpTooltip);
         trigger.addEventListener("pointerleave", hideHelpTooltip);
