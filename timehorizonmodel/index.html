@@ -28,6 +28,9 @@
 
       body {
         margin: 0;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: clip;
         background: var(--bg);
         color: var(--ink);
       }
@@ -116,6 +119,7 @@
 
       .chart-top h2,
       .controls h2,
+      .control-head__title,
       .explain h2,
       .quant-panel h2,
       .table-panel h2 {
@@ -394,6 +398,34 @@
         justify-content: space-between;
         gap: 12px;
         margin-bottom: 6px;
+      }
+
+      .control-head__toggle {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        min-height: 0;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        text-align: left;
+        cursor: default;
+      }
+
+      .control-head__title {
+        color: var(--ink);
+        line-height: 1.2;
+      }
+
+      .control-head__summary,
+      .control-head__indicator {
+        display: none;
+      }
+
+      .assumptions-body {
+        min-width: 0;
       }
 
       button {
@@ -821,6 +853,7 @@
 
       .chart-top h2,
       .controls h2,
+      .control-head__title,
       .explain h2,
       .quant-panel h2,
       .table-panel h2 {
@@ -1053,13 +1086,17 @@
       }
 
       .controls {
-        padding: 13px 14px 16px;
+        padding: 0;
       }
 
       .control-head {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
+        margin-bottom: 0;
+        padding: 13px 14px 12px;
         border-bottom: 1px solid rgba(37, 49, 61, 0.78);
+      }
+
+      .assumptions-body {
+        padding: 0 14px 16px;
       }
 
       button {
@@ -1225,14 +1262,63 @@
           grid-template-columns: 1fr;
         }
 
+        .primary-stack,
+        .secondary-stack {
+          display: contents;
+        }
+
         .controls {
           position: static;
           max-height: none;
-          order: 0;
+          order: 1;
+        }
+
+        .chart-panel {
+          order: 2;
+        }
+
+        .quant-panel {
+          order: 3;
         }
 
         .table-panel {
-          order: 0;
+          order: 4;
+        }
+
+        .explain {
+          order: 5;
+        }
+
+        .control-head__toggle {
+          cursor: pointer;
+        }
+
+        .control-head__summary {
+          display: block;
+          min-width: 0;
+          overflow: hidden;
+          color: var(--muted);
+          font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+          font-size: 0.68rem;
+          letter-spacing: 0.04em;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .control-head__indicator {
+          display: grid;
+          flex: 0 0 24px;
+          place-items: center;
+          width: 24px;
+          height: 24px;
+          border: 1px solid var(--field-line);
+          color: var(--accent-dark);
+          font-size: 1rem;
+          line-height: 1;
+        }
+
+        .assumptions-body[hidden] {
+          display: none;
         }
       }
 
@@ -1243,7 +1329,24 @@
 
         main {
           width: 100%;
-          padding-top: 12px;
+          padding: 0 0 12px;
+        }
+
+        header {
+          margin-bottom: 8px;
+          padding: 11px 12px 10px;
+        }
+
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        .subtitle {
+          font-size: 0.65rem;
+        }
+
+        .dashboard {
+          gap: 8px;
         }
 
         header,
@@ -1258,24 +1361,139 @@
         }
 
         .chart-wrap {
-          height: 390px;
-          min-height: 360px;
+          height: clamp(330px, 92vw, 390px);
+          min-height: 330px;
         }
 
         .legend {
-          gap: 8px 14px;
+          gap: 7px 12px;
+          padding: 8px 12px;
+          font-size: 0.62rem;
         }
 
-        .summary,
-        .today-strip,
         .quant-grid,
         .ie-hero,
         .two-col {
           grid-template-columns: 1fr;
         }
 
+        .summary,
+        .today-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .summary div {
+          border-right: 1px solid rgba(37, 49, 61, 0.72);
+          border-bottom: 1px solid rgba(37, 49, 61, 0.72);
+          padding: 10px 11px;
+        }
+
+        .summary div:nth-child(2n) {
+          border-right: 0;
+        }
+
+        .summary div:last-child {
+          grid-column: 1 / -1;
+          border-right: 0;
+          border-bottom: 0;
+        }
+
+        .summary strong {
+          font-size: 0.95rem;
+        }
+
+        .today-strip div {
+          padding: 10px 11px 11px;
+        }
+
+        .today-strip strong {
+          font-size: 1.02rem;
+        }
+
+        .chart-top {
+          min-height: 42px;
+          padding: 11px 12px;
+        }
+
+        .chart-top h2 {
+          font-size: 0.75rem;
+        }
+
+        .control-head {
+          padding: 10px 12px;
+        }
+
+        .assumptions-body {
+          padding: 0 12px 13px;
+        }
+
+        .control-head__title {
+          font-size: 0.75rem;
+        }
+
+        .control-head__summary {
+          margin-left: auto;
+          font-size: 0.62rem;
+        }
+
         .quant-grid {
+          padding: 8px;
+        }
+
+        .quant-block {
           padding: 10px;
+        }
+
+        .quant-chart {
+          height: 210px;
+        }
+
+        .ie-hero {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .ie-hero div {
+          border-bottom: 0;
+        }
+
+        .ie-hero div:last-child {
+          border-bottom: 1px solid rgba(37, 49, 61, 0.86);
+        }
+
+        .explain,
+        .table-panel {
+          padding: 12px;
+        }
+
+        .table-wrap {
+          margin-top: 8px;
+          overflow-x: auto;
+          overscroll-behavior-inline: contain;
+        }
+
+        table {
+          min-width: 620px;
+        }
+
+        .tooltip {
+          width: min(238px, calc(100% - 16px));
+        }
+
+        .help-tooltip.is-pinned {
+          resize: none;
+        }
+
+        /* Keep the base responsive rules from forcing these back to one column. */
+        .summary,
+        .today-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .quant-grid,
+        .ie-hero,
+        .two-col {
+          grid-template-columns: 1fr;
         }
 
         .quant-block-wide {
@@ -1284,19 +1502,6 @@
 
         .ie-controls {
           grid-template-columns: 1fr;
-        }
-
-        .today-strip {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .summary div {
-          border-right: 0;
-          border-bottom: 1px solid rgba(37, 49, 61, 0.72);
-        }
-
-        .summary div:last-child {
-          border-bottom: 0;
         }
 
         .today-strip div {
@@ -1312,13 +1517,6 @@
           border-bottom: 0;
         }
 
-        .table-wrap {
-          overflow-x: auto;
-        }
-
-        table {
-          min-width: 620px;
-        }
       }
     </style>
   </head>
@@ -1410,10 +1608,15 @@
         <div class="secondary-stack">
         <aside class="panel controls" aria-label="Model parameters">
           <div class="control-head">
-            <h2>Assumptions</h2>
+            <button id="assumptionsToggle" class="control-head__toggle" type="button" aria-controls="assumptionsBody" aria-expanded="true">
+              <span class="control-head__title">Assumptions</span>
+              <span id="assumptionsSummary" class="control-head__summary">50% algo / 2.09 mo</span>
+              <span id="assumptionsIndicator" class="control-head__indicator" aria-hidden="true">+</span>
+            </button>
             <button id="reset" type="button">Reset</button>
           </div>
 
+          <div id="assumptionsBody" class="assumptions-body">
           <label>
             <div class="label-line">
               <span>Preset</span>
@@ -1581,6 +1784,7 @@
 
           <div id="calibrationReadout" class="readout">-</div>
           <div id="status" class="status" role="status"></div>
+          </div>
         </aside>
 
         <section class="panel explain">
@@ -1938,6 +2142,10 @@
         chart: document.getElementById("chart"),
         tooltip: document.getElementById("tooltip"),
         helpTooltip: document.getElementById("helpTooltip"),
+        assumptionsToggle: document.getElementById("assumptionsToggle"),
+        assumptionsBody: document.getElementById("assumptionsBody"),
+        assumptionsSummary: document.getElementById("assumptionsSummary"),
+        assumptionsIndicator: document.getElementById("assumptionsIndicator"),
         reset: document.getElementById("reset"),
         presetSelect: document.getElementById("presetSelect"),
         algoShareOut: document.getElementById("algoShareOut"),
@@ -1982,6 +2190,7 @@
       let heavyQuantTimer = 0;
       const scenarioCache = new Map();
       const ieSampleCache = new Map();
+      const compactLayout = window.matchMedia("(max-width: 1040px)");
 
       function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -2464,7 +2673,10 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, rect.width, rect.height);
 
-        const pad = { top: 18, right: 30, bottom: 46, left: 82 };
+        const isNarrow = rect.width < 520;
+        const pad = isNarrow
+          ? { top: 18, right: 12, bottom: 40, left: 60 }
+          : { top: 18, right: 30, bottom: 46, left: 82 };
         const width = rect.width - pad.left - pad.right;
         const height = rect.height - pad.top - pad.bottom;
         const minDay = 0;
@@ -2491,7 +2703,7 @@
         ctx.strokeStyle = grid;
         ctx.lineWidth = 1;
         ctx.fillStyle = muted;
-        ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+        ctx.font = `${isNarrow ? 10 : 12}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
         ctx.textAlign = "right";
         ctx.textBaseline = "middle";
         for (const tick of yTicks(minH, maxH)) {
@@ -2533,7 +2745,7 @@
           ctx.stroke();
           ctx.setLineDash([]);
           ctx.fillStyle = today;
-          ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+          ctx.font = `${isNarrow ? 10 : 12}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
           ctx.textAlign = "center";
           ctx.textBaseline = "bottom";
           ctx.fillText(`Today ${fmtDate(todayDate)}`, clamp(x, pad.left + 42, rect.width - pad.right - 42), pad.top - 5);
@@ -3274,8 +3486,28 @@
         });
       }
 
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "timehorizonmodel:measure") {
+          postEmbedHeight();
+        }
+      });
+
       function refreshControlOutputs() {
-        els.algoShareOut.textContent = fmtControlPct(readNumber("algoShare"));
+        const algoShare = readNumber("algoShare");
+        els.algoShareOut.textContent = fmtControlPct(algoShare);
+        els.assumptionsSummary.textContent = `${fmtControlPct(algoShare)} / ${readNumber("doublingMonths").toFixed(2)} mo`;
+      }
+
+      function setAssumptionsExpanded(expanded) {
+        els.assumptionsBody.hidden = !expanded;
+        els.assumptionsToggle.setAttribute("aria-expanded", String(expanded));
+        els.assumptionsToggle.setAttribute("aria-label", `${expanded ? "Collapse" : "Expand"} assumptions`);
+        els.assumptionsIndicator.textContent = expanded ? "-" : "+";
+        requestAnimationFrame(postEmbedHeight);
+      }
+
+      function syncAssumptionsLayout() {
+        setAssumptionsExpanded(!compactLayout.matches);
       }
 
       function renderCore() {
@@ -3388,6 +3620,10 @@
         }
       });
       els.reset.addEventListener("click", reset);
+      els.assumptionsToggle.addEventListener("click", () => {
+        if (!compactLayout.matches) return;
+        setAssumptionsExpanded(els.assumptionsBody.hidden);
+      });
       els.chart.addEventListener("pointermove", moveTooltip);
       els.chart.addEventListener("pointerleave", hideTooltip);
       els.ieAlgoSigma.addEventListener("input", () => {
@@ -3437,12 +3673,23 @@
       });
       document.addEventListener("scroll", refreshHelpTooltip, true);
       window.addEventListener("load", postEmbedHeight);
+      compactLayout.addEventListener("change", syncAssumptionsLayout);
       if (window.ResizeObserver) {
         const heightObserver = new ResizeObserver(postEmbedHeight);
         heightObserver.observe(document.querySelector("main"));
+        const chartObserver = new ResizeObserver(() => {
+          draw();
+          drawIEChart();
+        });
+        chartObserver.observe(document.querySelector(".chart-wrap"));
+        chartObserver.observe(document.querySelector(".quant-chart"));
       }
 
+      syncAssumptionsLayout();
       reset();
+      [0, 250, 1000, 2500].forEach((delay) => {
+        window.setTimeout(postEmbedHeight, delay);
+      });
     </script>
   </body>
 </html>

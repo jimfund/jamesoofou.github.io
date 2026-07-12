@@ -72,6 +72,10 @@ img {
     width: min(1320px, calc(100vw - 28px));
 }
 
+body:has(.article-page[data-slug="2026-vi"]) {
+    overflow-x: clip;
+}
+
 .site-header,
 .site-main,
 .site-footer {
@@ -535,7 +539,9 @@ img {
 }
 
 .article-page[data-slug="2026-vi"] {
-    max-width: min(1260px, calc(100vw - 28px));
+    width: 100%;
+    max-width: 1260px;
+    min-width: 0;
     overflow: hidden;
     padding: 22px 24px 28px;
 }
@@ -602,6 +608,7 @@ img {
 }
 
 .article-page[data-slug="2026-vi"] .article-content {
+    min-width: 0;
     margin-top: 18px;
 }
 
@@ -754,12 +761,15 @@ img {
 .article-wide-embed {
     width: 100%;
     max-width: none;
+    min-width: 0;
     margin: 0 0 1.6rem;
 }
 
 .timehorizon-model-widget {
     display: block;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     min-height: 1040px;
     border: 1px solid var(--line);
     background: #090b0f;
@@ -1098,8 +1108,7 @@ img {
     }
 
     .article-page[data-slug="2026-vi"] {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding: 14px 12px 18px;
     }
 
     .article-page[data-slug="2026-vi"] .article-header {
@@ -1110,6 +1119,19 @@ img {
     .article-wide-embed {
         width: 100%;
         margin-left: 0;
+    }
+
+    .article-page[data-slug="2026-vi"] .article-content {
+        width: 100%;
+    }
+
+    .article-page[data-slug="2026-vi"] .tool-deck {
+        max-width: 100%;
+        line-height: 1.5;
+    }
+
+    .timehorizon-model-widget {
+        min-height: 860px;
     }
 
     .archive-list--home {
