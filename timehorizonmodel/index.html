@@ -3452,6 +3452,7 @@
             canvas.releasePointerCapture(event.pointerId);
           }
           activePointer = null;
+          hide();
         });
 
         canvas.addEventListener("pointercancel", (event) => {
