@@ -3458,7 +3458,23 @@
         canvas.addEventListener("pointercancel", (event) => {
           if (event.pointerId !== activePointer) return;
           activePointer = null;
+          hide();
         });
+
+        canvas.addEventListener("lostpointercapture", () => {
+          activePointer = null;
+          hide();
+        });
+
+        canvas.addEventListener("touchend", () => {
+          activePointer = null;
+          hide();
+        }, { passive: true });
+
+        canvas.addEventListener("touchcancel", () => {
+          activePointer = null;
+          hide();
+        }, { passive: true });
 
         canvas.addEventListener("pointerleave", (event) => {
           if (event.pointerType === "mouse") hide();
