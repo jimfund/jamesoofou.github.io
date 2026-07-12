@@ -209,7 +209,7 @@
       #chart,
       #ieChart {
         cursor: crosshair;
-        touch-action: pan-y;
+        touch-action: none;
       }
 
       .tooltip {
@@ -3457,7 +3457,6 @@
         canvas.addEventListener("pointercancel", (event) => {
           if (event.pointerId !== activePointer) return;
           activePointer = null;
-          hide();
         });
 
         canvas.addEventListener("pointerleave", (event) => {
