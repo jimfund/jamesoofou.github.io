@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b0f">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>SKM / SoftBank Portfolio</title>
+    <meta name="description" content="A buy-and-hold tracker for an equal starting allocation to SK Telecom and SoftBank Group.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+    <div class="page-shell portfolio-shell">
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a class="brand" href="index.html">jimfund</a>
+                <div class="site-header__meta">
+                    <span>Private index</span>
+                    <span>USD</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="site-main">
+            <section class="portfolio-page" data-portfolio-root aria-busy="true">
+                <header class="portfolio-hero">
+                    <div>
+                        <p class="portfolio-kicker">Buy and hold · 15 Jul 2026</p>
+                        <h1>SKM / SoftBank</h1>
+                        <p class="portfolio-intro">A $400,000 portfolio split equally once, then left to drift.</p>
+                    </div>
+                    <div class="portfolio-status" data-status>Loading daily closes…</div>
+                </header>
+
+                <div class="portfolio-summary" aria-live="polite">
+                    <div class="portfolio-summary__primary">
+                        <span class="metric-label">Portfolio value</span>
+                        <strong class="portfolio-total" data-total>—</strong>
+                    </div>
+                    <div class="portfolio-summary__metric">
+                        <span class="metric-label">Total return</span>
+                        <strong data-return>—</strong>
+                    </div>
+                    <div class="portfolio-summary__metric">
+                        <span class="metric-label">Profit / loss</span>
+                        <strong data-profit>—</strong>
+                    </div>
+                    <div class="portfolio-summary__metric">
+                        <span class="metric-label">Valuation date</span>
+                        <strong data-date>—</strong>
+                    </div>
+                </div>
+
+                <div class="portfolio-grid">
+                    <section class="portfolio-panel chart-panel" aria-labelledby="performance-heading">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="metric-label">Since inception</span>
+                                <h2 id="performance-heading">Portfolio value</h2>
+                            </div>
+                            <span class="chart-window" data-chart-window>—</span>
+                        </div>
+                        <div class="portfolio-chart" data-chart>
+                            <svg role="img" aria-labelledby="chart-title chart-description">
+                                <title id="chart-title">Daily portfolio value in U.S. dollars</title>
+                                <desc id="chart-description">Line chart of the portfolio value since July 15, 2026.</desc>
+                            </svg>
+                            <div class="chart-tooltip" data-chart-tooltip hidden></div>
+                        </div>
+                    </section>
+
+                    <section class="portfolio-panel positions-panel" aria-labelledby="positions-heading">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="metric-label">No rebalancing</span>
+                                <h2 id="positions-heading">Positions</h2>
+                            </div>
+                        </div>
+
+                        <article class="position" data-position="skm">
+                            <div class="position__identity">
+                                <div>
+                                    <span class="position__ticker">SKM</span>
+                                    <span class="position__name">SK Telecom ADR</span>
+                                </div>
+                                <strong data-position-value>—</strong>
+                            </div>
+                            <div class="position__details">
+                                <span><span class="metric-label">Weight</span><strong data-position-weight>—</strong></span>
+                                <span><span class="metric-label">Return</span><strong data-position-return>—</strong></span>
+                                <span><span class="metric-label">Close</span><strong data-position-close>—</strong></span>
+                            </div>
+                        </article>
+
+                        <article class="position" data-position="softbank">
+                            <div class="position__identity">
+                                <div>
+                                    <span class="position__ticker">9984.T</span>
+                                    <span class="position__name">SoftBank Group</span>
+                                </div>
+                                <strong data-position-value>—</strong>
+                            </div>
+                            <div class="position__details">
+                                <span><span class="metric-label">Weight</span><strong data-position-weight>—</strong></span>
+                                <span><span class="metric-label">USD return</span><strong data-position-return>—</strong></span>
+                                <span><span class="metric-label">Close</span><strong data-position-close>—</strong></span>
+                            </div>
+                        </article>
+
+                        <div class="allocation" aria-label="Current allocation">
+                            <span class="allocation__skm" data-allocation-skm></span>
+                            <span class="allocation__softbank" data-allocation-softbank></span>
+                        </div>
+                        <div class="fx-readout">
+                            <span class="metric-label">USD / JPY</span>
+                            <strong data-fx>—</strong>
+                        </div>
+                    </section>
+                </div>
+
+                <footer class="portfolio-method">
+                    <p><strong>Method.</strong> $200,000 was allocated to each position at the July 15, 2026 close. Daily total returns use adjusted closes, assume reinvested dividends and fractional shares, and exclude fees and taxes. SoftBank is translated from yen using the daily USD/JPY close.</p>
+                    <p><strong>Source.</strong> Cached daily data from Yahoo Finance’s unofficial chart feed for <a href="https://finance.yahoo.com/quote/SKM/" target="_blank" rel="noopener noreferrer">SKM</a>, <a href="https://finance.yahoo.com/quote/9984.T/" target="_blank" rel="noopener noreferrer">9984.T</a>, and <a href="https://finance.yahoo.com/quote/JPY=X/" target="_blank" rel="noopener noreferrer">USD/JPY</a>. Informational only; not brokerage-grade valuation or investment advice.</p>
+                </footer>
+
+                <div class="portfolio-error" data-error hidden>
+                    Portfolio data is temporarily unavailable. The cached file may be missing or malformed.
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="portfolio.js" defer></script>
+</body>
+</html>

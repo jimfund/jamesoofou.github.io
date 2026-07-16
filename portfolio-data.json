@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-16T09:42:18Z",
+  "source": {
+    "name": "Yahoo Finance",
+    "type": "unofficial chart feed",
+    "symbols": {
+      "sk_telecom": "SKM",
+      "softbank": "9984.T",
+      "usd_jpy": "JPY=X"
+    }
+  },
+  "portfolio": {
+    "currency": "USD",
+    "start_date": "2026-07-15",
+    "initial_value_usd": 400000.0,
+    "initial_allocations_usd": {
+      "SKM": 200000.0,
+      "9984.T": 200000.0
+    },
+    "strategy": "buy-and-hold",
+    "rebalanced": false,
+    "return_method": "adjusted close with dividends reinvested"
+  },
+  "latest": {
+    "date": "2026-07-15",
+    "value_usd": 400000.0,
+    "profit_loss_usd": 0.0,
+    "return_pct": 0.0,
+    "skm": {
+      "close_usd": 32.26,
+      "value_usd": 200000.0,
+      "return_pct": 0.0,
+      "weight_pct": 50.0
+    },
+    "softbank": {
+      "close_jpy": 6360.0,
+      "value_usd": 200000.0,
+      "return_pct": 0.0,
+      "weight_pct": 50.0
+    },
+    "usd_jpy": 162.186996
+  },
+  "series": [
+    {
+      "date": "2026-07-15",
+      "value_usd": 400000.0,
+      "profit_loss_usd": 0.0,
+      "return_pct": 0.0,
+      "skm": {
+        "close_usd": 32.26,
+        "value_usd": 200000.0,
+        "return_pct": 0.0,
+        "weight_pct": 50.0
+      },
+      "softbank": {
+        "close_jpy": 6360.0,
+        "value_usd": 200000.0,
+        "return_pct": 0.0,
+        "weight_pct": 50.0
+      },
+      "usd_jpy": 162.186996
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+name: Update portfolio data
+
+on:
+  schedule:
+    - cron: "30 23 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-portfolio-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out published site
+        uses: actions/checkout@v4
+
+      - name: Fetch closing prices
+        run: python3 portfolio_update.py --output portfolio-data.json
+
+      - name: Commit updated data
+        run: |
+          if git diff --quiet -- portfolio-data.json; then
+            echo "Portfolio data is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add portfolio-data.json
+          git commit -m "Update portfolio data"
+          git push
