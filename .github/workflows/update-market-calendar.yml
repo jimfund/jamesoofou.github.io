@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out published site
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Generate calendar
         run: python3 market_calendar_update.py --output market-calendar.json
