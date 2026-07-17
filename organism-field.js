@@ -32,7 +32,21 @@
     let tipCursor = 0;
     let lastInteractionPulse = 0;
     let lastPulseTarget = null;
+    let lastRadioPulse = 0;
+    let radioPulseSequence = 0;
+    let radioSignalSeed = hash("radio:unidentified");
     let animationFrame = 0;
+
+    function marketDriveFor(state) {
+        if (state === "open") return 1;
+        if (state === "closed") return 0.54;
+        return 0.34;
+    }
+
+    let marketDriveTarget = marketDriveFor(document.documentElement.dataset.marketState);
+    let marketDrive = marketDriveTarget;
+    let radioDriveTarget = document.documentElement.dataset.radioState === "playing" ? 1 : 0;
+    let radioDrive = radioDriveTarget;
 
     function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -285,6 +299,8 @@
         tipCursor = 0;
         lastInteractionPulse = 0;
         lastPulseTarget = null;
+        lastRadioPulse = 0;
+        radioPulseSequence = 0;
         rootIndex = addCell(rootX, rootY, -1, baseAngle, 0, seed, 0);
 
         const rng = randomFrom(seed);
@@ -730,7 +746,8 @@
 
     function grow(elapsed, dt) {
         const saturation = cells.length / maxCells;
-        const rate = 4.6 + 10.5 * (1 - saturation);
+        const metabolism = 0.72 + marketDrive * 0.28 + radioDrive * 0.12;
+        const rate = (4.6 + 10.5 * (1 - saturation)) * metabolism;
         growthCredit += dt * rate;
 
         let steps = 0;
@@ -745,13 +762,37 @@
         }
     }
 
+    function pulseFromRadio(elapsed) {
+        if (radioDrive < 0.68 || !sources.length) {
+            return;
+        }
+
+        const intervalSeed = hash(`${radioSignalSeed}:${radioPulseSequence}`);
+        const interval = 8 + (intervalSeed % 600) / 100;
+        if (elapsed - lastRadioPulse < interval) {
+            return;
+        }
+
+        const visibleSources = sources.filter((source) => source.visible);
+        const candidates = visibleSources.length ? visibleSources : sources;
+        const source = candidates[intervalSeed % candidates.length];
+        triggerPulseAt(source.x, source.y);
+        lastRadioPulse = elapsed;
+        radioPulseSequence += 1;
+    }
+
     function render(now) {
         const elapsed = (now - startTime) / 1000;
         const dt = Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
         const pulse = elapsed * 3.2;
         lastTime = now;
 
+        const easing = 1 - Math.exp(-dt * 1.4);
+        marketDrive += (marketDriveTarget - marketDrive) * easing;
+        radioDrive += (radioDriveTarget - radioDrive) * easing;
+
         grow(elapsed, dt);
+        pulseFromRadio(elapsed);
 
         for (let index = pulses.length - 1; index >= 0; index -= 1) {
             if (elapsed - pulses[index].start > pulses[index].duration + 0.4) {
@@ -760,11 +801,14 @@
         }
 
         context.clearRect(0, 0, width, height);
+        context.save();
+        context.globalAlpha = clamp(0.82 + marketDrive * 0.12 + radioDrive * 0.06, 0.82, 1);
         drawNutrients(elapsed);
         drawMembrane(elapsed);
         drawLinks(elapsed);
         drawCells(elapsed, pulse);
         pulses.forEach((signal) => drawPulse(signal, elapsed));
+        context.restore();
 
         animationFrame = window.requestAnimationFrame(render);
     }
@@ -780,6 +824,21 @@
 
     root.addEventListener("focusin", (event) => {
         pulseForInteraction(event.target);
+    });
+
+    document.addEventListener("jimfund:market-state", (event) => {
+        marketDriveTarget = marketDriveFor(event.detail?.unknown ? "unknown" : (event.detail?.anyOpen ? "open" : "closed"));
+    });
+
+    document.addEventListener("jimfund:radio-state", (event) => {
+        const wasPlaying = radioDriveTarget > 0;
+        radioDriveTarget = event.detail?.playing ? 1 : 0;
+        if (event.detail?.trackId) {
+            radioSignalSeed = hash(`${event.detail.trackId}:${event.detail.trackIndex ?? 0}`);
+        }
+        if (!wasPlaying && radioDriveTarget > 0) {
+            lastRadioPulse = Math.max(0, (performance.now() - startTime) / 1000 - 5);
+        }
     });
 
     document.addEventListener("visibilitychange", () => {

@@ -1,0 +1,164 @@
+.machinery-shell {
+    width: min(900px, calc(100vw - 28px));
+}
+
+.machinery {
+    border: 1px solid var(--line);
+    background: var(--panel);
+}
+
+.machinery__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 24px;
+    align-items: end;
+    padding: 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.machinery__header p,
+.machinery__overall,
+.machinery-row,
+.machinery__footer {
+    font-family: "IBM Plex Mono", monospace;
+}
+
+.machinery__header p {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.machinery__header h1 {
+    margin: 0;
+    color: var(--accent-strong);
+    font-size: clamp(1.55rem, 4vw, 2.7rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+}
+
+.machinery__overall {
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.machinery__rows {
+    display: grid;
+}
+
+.machinery-row {
+    display: grid;
+    grid-template-columns: 8px minmax(9rem, 0.7fr) minmax(11rem, 0.8fr) minmax(0, 1.5fr);
+    gap: 14px;
+    align-items: baseline;
+    min-height: 58px;
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.72rem;
+}
+
+.machinery-row__lamp {
+    align-self: center;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--line-strong);
+}
+
+.machinery-row h2,
+.machinery-row p {
+    margin: 0;
+}
+
+.machinery-row h2 {
+    color: var(--text);
+    font-size: inherit;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.machinery-row strong {
+    color: var(--accent);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.machinery-row p {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.machinery-row[data-state="nominal"] .machinery-row__lamp {
+    border-color: var(--positive);
+    background: var(--positive);
+}
+
+.machinery-row[data-state="degraded"] .machinery-row__lamp,
+.machinery-row[data-state="unknown"] .machinery-row__lamp {
+    border-color: var(--accent);
+}
+
+.machinery-row[data-state="fault"] .machinery-row__lamp {
+    border-color: var(--signal);
+    background: var(--signal);
+}
+
+.machinery-row[data-state="fault"] strong {
+    color: var(--signal);
+}
+
+.machinery__footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 13px 18px;
+    color: var(--muted);
+    font-size: 0.64rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.machinery__footer button {
+    border: 0;
+    background: transparent;
+    color: var(--accent);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+}
+
+.machinery__footer button:hover,
+.machinery__footer button:focus-visible {
+    color: var(--signal);
+}
+
+@media (max-width: 700px) {
+    .machinery__header {
+        grid-template-columns: 1fr;
+    }
+
+    .machinery-row {
+        grid-template-columns: 8px minmax(0, 1fr);
+        gap: 4px 12px;
+    }
+
+    .machinery-row__lamp {
+        grid-row: 1 / 4;
+    }
+
+    .machinery-row strong,
+    .machinery-row p {
+        grid-column: 2;
+    }
+
+    .machinery__footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

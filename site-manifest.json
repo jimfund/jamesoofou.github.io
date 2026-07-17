@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-07-17T20:56:55Z",
+  "content": {
+    "article_count": 11,
+    "series_count": 3,
+    "latest": {
+      "slug": "2026-vi",
+      "date": "2026-07-10"
+    }
+  },
+  "feed": {
+    "path": "feed.xml",
+    "expected_items": 11
+  },
+  "radio": {
+    "path": "radio-playlist.json",
+    "expected_tracks": 6
+  },
+  "assets": {
+    "market_calendar": "market-calendar.json",
+    "portfolio": "portfolio-data.json",
+    "health": "site-health.json"
+  }
+}

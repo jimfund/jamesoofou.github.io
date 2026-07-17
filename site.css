@@ -389,6 +389,16 @@ body:has(.article-page[data-slug="2026-vi"]) {
     min-height: 36px;
 }
 
+.radio-player__status {
+    align-self: center;
+    margin-right: auto;
+    padding: 0 12px 0 18px;
+    color: color-mix(in srgb, var(--signal) 66%, var(--muted));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .radio-player__button {
     min-width: 4.5rem;
     border: 0;
@@ -424,7 +434,8 @@ body:has(.article-page[data-slug="2026-vi"]) {
     color: var(--accent-strong);
 }
 
-.radio-player:not(.has-multiple-tracks) .radio-player__button:not(.radio-player__button--primary) {
+.radio-player:not(.has-multiple-tracks) [data-radio-prev],
+.radio-player:not(.has-multiple-tracks) [data-radio-next] {
     display: none;
 }
 
@@ -906,6 +917,51 @@ body:has(.article-page[data-slug="2026-vi"]) {
     text-align: right;
 }
 
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.archive-list__entry.has-archive-offset .archive-list__title {
+    transform: translateX(1px);
+}
+
+.archive-anomaly__classification {
+    color: color-mix(in srgb, var(--signal) 54%, var(--muted));
+}
+
+.archive-list--home .archive-anomaly__signal {
+    grid-template-columns: 7.25rem minmax(0, 1fr) 9.5rem;
+    min-height: 31px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: color-mix(in srgb, var(--signal) 44%, var(--muted));
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.11em;
+    line-height: 1.45;
+    text-transform: uppercase;
+}
+
+.archive-anomaly__signal::before {
+    content: "····-··-··";
+    color: color-mix(in srgb, var(--muted) 62%, var(--bg));
+    font-variant-numeric: tabular-nums;
+}
+
+.archive-anomaly__signal::after {
+    content: "unfiled";
+    color: color-mix(in srgb, var(--muted) 58%, var(--bg));
+    text-align: right;
+}
+
 .archive-list .archive-list__series {
     display: inline;
     color: var(--muted);
@@ -1095,6 +1151,10 @@ body:has(.article-page[data-slug="2026-vi"]) {
         flex: 1 1 0;
     }
 
+    .radio-player__status:empty {
+        display: none;
+    }
+
     .entry-card,
     .article-page {
         padding-left: 18px;
@@ -1176,6 +1236,13 @@ body:has(.article-page[data-slug="2026-vi"]) {
 
     .archive-list__meta {
         text-align: left;
+    }
+
+    .archive-list--home .archive-anomaly__signal {
+        grid-template-columns: 5.4rem minmax(0, 1fr) auto;
+        gap: 8px;
+        padding-left: 18px;
+        padding-right: 18px;
     }
     .article-content {
         font-size: 1rem;

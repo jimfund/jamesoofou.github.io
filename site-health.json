@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-07-17T20:49:26Z",
+  "overall": "nominal",
+  "checks": {
+    "feed": {
+      "state": "nominal",
+      "items": 11,
+      "detail": "RSS parsed successfully"
+    },
+    "hyperliquid": {
+      "state": "nominal",
+      "detail": "SP500 quote feed responded",
+      "observed_price": "7451.0"
+    },
+    "radio": {
+      "state": "nominal",
+      "reachable": 6,
+      "total": 6,
+      "tracks": [
+        {
+          "id": "qAiPsZRZNOI",
+          "title": "The Highwaymen Live in Las Vegas",
+          "state": "reachable",
+          "observed_title": "The Highwaymen Live in Las Vegas",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        },
+        {
+          "id": "6hUkyKBsGtQ",
+          "title": "Paradise Circus",
+          "state": "reachable",
+          "observed_title": "Paradise Circus",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        },
+        {
+          "id": "6G0NFv3738s",
+          "title": "Stories",
+          "state": "reachable",
+          "observed_title": "Stories",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        },
+        {
+          "id": "iyGpSvj1DGo",
+          "title": "Code Geass Stories Extended 1 hour",
+          "state": "reachable",
+          "observed_title": "Code Geass Stories Extended 1 hour",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        },
+        {
+          "id": "HIavGD36vtg",
+          "title": "Neutral Milk Hotel - Little Birds",
+          "state": "reachable",
+          "observed_title": "Neutral Milk Hotel - Little Birds",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        },
+        {
+          "id": "kL5tG4W5wsE",
+          "title": "Bob Dylan - A Hard Rain's A-Gonna Fall (Fort Collins, 1976)",
+          "state": "reachable",
+          "observed_title": "New Very Low Generation Hard Rain Bob Dylan Fort Collins 1976 OFF MASTER",
+          "note": "oEmbed reachability does not prove playback or embeddability"
+        }
+      ]
+    },
+    "yahoo": {
+      "state": "nominal",
+      "symbols": {
+        "SKM": "2026-07-17",
+        "9984.T": "2026-07-17",
+        "JPY=X": "2026-07-17"
+      },
+      "detail": "daily chart feeds responded"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b0f">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>Machinery / jimfund</title>
+    <meta name="description" content="Observed condition of the machinery beneath jimfund.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+    <link rel="stylesheet" href="status.css">
+</head>
+<body>
+    <div class="page-shell machinery-shell">
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a class="brand" href="index.html">jimfund</a>
+                <div class="site-header__meta"><span>Machinery</span><span data-observed-at>Unobserved</span></div>
+            </div>
+        </header>
+        <main class="machinery" data-machinery aria-busy="true">
+            <header class="machinery__header">
+                <p>Internal surface / no guarantees</p>
+                <h1>Observed condition</h1>
+                <div class="machinery__overall" data-overall>Observation pending</div>
+            </header>
+            <div class="machinery__rows">
+                <section class="machinery-row" data-check="archive">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Archive</h2><strong data-check-value>Pending</strong><p data-check-detail>Reading build manifest.</p>
+                </section>
+                <section class="machinery-row" data-check="feed">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Feed</h2><strong data-check-value>Pending</strong><p data-check-detail>Parsing syndication signal.</p>
+                </section>
+                <section class="machinery-row" data-check="portfolio">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Portfolio cache</h2><strong data-check-value>Pending</strong><p data-check-detail>Reconciling components.</p>
+                </section>
+                <section class="machinery-row" data-check="updater">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Portfolio updater</h2><strong data-check-value>Pending</strong><p data-check-detail>Looking for the last public run.</p>
+                </section>
+                <section class="machinery-row" data-check="calendar">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Market calendar</h2><strong data-check-value>Pending</strong><p data-check-detail>Measuring schedule horizon.</p>
+                </section>
+                <section class="machinery-row" data-check="quotes">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Quote feeds</h2><strong data-check-value>Pending</strong><p data-check-detail>Reading cached probes.</p>
+                </section>
+                <section class="machinery-row" data-check="radio">
+                    <span class="machinery-row__lamp" aria-hidden="true"></span>
+                    <h2>Radio</h2><strong data-check-value>Pending</strong><p data-check-detail>Counting distant receivers.</p>
+                </section>
+            </div>
+            <footer class="machinery__footer">
+                <span>Nominal is not the same as true.</span>
+                <button type="button" data-reobserve>Observe again</button>
+            </footer>
+        </main>
+    </div>
+    <script src="status.js" defer></script>
+</body>
+</html>

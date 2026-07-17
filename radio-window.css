@@ -1,0 +1,61 @@
+.radio-window-body {
+    min-width: 300px;
+    padding: 10px;
+}
+
+.radio-window {
+    width: min(680px, 100%);
+    margin: 0 auto;
+    border: 1px solid var(--line);
+    background: var(--panel);
+}
+
+.radio-window__masthead,
+.radio-window__note {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.radio-window__masthead {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--accent);
+}
+
+.radio-window__masthead span:last-child {
+    color: var(--muted);
+}
+
+.radio-window .radio-player {
+    border-top: 0;
+}
+
+.radio-window .radio-player__frame {
+    height: min(56.25vw, 380px);
+    min-height: 220px;
+}
+
+.radio-window__note {
+    margin: 0;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+    color: color-mix(in srgb, var(--muted) 70%, var(--bg));
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .radio-window__masthead {
+        display: grid;
+        gap: 3px;
+    }
+
+    .radio-window .radio-player__frame {
+        height: 56.25vw;
+        min-height: 180px;
+    }
+}

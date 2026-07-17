@@ -5,33 +5,7 @@
         return;
     }
 
-    const tracks = [
-        {
-            id: "qAiPsZRZNOI",
-            title: "The Highwaymen Live in Las Vegas",
-        },
-        {
-            id: "6hUkyKBsGtQ",
-            title: "Paradise Circus",
-        },
-        {
-            id: "6G0NFv3738s",
-            title: "Stories",
-        },
-        {
-            id: "iyGpSvj1DGo",
-            title: "Code Geass Stories Extended 1 hour",
-        },
-        {
-            id: "HIavGD36vtg",
-            title: "Neutral Milk Hotel - Little Birds",
-        },
-        {
-            id: "kL5tG4W5wsE",
-            title: "Bob Dylan - A Hard Rain's A-Gonna Fall (Fort Collins, 1976)",
-        },
-    ];
-
+    const playlistNode = root.querySelector("[data-radio-tracks]");
     const titleNodes = root.querySelectorAll("[data-radio-title]");
     const frame = root.querySelector("[data-radio-frame]");
     const launchButton = root.querySelector("[data-radio-launch]");
@@ -40,23 +14,61 @@
     const toggleButton = root.querySelector("[data-radio-toggle]");
     const previousButton = root.querySelector("[data-radio-prev]");
     const nextButton = root.querySelector("[data-radio-next]");
+    const detachButton = root.querySelector("[data-radio-detach]");
+    const statusNode = root.querySelector("[data-radio-status]");
+    const detachedMode = root.hasAttribute("data-radio-window");
+    const handoff = new URLSearchParams(window.location.search);
+
+    let tracks = [];
+    try {
+        const parsed = JSON.parse(playlistNode ? playlistNode.textContent : "[]");
+        if (Array.isArray(parsed)) {
+            tracks = parsed.filter((track) => {
+                return track
+                    && typeof track.id === "string"
+                    && /^[A-Za-z0-9_-]{11}$/.test(track.id)
+                    && typeof track.title === "string"
+                    && track.title.trim();
+            });
+        }
+    } catch (_error) {
+        tracks = [];
+    }
 
     let currentIndex = 0;
-    let isPlaying = false;
+    const handedTrack = handoff.get("track");
+    const handedIndex = tracks.findIndex((track) => track.id === handedTrack);
+    if (handedIndex >= 0) {
+        currentIndex = handedIndex;
+    }
+    let pendingStartSeconds = Math.max(0, Number.parseFloat(handoff.get("time")) || 0);
+    let isPlaying = detachedMode && handoff.get("play") === "1";
+    let autoplayBlocked = false;
+    let statusMessage = "";
     let player = null;
     let playerReady = false;
     let youtubeApiPromise = null;
     let consecutiveFailures = 0;
+    const instanceId = window.crypto && typeof window.crypto.randomUUID === "function"
+        ? window.crypto.randomUUID()
+        : `${Date.now()}:${Math.random()}`;
+    const radioChannel = typeof window.BroadcastChannel === "function"
+        ? new window.BroadcastChannel("jimfund-radio")
+        : null;
 
-    if (!titleNodes.length || !frame || !launchButton || !launchCommand || !panel || !toggleButton || !previousButton || !nextButton || tracks.length === 0) {
+    if (!titleNodes.length || !frame || !launchButton || !launchCommand || !panel || !toggleButton || !previousButton || !nextButton || !detachButton || !statusNode || tracks.length === 0) {
         return;
+    }
+
+    if (detachedMode && window.history && typeof window.history.replaceState === "function") {
+        window.history.replaceState({}, "", window.location.pathname);
     }
 
     function currentTrack() {
         return tracks[currentIndex];
     }
 
-    function embedUrl(track) {
+    function embedUrl(track, startSeconds) {
         const params = new URLSearchParams({
             autoplay: "1",
             enablejsapi: "1",
@@ -65,6 +77,9 @@
         });
         if (window.location.origin && window.location.origin !== "null") {
             params.set("origin", window.location.origin);
+        }
+        if (startSeconds > 0) {
+            params.set("start", String(Math.floor(startSeconds)));
         }
         return `https://www.youtube-nocookie.com/embed/${track.id}?${params.toString()}`;
     }
@@ -119,15 +134,30 @@
                         }
                         const loadedVideo = event.target.getVideoData();
                         if (!loadedVideo || loadedVideo.video_id !== currentTrack().id) {
-                            event.target.loadVideoById(currentTrack().id);
+                            event.target.loadVideoById({
+                                videoId: currentTrack().id,
+                                startSeconds: pendingStartSeconds,
+                            });
+                            pendingStartSeconds = 0;
                         }
                     },
                     onStateChange(event) {
                         if (event.data === window.YT.PlayerState.PLAYING) {
                             consecutiveFailures = 0;
+                            autoplayBlocked = false;
+                            statusMessage = "";
+                            if (radioChannel) {
+                                radioChannel.postMessage({ type: "claim", instanceId });
+                            }
+                            render(false);
                         } else if (event.data === window.YT.PlayerState.ENDED && isPlaying) {
                             move(1);
                         }
+                    },
+                    onAutoplayBlocked() {
+                        autoplayBlocked = true;
+                        statusMessage = "Autoplay blocked";
+                        render(false);
                     },
                     onError() {
                         if (!isPlaying) {
@@ -135,7 +165,7 @@
                         }
                         consecutiveFailures += 1;
                         if (consecutiveFailures >= tracks.length) {
-                            stop();
+                            stop("No tracks available");
                             return;
                         }
                         move(1);
@@ -144,6 +174,8 @@
             });
         }).catch((error) => {
             root.title = error instanceof Error ? error.message : "Unable to enable automatic playback";
+            statusMessage = "Receiver unavailable";
+            render(false);
         });
     }
 
@@ -155,28 +187,56 @@
         frame.title = `Jimfund radio: ${track.title}`;
 
         if (isPlaying && playerReady) {
-            player.loadVideoById(track.id);
+            player.loadVideoById({
+                videoId: track.id,
+                startSeconds: pendingStartSeconds,
+            });
+            pendingStartSeconds = 0;
         } else if (isPlaying && !player) {
-            frame.src = embedUrl(track);
+            frame.src = embedUrl(track, pendingStartSeconds);
             initializePlayer();
         }
     }
 
-    function render() {
+    function broadcastState() {
+        document.documentElement.dataset.radioState = isPlaying && !autoplayBlocked ? "playing" : "stopped";
+        document.dispatchEvent(new CustomEvent("jimfund:radio-state", {
+            detail: {
+                playing: isPlaying && !autoplayBlocked,
+                trackId: currentTrack().id,
+                trackIndex: currentIndex,
+            },
+        }));
+    }
+
+    function render(shouldLoadTrack = true) {
         const hasMultipleTracks = tracks.length > 1;
         previousButton.disabled = !hasMultipleTracks;
         nextButton.disabled = !hasMultipleTracks;
         root.classList.toggle("has-multiple-tracks", hasMultipleTracks);
         launchButton.setAttribute("aria-expanded", String(isPlaying));
-        launchCommand.textContent = isPlaying ? "On air" : "Turn on";
+        launchCommand.textContent = autoplayBlocked ? "Resume"
+            : isPlaying ? "On air"
+                : statusMessage === "No tracks available" ? "Unavailable" : "Turn on";
         toggleButton.textContent = "Stop";
+        detachButton.textContent = detachedMode ? "Close" : "Detach";
+        statusNode.textContent = statusMessage;
         root.classList.toggle("is-active", isPlaying);
+        root.classList.toggle("is-blocked", autoplayBlocked);
         panel.hidden = !isPlaying;
-        loadTrack();
+        if (detachedMode) {
+            document.title = `${currentTrack().title} / jimfund radio`;
+        }
+        if (shouldLoadTrack) {
+            loadTrack();
+        }
+        broadcastState();
     }
 
-    function stop() {
+    function stop(message = "") {
         isPlaying = false;
+        autoplayBlocked = false;
+        statusMessage = message;
         if (playerReady) {
             player.stopVideo();
         } else if (!player) {
@@ -186,17 +246,56 @@
     }
 
     function play() {
+        if (autoplayBlocked && playerReady) {
+            autoplayBlocked = false;
+            isPlaying = true;
+            statusMessage = "";
+            player.playVideo();
+            render(false);
+            return;
+        }
         if (isPlaying) {
             return;
         }
 
         isPlaying = true;
+        statusMessage = "";
         render();
     }
 
     function move(offset) {
         currentIndex = (currentIndex + offset + tracks.length) % tracks.length;
+        pendingStartSeconds = 0;
+        autoplayBlocked = false;
+        statusMessage = "";
         render();
+    }
+
+    function detach() {
+        if (detachedMode) {
+            window.close();
+            return;
+        }
+
+        const currentTime = playerReady && typeof player.getCurrentTime === "function"
+            ? Math.max(0, player.getCurrentTime())
+            : 0;
+        const url = new URL("radio.html", window.location.href);
+        url.searchParams.set("track", currentTrack().id);
+        url.searchParams.set("time", String(Math.floor(currentTime)));
+        url.searchParams.set("play", isPlaying ? "1" : "0");
+        const receiver = window.open(
+            url.toString(),
+            "jimfund-radio",
+            "popup=yes,width=620,height=560,resizable=yes,scrollbars=yes",
+        );
+        if (receiver) {
+            stop();
+        } else {
+            root.title = "Detached receiver was blocked; inline playback continues";
+            statusMessage = "Pop-up blocked";
+            render(false);
+        }
     }
 
     launchButton.addEventListener("click", play);
@@ -206,6 +305,16 @@
 
     previousButton.addEventListener("click", () => move(-1));
     nextButton.addEventListener("click", () => move(1));
+    detachButton.addEventListener("click", detach);
+
+    if (radioChannel) {
+        radioChannel.addEventListener("message", (event) => {
+            if (event.data && event.data.type === "claim" && event.data.instanceId !== instanceId && isPlaying) {
+                stop();
+            }
+        });
+        window.addEventListener("pagehide", () => radioChannel.close(), { once: true });
+    }
 
     render();
 }());

@@ -23,6 +23,7 @@
         
         <link rel="alternate" type="application/rss+xml" title="jimfund RSS" href="https://jimfund.com/feed.xml">
         
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,27 +129,31 @@
         </li>
     </ol>
     <section class="radio-player" data-radio aria-label="Radio">
-        <button class="radio-player__launch" type="button" data-radio-launch aria-expanded="false">
-            <span class="radio-player__kicker">Radio</span>
-            <span class="radio-player__title" data-radio-title>The Highwaymen Live in Las Vegas</span>
-            <span class="radio-player__launch-command" data-radio-launch-command>Turn on</span>
-        </button>
-        <div class="radio-player__panel" data-radio-panel hidden>
-            <div class="radio-player__controls">
-                <button class="radio-player__button" type="button" data-radio-prev aria-label="Previous video">Prev</button>
-                <button class="radio-player__button radio-player__button--primary" type="button" data-radio-toggle aria-label="Stop radio">Stop</button>
-                <button class="radio-player__button" type="button" data-radio-next aria-label="Next video">Next</button>
-            </div>
-            <div class="radio-player__frame-shell" aria-live="polite">
-                <iframe class="radio-player__frame" data-radio-frame title="Jimfund radio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
+    <script type="application/json" data-radio-tracks>[{"id": "qAiPsZRZNOI", "title": "The Highwaymen Live in Las Vegas"}, {"id": "6hUkyKBsGtQ", "title": "Paradise Circus"}, {"id": "6G0NFv3738s", "title": "Stories"}, {"id": "iyGpSvj1DGo", "title": "Code Geass Stories Extended 1 hour"}, {"id": "HIavGD36vtg", "title": "Neutral Milk Hotel - Little Birds"}, {"id": "kL5tG4W5wsE", "title": "Bob Dylan - A Hard Rain\u0027s A-Gonna Fall (Fort Collins, 1976)"}]</script>
+    <button class="radio-player__launch" type="button" data-radio-launch aria-expanded="false" aria-controls="radio-panel">
+        <span class="radio-player__kicker">Radio</span>
+        <span class="radio-player__title" data-radio-title>The Highwaymen Live in Las Vegas</span>
+        <span class="radio-player__launch-command" data-radio-launch-command>Turn on</span>
+    </button>
+    <div class="radio-player__panel" id="radio-panel" data-radio-panel hidden>
+        <div class="radio-player__controls">
+            <span class="radio-player__status" data-radio-status aria-live="polite"></span>
+            <button class="radio-player__button" type="button" data-radio-prev aria-label="Previous video">Prev</button>
+            <button class="radio-player__button radio-player__button--primary" type="button" data-radio-toggle aria-label="Stop radio">Stop</button>
+            <button class="radio-player__button" type="button" data-radio-next aria-label="Next video">Next</button>
+            <button class="radio-player__button" type="button" data-radio-detach aria-label="Open radio in a separate window">Detach</button>
         </div>
-    </section>
+        <div class="radio-player__frame-shell" aria-live="polite">
+            <iframe class="radio-player__frame" data-radio-frame title="Jimfund radio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
 </section>
 <script src="market-clock.js" defer></script>
 <script src="sp500-ticker.js" defer></script>
 <script src="radio.js" defer></script>
 <script src="organism-field.js" defer></script>
+<script src="anomalies.js" defer></script>
 
             </main>
 

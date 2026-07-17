@@ -1,15 +1,15 @@
-name: Update portfolio data
+name: Update market calendar
 
 on:
   schedule:
-    - cron: "30 23 * * 1-5"
+    - cron: "17 5 1 12 *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: update-portfolio-data
+  group: update-market-calendar
   cancel-in-progress: false
 
 jobs:
@@ -19,18 +19,18 @@ jobs:
       - name: Check out published site
         uses: actions/checkout@v4
 
-      - name: Fetch closing prices
-        run: python3 portfolio_update.py --output portfolio-data.json
+      - name: Generate calendar
+        run: python3 market_calendar_update.py --output market-calendar.json
 
-      - name: Commit updated data
+      - name: Commit updated calendar
         run: |
-          if git diff --quiet -- portfolio-data.json; then
-            echo "Portfolio data is unchanged."
+          if git diff --quiet -- market-calendar.json; then
+            echo "Market calendar is unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add portfolio-data.json
-          git commit -m "Update portfolio data"
+          git add market-calendar.json
+          git commit -m "Update market calendar"
           git pull --rebase
           git push
