@@ -26,6 +26,10 @@
             id: "HIavGD36vtg",
             title: "Neutral Milk Hotel - Little Birds",
         },
+        {
+            id: "kL5tG4W5wsE",
+            title: "Bob Dylan - A Hard Rain's A-Gonna Fall (Fort Collins, 1976)",
+        },
     ];
 
     const titleNodes = root.querySelectorAll("[data-radio-title]");
@@ -39,6 +43,10 @@
 
     let currentIndex = 0;
     let isPlaying = false;
+    let player = null;
+    let playerReady = false;
+    let youtubeApiPromise = null;
+    let consecutiveFailures = 0;
 
     if (!titleNodes.length || !frame || !launchButton || !launchCommand || !panel || !toggleButton || !previousButton || !nextButton || tracks.length === 0) {
         return;
@@ -51,10 +59,92 @@
     function embedUrl(track) {
         const params = new URLSearchParams({
             autoplay: "1",
+            enablejsapi: "1",
             playsinline: "1",
             rel: "0",
         });
+        if (window.location.origin && window.location.origin !== "null") {
+            params.set("origin", window.location.origin);
+        }
         return `https://www.youtube-nocookie.com/embed/${track.id}?${params.toString()}`;
+    }
+
+    function loadYouTubeApi() {
+        if (window.YT && typeof window.YT.Player === "function") {
+            return Promise.resolve(window.YT);
+        }
+        if (youtubeApiPromise) {
+            return youtubeApiPromise;
+        }
+
+        youtubeApiPromise = new Promise((resolve, reject) => {
+            const previousReadyHandler = window.onYouTubeIframeAPIReady;
+            window.onYouTubeIframeAPIReady = function () {
+                if (typeof previousReadyHandler === "function") {
+                    previousReadyHandler();
+                }
+                resolve(window.YT);
+            };
+
+            let script = document.querySelector("script[data-youtube-iframe-api]");
+            if (!script) {
+                script = document.createElement("script");
+                script.src = "https://www.youtube.com/iframe_api";
+                script.async = true;
+                script.dataset.youtubeIframeApi = "true";
+                document.head.appendChild(script);
+            }
+            script.addEventListener("error", () => reject(new Error("Unable to load the YouTube player API")), { once: true });
+        });
+
+        return youtubeApiPromise;
+    }
+
+    function initializePlayer() {
+        if (player || !isPlaying) {
+            return;
+        }
+
+        loadYouTubeApi().then(() => {
+            if (player || !isPlaying) {
+                return;
+            }
+            player = new window.YT.Player(frame, {
+                events: {
+                    onReady(event) {
+                        playerReady = true;
+                        if (!isPlaying) {
+                            event.target.stopVideo();
+                            return;
+                        }
+                        const loadedVideo = event.target.getVideoData();
+                        if (!loadedVideo || loadedVideo.video_id !== currentTrack().id) {
+                            event.target.loadVideoById(currentTrack().id);
+                        }
+                    },
+                    onStateChange(event) {
+                        if (event.data === window.YT.PlayerState.PLAYING) {
+                            consecutiveFailures = 0;
+                        } else if (event.data === window.YT.PlayerState.ENDED && isPlaying) {
+                            move(1);
+                        }
+                    },
+                    onError() {
+                        if (!isPlaying) {
+                            return;
+                        }
+                        consecutiveFailures += 1;
+                        if (consecutiveFailures >= tracks.length) {
+                            stop();
+                            return;
+                        }
+                        move(1);
+                    },
+                },
+            });
+        }).catch((error) => {
+            root.title = error instanceof Error ? error.message : "Unable to enable automatic playback";
+        });
     }
 
     function loadTrack() {
@@ -64,8 +154,11 @@
         });
         frame.title = `Jimfund radio: ${track.title}`;
 
-        if (isPlaying) {
+        if (isPlaying && playerReady) {
+            player.loadVideoById(track.id);
+        } else if (isPlaying && !player) {
             frame.src = embedUrl(track);
+            initializePlayer();
         }
     }
 
@@ -84,7 +177,11 @@
 
     function stop() {
         isPlaying = false;
-        frame.removeAttribute("src");
+        if (playerReady) {
+            player.stopVideo();
+        } else if (!player) {
+            frame.removeAttribute("src");
+        }
         render();
     }
 
