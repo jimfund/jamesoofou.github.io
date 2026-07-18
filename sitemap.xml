@@ -10,6 +10,12 @@
     <loc>https://jimfund.com/datacomb.txt</loc>
   </url>
   <url>
+    <loc>https://jimfund.com/webmaster/</loc>
+  </url>
+  <url>
+    <loc>https://jimfund.com/webmaster/feed.xml</loc>
+  </url>
+  <url>
     <loc>https://jimfund.com/2026-vi.html</loc>
     <lastmod>2026-07-10</lastmod>
   </url>
@@ -61,5 +67,9 @@
   </url>
   <url>
     <loc>https://jimfund.com/series-mind-upload.html</loc>
+  </url>
+  <url>
+    <loc>https://jimfund.com/webmaster/archive-opinions-about-adjacency.html</loc>
+    <lastmod>2026-07-18</lastmod>
   </url>
 </urlset>

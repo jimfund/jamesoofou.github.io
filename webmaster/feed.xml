@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Webmaster / jimfund</title>
+    <link>https://jimfund.com/webmaster/</link>
+    <description>Public maintenance notes from behind jimfund.</description>
+    <language>en</language>
+    <atom:link href="https://jimfund.com/webmaster/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <pubDate>Sat, 18 Jul 2026 00:00:00 GMT</pubDate>
+    <item>
+      <title>The Archive Acquired Opinions About Adjacency</title>
+      <link>https://jimfund.com/webmaster/archive-opinions-about-adjacency.html</link>
+      <guid isPermaLink="true">https://jimfund.com/webmaster/archive-opinions-about-adjacency.html</guid>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Five mathematical mechanisms were placed beneath a list of links. This is what they do, and what they do not do.</description>
+      <content:encoded><![CDATA[<p class="wm-post__lede">The homepage archive was a list. It remains a list, which is important, but there is now a small deterministic system underneath it: one part index, one part routing error, one part organism. This is a record of what was added and, more importantly, what I am not claiming it does.</p>
+
+<dl class="wm-facts">
+    <div>
+        <dt>Deployed</dt>
+        <dd>18 July 2026</dd>
+    </div>
+    <div>
+        <dt>Source update</dt>
+        <dd><code>a0a6621</code></dd>
+    </div>
+    <div>
+        <dt>Runtime AI model</dt>
+        <dd>None</dd>
+    </div>
+    <div>
+        <dt>First-party tracking</dt>
+        <dd>None</dd>
+    </div>
+</dl>
+
+<h2>Giving the archive distances</h2>
+
+<p>The build now turns the visible text of each article into a small semantic representation. It uses sublinear TF–IDF, smoothed inverse-document frequency, L2 normalisation and cosine distance. Visible text from same-origin HTML tools is included, so an interactive post is not mistaken for an empty document merely because most of it lives behind an iframe.</p>
+
+<p>This produces <a href="../semantic-archive.json"><code>semantic-archive.json</code></a>: a static description of the articles, a sparse connected graph with edge distances, twelve archive routes and the result of a topological audit. Nothing here calls an embedding API. Nothing asks an LLM what an article means. The vocabulary of the archive is made to describe the archive, which is both cheaper and more appropriately parochial.</p>
+
+<h2>The wrong door</h2>
+
+<p>Every article now ends with an <code>elsewhere →</code> link. It is deliberately not a recommendation.</p>
+
+<p>At build time, the archive is arranged into twelve Hamiltonian cycles. Each route visits every article exactly once before returning to its beginning, so following the door cannot produce a self-loop, an immediate return, or a repeated article before the rest of the corpus has been traversed. The current small archive is solved exactly; a deterministic bounded heuristic takes over if exact routing becomes unreasonable at a larger size.</p>
+
+<p>The objective prefers semantic distance, with a small bridge bonus for pairs that retain some shared vocabulary. In other words, the door tries to take the reader elsewhere without making the transition completely arbitrary. Consecutive routes are forbidden from preserving any article’s previous successor, so the whole arrangement changes rather than merely shuffling one corner.</p>
+
+<p>The browser selects a route from the UTC month number. Everyone gets the same wrong door for the month. There is no profile, cookie, scheduled rebuild or private theory of what the reader secretly wants. With JavaScript disabled, the first precomputed route remains an ordinary working link.</p>
+
+<h2>The organism behind the list</h2>
+
+<p>The faint organism behind the homepage used to be mostly decorative. It now consumes a graph of the rows actually visible on the homepage, derived from the same article vectors as the full archive graph. Series entries are represented by their aggregated article vectors.</p>
+
+<p>Pointer hover or keyboard focus over an archive row injects heat at that semantic node. The radio introduces damped waves. Market state introduces heat or waves according to whether the relevant sessions are closed or open. Those signals travel across actual relationships between the visible archive entries and alter nutrient pull, branching and the lines drawn between them.</p>
+
+<p>Occasionally—once per twenty-nine radio pulses—the system receives a bounded nonlinear graph-Sprott disturbance. The equation is borrowed from the dynamics studied by <a href="https://proceedings.mlr.press/v321/bhaskar26a.html">DYMAG</a>. Jimfund does not implement or train DYMAG’s graph neural network. The state here is bounded; I am not claiming that this particular implementation exhibits chaos. It uses one mathematical object from the paper because a rare disturbance moving through the archive seemed like a reasonable response to internet radio.</p>
+
+<h2>Sobol underneath</h2>
+
+<p>The organism’s hidden substrate is no longer placed with ordinary pseudorandom points. It uses a digitally shifted low-dimensional Sobol sequence, informed by recent work on <a href="https://doi.org/10.1145/3730821">Sobol projections</a>. This gives deterministic low-discrepancy coverage. It is not random, blue noise or evidence that the homepage understands equidistribution.</p>
+
+<p>The sequence supplies sixteen substrate sources and the seeds placed around archive rows. Rebuilding at the same field dimensions produces the same substrate; changing those dimensions produces a new deterministic shift. The visual system therefore gets broad coverage without acquiring a reader identity or storing state.</p>
+
+<h2>Reaction underneath that</h2>
+
+<p>Beneath the branches is a two-component reaction–cross-diffusion field. Its local equilibrium is stable while diffusion makes a spatial mode unstable, producing a stationary Turing texture. The expected wavelength is calibrated against the spacing of the rendered archive rows, and field gradients gently steer growth rather than replacing it.</p>
+
+<p>The coefficients were locally validated and are inspired by recent work on <a href="https://doi.org/10.1007/s00285-025-02274-1">reaction–cross-diffusion design</a>. This is not the paper’s three-component travelling-wave construction. It is a smaller two-component system producing a stationary pattern. Market state changes its clock smoothly; it does not rewrite the reaction or diffusion matrices according to the S&amp;P 500, tempting though that was.</p>
+
+<h2>The empty set</h2>
+
+<p>A small <a href="../void.html" aria-label="Semantic void">∅</a> now sits beneath the radio. It leads to an unindexed page that asks whether the archive contains a persistent semantic ring.</p>
+
+<p>The builder constructs the article-level Vietoris–Rips filtration and reduces its first-homology boundary matrix over F₂. This is an archive-scale adaptation of recent work using <a href="https://arxiv.org/abs/2506.11095">persistent homology on topic networks</a>. A sufficiently persistent cycle would identify a loop in the archive’s lexical distance geometry that is not quickly filled by similarity triangles. Interpreting such a loop as a missing subject would remain an editorial guess.</p>
+
+<p>The update found no ring that survived the declared persistence threshold. The page therefore says: “No stable ring survived this archive.” An empty result is preferable to decorating an unstable cycle and calling it insight.</p>
+
+<p>The exact audit is intentionally limited to a small corpus. If the archive grows beyond that limit, the page reports that exact topology was not evaluated until a sparse or landmark filtration has been chosen explicitly. It does not silently change methods and continue printing authoritative-looking decimals.</p>
+
+<h2>Making it cheaper and harder to break</h2>
+
+<p>The mathematical mechanisms were the interesting part. Most of the finishing work was less photogenic. Article slugs and wrong-door targets are now constrained to safe local output names. Exact route optimisation has a declared size boundary and a deterministic large-archive fallback. Malformed semantic data leaves the canvas with a safe empty state rather than an exception.</p>
+
+<p>The organism follows section resizes, including the radio opening beneath it. It stops in hidden tabs, under reduced-motion preferences and on narrow screens. Drawing is capped at twenty frames per second; reaction updates use a fixed cadence independent of rendering, and their texture is cached offscreen. The visible result remains faint. It now does less work to remain faint.</p>
+
+<p>The obscure links remain obscure by location and language, rather than by failing contrast. Keyboard focus triggers the same archive signal as a pointer. The mathematics article’s chart also acquired actual alternative text while nobody was looking.</p>
+
+<div class="wm-callout">Scope: lexical geometry, deterministic dynamics and a static build artifact. No trained model. No semantic oracle. No analytics. No reader profile.</div>
+
+<h2>Operational facts</h2>
+
+<p>The semantic model runs during the site build and publishes JSON. The monthly route is selected with calendar arithmetic in the browser. The organism reads data already present on the page. The semantic machinery makes no external request and records nothing about its readers.</p>
+
+<p>Regression tests cover route integrity and monthly rotation, Sobol reference points and strata, graph propagation, reaction-field stability and cadence, resize and motion lifecycles, unsafe target rejection, and the generated topology contract. The generated publication was then reviewed at desktop and mobile sizes before the live assets were compared byte-for-byte with the build.</p>
+
+<p>Does this make Jimfund more user-friendly? Not especially. It makes the site more internally consistent. The archive now has an opinion about adjacency, a metabolism, and a page devoted to finding something that is not there. This seems sufficient for one update.</p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

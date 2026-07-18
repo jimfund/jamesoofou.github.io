@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-07-18T08:48:41Z",
+  "built_at": "2026-07-18T09:29:16Z",
   "content": {
     "article_count": 11,
     "series_count": 3,
@@ -12,6 +12,18 @@
   "feed": {
     "path": "feed.xml",
     "expected_items": 11
+  },
+  "webmaster": {
+    "path": "webmaster/",
+    "post_count": 1,
+    "latest": {
+      "slug": "archive-opinions-about-adjacency",
+      "date": "2026-07-18"
+    },
+    "feed": {
+      "path": "webmaster/feed.xml",
+      "expected_items": 1
+    }
   },
   "radio": {
     "path": "radio-playlist.json",
