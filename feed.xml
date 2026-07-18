@@ -378,7 +378,7 @@ window.addEventListener("message", function (event) {
 
 <p>This chart describes which mathematics tasks AI can solve in terms of how long the task takes a skilled human to do. It’s based on <a href="https://www.lesswrong.com/posts/KFJ2LFogYqzfGB3uX/how-ai-takeover-might-happen-in-2-years?commentId=f5GvTksoZugnYdup9">extrapolative research</a> by METR.</p>
 
-<img src="math-chart.webp" style="max-width: 100%; height: auto; display: block; margin: 20px 0;">
+<img src="math-chart.webp" alt="Extrapolated AI task time horizon rises from near zero in 2025 to roughly 1,450 hours by early 2028." style="max-width: 100%; height: auto; display: block; margin: 20px 0;">
 
 <p>The fact that LLMs cannot yet apply the time-consuming techniques required to solve open problems is in fact largely uninformative given the time-horizon focused perspective which seems correct, and the informative evidence we do have (that the techniques which are within current-AI’s time horizons are successfully carried out by AI) suggests that we should expect that AI will be able to successfully carry out techniques which are within future-AI’s time horizons—assuming they’re not fundamentally different in kind.</p>
 

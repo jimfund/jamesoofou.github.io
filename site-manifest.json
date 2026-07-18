@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-07-17T21:01:42Z",
+  "built_at": "2026-07-18T08:48:41Z",
   "content": {
     "article_count": 11,
     "series_count": 3,
@@ -20,6 +20,7 @@
   "assets": {
     "market_calendar": "market-calendar.json",
     "portfolio": "portfolio-data.json",
-    "health": "site-health.json"
+    "health": "site-health.json",
+    "semantic_archive": "semantic-archive.json"
   }
 }
