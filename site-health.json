@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-07-17T21:02:16Z",
+  "observed_at": "2026-07-19T07:36:10Z",
   "overall": "nominal",
   "checks": {
     "feed": {
@@ -11,7 +11,7 @@
     "hyperliquid": {
       "state": "nominal",
       "detail": "SP500 quote feed responded",
-      "observed_price": "7455.0"
+      "observed_price": "7438.4"
     },
     "radio": {
       "state": "nominal",
