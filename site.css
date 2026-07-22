@@ -174,11 +174,112 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .market-clock,
+.earnings-countdown,
 .radio-player,
 .agi-countdown,
 .archive-list--home {
     position: relative;
     z-index: 1;
+}
+
+.earnings-countdown {
+    --earnings-yellow: #f4d63f;
+    --earnings-ink: #171500;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 20px;
+    align-items: center;
+    min-height: 96px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #9d8612;
+    background:
+        linear-gradient(105deg, rgba(255, 255, 255, 0.2), transparent 42%),
+        var(--earnings-yellow);
+    color: var(--earnings-ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+.earnings-countdown[hidden] {
+    display: none;
+}
+
+.earnings-countdown__report {
+    display: grid;
+    grid-template-columns: auto minmax(9ch, auto);
+    column-gap: 18px;
+    align-items: end;
+    justify-content: start;
+}
+
+.earnings-countdown__kicker {
+    grid-column: 1 / -1;
+    margin-bottom: 1px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.earnings-countdown__label {
+    padding-bottom: 5px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.earnings-countdown__value {
+    font-size: clamp(1.85rem, 5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1;
+}
+
+.earnings-countdown__call {
+    display: grid;
+    gap: 1px;
+    min-width: 9.5rem;
+    padding-left: 20px;
+    border-left: 1px solid rgba(23, 21, 0, 0.35);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.earnings-countdown__call time {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.earnings-countdown__call-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+}
+
+.earnings-countdown__link {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    border-left: 1px solid rgba(23, 21, 0, 0.35);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.earnings-countdown__link:hover,
+.earnings-countdown__link:focus-visible {
+    color: var(--earnings-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.earnings-countdown__link:focus-visible {
+    outline-color: var(--earnings-ink);
 }
 
 .market-clock {
@@ -1229,6 +1330,49 @@ body:has(.article-page[data-slug="2026-vi"]) {
 
     .site-footer {
         justify-content: flex-start;
+    }
+
+    .earnings-countdown {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        min-height: 0;
+        padding: 12px;
+    }
+
+    .earnings-countdown__report {
+        grid-column: auto;
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .earnings-countdown__label {
+        padding: 0;
+        font-size: 0.62rem;
+    }
+
+    .earnings-countdown__value {
+        margin-top: 2px;
+        font-size: clamp(1.75rem, 10vw, 2.5rem);
+    }
+
+    .earnings-countdown__call {
+        grid-template-columns: auto auto;
+        align-items: baseline;
+        justify-content: start;
+        gap: 10px;
+        min-width: 0;
+        padding: 7px 0 0;
+        border-top: 1px solid rgba(23, 21, 0, 0.35);
+        border-left: 0;
+    }
+
+    .earnings-countdown__link {
+        grid-column: auto;
+        justify-content: flex-start;
+        min-height: 26px;
+        padding: 7px 0 0;
+        border-top: 1px solid rgba(23, 21, 0, 0.35);
+        border-left: 0;
     }
 
     .market-clock {
