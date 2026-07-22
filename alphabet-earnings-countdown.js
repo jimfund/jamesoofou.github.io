@@ -10,6 +10,7 @@
 
     const reportTarget = Date.parse(reportNode.dateTime);
     const callTarget = Date.parse(callNode.dateTime);
+    const callExpectedEnd = callTarget + 60 * 60 * 1000;
     if (!Number.isFinite(reportTarget) || !Number.isFinite(callTarget)) return;
 
     function formatRemaining(milliseconds) {
@@ -24,7 +25,7 @@
 
     function render() {
         const now = Date.now();
-        if (now >= callTarget) {
+        if (now >= callExpectedEnd) {
             root.hidden = true;
             return;
         }
@@ -33,7 +34,9 @@
         reportNode.textContent = now >= reportTarget
             ? "Expected now"
             : formatRemaining(reportTarget - now);
-        callNode.textContent = formatRemaining(callTarget - now);
+        callNode.textContent = now >= callTarget
+            ? "Live now"
+            : formatRemaining(callTarget - now);
     }
 
     render();
