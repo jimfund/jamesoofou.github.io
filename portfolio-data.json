@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-25T01:03:41Z",
+  "generated_at": "2026-07-28T00:57:04Z",
   "source": {
     "name": "Yahoo Finance",
     "type": "unofficial chart feed",
@@ -23,23 +23,23 @@
     "return_method": "adjusted close with dividends reinvested"
   },
   "latest": {
-    "date": "2026-07-24",
-    "value_usd": 392402.95,
-    "profit_loss_usd": -7597.05,
-    "return_pct": -1.899262,
+    "date": "2026-07-27",
+    "value_usd": 384657.35,
+    "profit_loss_usd": -15342.65,
+    "return_pct": -3.835663,
     "skm": {
-      "close_usd": 35.67,
-      "value_usd": 221140.73,
-      "return_pct": 10.570366,
-      "weight_pct": 56.355522
+      "close_usd": 35.24,
+      "value_usd": 218474.91,
+      "return_pct": 9.237457,
+      "weight_pct": 56.797281
     },
     "softbank": {
-      "close_jpy": 5500.0,
-      "value_usd": 171262.22,
-      "return_pct": -14.368891,
-      "weight_pct": 43.644478
+      "close_jpy": 5331.0,
+      "value_usd": 166182.43,
+      "return_pct": -16.908783,
+      "weight_pct": 43.202719
     },
-    "usd_jpy": 163.791
+    "usd_jpy": 163.610992
   },
   "series": [
     {
@@ -177,22 +177,41 @@
     },
     {
       "date": "2026-07-24",
-      "value_usd": 392402.95,
-      "profit_loss_usd": -7597.05,
-      "return_pct": -1.899262,
+      "value_usd": 392360.09,
+      "profit_loss_usd": -7639.91,
+      "return_pct": -1.909977,
       "skm": {
         "close_usd": 35.67,
         "value_usd": 221140.73,
         "return_pct": 10.570366,
-        "weight_pct": 56.355522
+        "weight_pct": 56.361678
       },
       "softbank": {
         "close_jpy": 5500.0,
-        "value_usd": 171262.22,
-        "return_pct": -14.368891,
-        "weight_pct": 43.644478
+        "value_usd": 171219.36,
+        "return_pct": -14.390321,
+        "weight_pct": 43.638322
       },
-      "usd_jpy": 163.791
+      "usd_jpy": 163.832001
+    },
+    {
+      "date": "2026-07-27",
+      "value_usd": 384657.35,
+      "profit_loss_usd": -15342.65,
+      "return_pct": -3.835663,
+      "skm": {
+        "close_usd": 35.24,
+        "value_usd": 218474.91,
+        "return_pct": 9.237457,
+        "weight_pct": 56.797281
+      },
+      "softbank": {
+        "close_jpy": 5331.0,
+        "value_usd": 166182.43,
+        "return_pct": -16.908783,
+        "weight_pct": 43.202719
+      },
+      "usd_jpy": 163.610992
     }
   ]
 }
