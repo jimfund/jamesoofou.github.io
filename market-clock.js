@@ -14,6 +14,12 @@
     const timeFormatterCache = new Map();
     let calendarData = null;
     let markets = [];
+    let sp500TitleValue = "";
+
+    document.addEventListener("jimfund:sp500-value", (event) => {
+        sp500TitleValue = event.detail.formattedPrice;
+        render();
+    });
 
     function formatter(cache, timeZone, options) {
         if (!cache.has(timeZone)) {
@@ -217,14 +223,18 @@
     }
 
     function renderTitleCountdown(now) {
+        function setTitle(marketText) {
+            document.title = sp500TitleValue ? `${sp500TitleValue} / ${marketText}` : marketText;
+        }
+
         const usMarket = markets.find((market) => market.key === "US");
         const opening = usMarket ? nextOpen(usMarket, now) : null;
         if (!opening) {
-            document.title = "--:--:--";
+            setTitle("--:--:--");
             return;
         }
         const status = marketStatus(usMarket, now);
-        document.title = status.isOpen ? "US OPEN" : formatCountdown(opening - now);
+        setTitle(status.isOpen ? "US OPEN" : formatCountdown(opening - now));
     }
 
     function marketStatus(market, now) {
@@ -350,7 +360,7 @@
             row.querySelector(".market-clock__status").textContent = "Calendar unavailable";
             row.title = error instanceof Error ? error.message : "Unable to load market calendar";
         });
-        document.title = "--:--:--";
+        document.title = sp500TitleValue ? `${sp500TitleValue} / --:--:--` : "--:--:--";
         document.documentElement.dataset.marketState = "unknown";
         document.dispatchEvent(new CustomEvent("jimfund:market-state", {
             detail: { anyOpen: false, openCount: 0, markets: [], unknown: true },

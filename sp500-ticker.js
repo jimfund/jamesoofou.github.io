@@ -3,7 +3,6 @@
     const valueNode = document.querySelector("[data-sp500-value]");
     const chart = document.querySelector("[data-sp500-chart]");
     const polyline = chart ? chart.querySelector("polyline") : null;
-    const baseTitle = document.title;
     const endpoint = "https://api.hyperliquid.xyz/info";
     const pollInterval = 30000;
     const requestTimeout = 10000;
@@ -79,7 +78,9 @@
 
         const formattedPrice = priceFormatter.format(price);
         valueNode.textContent = formattedPrice;
-        document.title = `${formattedPrice} / ${baseTitle}`;
+        document.dispatchEvent(new CustomEvent("jimfund:sp500-value", {
+            detail: { formattedPrice, price },
+        }));
         hasValue = true;
         root.classList.remove("is-stale");
         root.classList.toggle("is-tick-up", previousPrice !== null && price > previousPrice);
