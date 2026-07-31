@@ -3,9 +3,10 @@
 
     const clockRoot = document.querySelector("[data-market-clock]");
     const timeRoot = document.querySelector("[data-market-time]");
+    const openCountdownRoot = document.querySelector("[data-us-market-open-countdown]");
     const compactClock = window.matchMedia("(max-width: 780px)");
 
-    if (!clockRoot || !timeRoot) {
+    if ((!clockRoot || !timeRoot) && !openCountdownRoot) {
         return;
     }
 
@@ -204,6 +205,37 @@
         return `${minutes}m`;
     }
 
+    function formatCountdown(milliseconds) {
+        const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const clock = [hours, minutes, seconds]
+            .map((part) => String(part).padStart(2, "0"))
+            .join(":");
+        return days > 0 ? `${days}D ${clock}` : clock;
+    }
+
+    function renderOpenCountdown(now) {
+        if (!openCountdownRoot) return;
+        const usMarket = markets.find((market) => market.key === "US");
+        const opening = usMarket ? nextOpen(usMarket, now) : null;
+        if (!opening) {
+            openCountdownRoot.textContent = "--:--:--";
+            openCountdownRoot.removeAttribute("data-next-open");
+            return;
+        }
+        const status = marketStatus(usMarket, now);
+        openCountdownRoot.textContent = status.isOpen ? "US OPEN" : formatCountdown(opening - now);
+        openCountdownRoot.dataset.nextOpen = opening.toISOString();
+        openCountdownRoot.title = `Next NYSE core session opens ${opening.toLocaleString([], {
+            timeZone: usMarket.timeZone,
+            dateStyle: "medium",
+            timeStyle: "short",
+        })} ET`;
+    }
+
     function marketStatus(market, now) {
         const confidence = scheduleConfidence(market, now);
         if (confidence === "unknown") {
@@ -279,13 +311,15 @@
 
     function render() {
         const now = new Date();
-        timeRoot.textContent = now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hourCycle: "h23",
-        });
+        if (timeRoot) {
+            timeRoot.textContent = now.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hourCycle: "h23",
+            });
+        }
 
-        const rows = clockRoot.querySelectorAll(".market-clock__market");
+        const rows = clockRoot ? clockRoot.querySelectorAll(".market-clock__market") : [];
         const statuses = markets.map((market, index) => {
             const status = marketStatus(market, now);
             const row = rows[index];
@@ -308,20 +342,26 @@
                 : `${market.sessionScope}: ${status.text}${confidenceNote}`;
             return status;
         });
+        renderOpenCountdown(now);
         dispatchMarketState(statuses);
     }
 
     function renderUnavailable(error) {
-        timeRoot.textContent = new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hourCycle: "h23",
-        });
-        clockRoot.querySelectorAll(".market-clock__market").forEach((row) => {
+        if (timeRoot) {
+            timeRoot.textContent = new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hourCycle: "h23",
+            });
+        }
+        (clockRoot ? clockRoot.querySelectorAll(".market-clock__market") : []).forEach((row) => {
             row.classList.remove("is-open", "is-holiday", "is-projected");
             row.querySelector(".market-clock__status").textContent = "Calendar unavailable";
             row.title = error instanceof Error ? error.message : "Unable to load market calendar";
         });
+        if (openCountdownRoot) {
+            openCountdownRoot.textContent = "--:--:--";
+        }
         document.documentElement.dataset.marketState = "unknown";
         document.dispatchEvent(new CustomEvent("jimfund:market-state", {
             detail: { anyOpen: false, openCount: 0, markets: [], unknown: true },
@@ -340,11 +380,12 @@
             }
             markets = ["US", "JP"].map((key) => normalizeMarket(key, calendarData.markets[key]));
             render();
-            const millisecondsUntilNextMinute = 60000 - (Date.now() % 60000);
+            const refreshInterval = openCountdownRoot ? 1000 : 60000;
+            const millisecondsUntilRefresh = refreshInterval - (Date.now() % refreshInterval);
             window.setTimeout(() => {
                 render();
-                window.setInterval(render, 60000);
-            }, millisecondsUntilNextMinute);
+                window.setInterval(render, refreshInterval);
+            }, millisecondsUntilRefresh);
             compactClock.addEventListener("change", render);
         } catch (error) {
             renderUnavailable(error);
