@@ -3,10 +3,9 @@
 
     const clockRoot = document.querySelector("[data-market-clock]");
     const timeRoot = document.querySelector("[data-market-time]");
-    const openCountdownRoot = document.querySelector("[data-us-market-open-countdown]");
     const compactClock = window.matchMedia("(max-width: 780px)");
 
-    if ((!clockRoot || !timeRoot) && !openCountdownRoot) {
+    if (!clockRoot || !timeRoot) {
         return;
     }
 
@@ -217,23 +216,15 @@
         return days > 0 ? `${days}D ${clock}` : clock;
     }
 
-    function renderOpenCountdown(now) {
-        if (!openCountdownRoot) return;
+    function renderTitleCountdown(now) {
         const usMarket = markets.find((market) => market.key === "US");
         const opening = usMarket ? nextOpen(usMarket, now) : null;
         if (!opening) {
-            openCountdownRoot.textContent = "--:--:--";
-            openCountdownRoot.removeAttribute("data-next-open");
+            document.title = "--:--:--";
             return;
         }
         const status = marketStatus(usMarket, now);
-        openCountdownRoot.textContent = status.isOpen ? "US OPEN" : formatCountdown(opening - now);
-        openCountdownRoot.dataset.nextOpen = opening.toISOString();
-        openCountdownRoot.title = `Next NYSE core session opens ${opening.toLocaleString([], {
-            timeZone: usMarket.timeZone,
-            dateStyle: "medium",
-            timeStyle: "short",
-        })} ET`;
+        document.title = status.isOpen ? "US OPEN" : formatCountdown(opening - now);
     }
 
     function marketStatus(market, now) {
@@ -342,7 +333,7 @@
                 : `${market.sessionScope}: ${status.text}${confidenceNote}`;
             return status;
         });
-        renderOpenCountdown(now);
+        renderTitleCountdown(now);
         dispatchMarketState(statuses);
     }
 
@@ -359,9 +350,7 @@
             row.querySelector(".market-clock__status").textContent = "Calendar unavailable";
             row.title = error instanceof Error ? error.message : "Unable to load market calendar";
         });
-        if (openCountdownRoot) {
-            openCountdownRoot.textContent = "--:--:--";
-        }
+        document.title = "--:--:--";
         document.documentElement.dataset.marketState = "unknown";
         document.dispatchEvent(new CustomEvent("jimfund:market-state", {
             detail: { anyOpen: false, openCount: 0, markets: [], unknown: true },
@@ -380,7 +369,7 @@
             }
             markets = ["US", "JP"].map((key) => normalizeMarket(key, calendarData.markets[key]));
             render();
-            const refreshInterval = openCountdownRoot ? 1000 : 60000;
+            const refreshInterval = 1000;
             const millisecondsUntilRefresh = refreshInterval - (Date.now() % refreshInterval);
             window.setTimeout(() => {
                 render();

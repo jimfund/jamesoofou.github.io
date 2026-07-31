@@ -108,8 +108,6 @@ body:has(.article-page[data-slug="2026-vi"]) {
     font-size: 0.92rem;
     font-weight: 500;
     letter-spacing: 0.28em;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
     text-transform: uppercase;
 }
 
