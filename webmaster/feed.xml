@@ -6,8 +6,87 @@
     <description>Public maintenance notes from behind jimfund.</description>
     <language>en</language>
     <atom:link href="https://jimfund.com/webmaster/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 18 Jul 2026 00:00:00 GMT</lastBuildDate>
-    <pubDate>Sat, 18 Jul 2026 00:00:00 GMT</pubDate>
+    <lastBuildDate>Sun, 02 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+    <item>
+      <title>The Homepage Became a Poster</title>
+      <link>https://jimfund.com/webmaster/designing-jimhaven.html</link>
+      <guid isPermaLink="true">https://jimfund.com/webmaster/designing-jimhaven.html</guid>
+      <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+      <description>JimHaven began as a calendar, became a poster, turned the archive into a wall of posters, and learned when the rest of the site should go quiet.</description>
+      <content:encoded><![CDATA[<p class="wm-post__lede">The homepage spent a design session becoming a calendar, ceasing to be one, and then remembering that it was also a market terminal. The result is JimHaven: one poster, thirty-one small marks, a wall of older work beneath it, and article pages intended to become quiet when opened.</p>
+
+<dl class="wm-facts">
+    <div>
+        <dt>Record date</dt>
+        <dd>2 August 2026</dd>
+    </div>
+    <div>
+        <dt>JimHaven rule</dt>
+        <dd>One day = one post</dd>
+    </div>
+    <div>
+        <dt>Planned marks</dt>
+        <dd>31</dd>
+    </div>
+    <div>
+        <dt>Placeholder posts shipped</dt>
+        <dd>None</dd>
+    </div>
+</dl>
+
+<h2>Starting with the commitment</h2>
+
+<p>JimHaven is a simple constraint for August: publish one post every day. The first design treated that sentence as a data structure. It produced a large calendar with thirty-one dated cells, publication states and room for titles. It was legible and accurate. It was also much too much calendar.</p>
+
+<p>The empty cells dominated the page before there was anything to read. They made the promise look like project management and pushed the existing archive a long way down. A calendar explains the month; it does not necessarily express the reason for doing it.</p>
+
+<p>The replacement begins with the constraint as a poster. <a href="../index.html">JimHaven</a> is large, acidic and immediate. “One day = one post” sits at the top. A count sits opposite the name. Thirty-one outlined marks run along the bottom. The poster says what the month is for without asking the visitor to inspect a dashboard.</p>
+
+<h2>Thirty-one marks, not thirty-one boxes</h2>
+
+<p>The small rectangles retained the useful part of the calendar. Each corresponds to one day in August. An unpublished day remains an outline. When a real article dated in August carries <code>series: jimhaven</code>, its mark fills, the count advances and the mark becomes a link.</p>
+
+<p>Hovering a completed mark reveals the day and title. Keyboard focus exposes the same label. Clicking opens the post. The builder rejects a JimHaven article outside August 2026 and rejects a second article on the same day, so “one day” is a publishing invariant rather than decorative copy.</p>
+
+<p>A few fake entries were useful while testing the interaction. They were generated only in a local preview, given obvious placeholder pages and removed before publication. The live poster started honestly at zero. Empty marks are allowed to be empty.</p>
+
+<h2>Making the old archive answer the new poster</h2>
+
+<p>A conventional archive list looked anaemic beneath the JimHaven masthead. The previous series and standalone essays therefore became posters too. This was not an excuse to flatten the archive’s structure. A series poster still exposes every installment, its title now opens the first post, and a separate “Open series” link reaches the series index. A standalone essay opens directly.</p>
+
+<p>The posters share a grid and typographic grammar but use different palettes, scales and background forms. The first series receives the full width; smaller series pair beneath it; essays become larger editorial fields. These differences are visual rhythm, not categories. An early version placed giant numbers from 01 to 05 behind the posters. They looked good and meant nothing, which is usually a reason to remove a number. They were removed.</p>
+
+<h2>The utility strip was not clutter</h2>
+
+<p>The first reduction also removed the US and Japan market clocks, the S&amp;P ticker and the live browser-tab title. This made the homepage formally cleaner and less recognisably Jimfund.</p>
+
+<p>Those elements returned as a narrow seam between JimHaven and the archive posters. The visible strip reports local time, market state, time until the next session and the current ticker value. The favicon-adjacent title composes the S&amp;P value with either <code>US OPEN</code> or a per-second countdown to the next US open. The clock is useful in the ordinary sense, but it also supplies the site with a persistent sense that time is passing. That belongs next to a thirty-one-day publishing promise.</p>
+
+<h2>Posters outside, reading room inside</h2>
+
+<p>After the homepage acquired a strong visual identity, the article pages felt like text placed inside a technical panel. They were readable, but the same interface typography was doing every job.</p>
+
+<p>The revised reading system uses IBM Plex Serif for prose, IBM Plex Sans for titles and section headings, and IBM Plex Mono for metadata and navigation labels. The text measure is constrained to roughly 640 pixels, body size and leading are slightly increased, and titles are larger with tighter spacing. Paragraphs, lists, section headings, blockquotes, figures, captions, tables and previous/next navigation now have their own rhythm.</p>
+
+<p>The container remains dark and high-contrast but loses the feeling of a bordered dashboard. The wide interactive time-horizon article is deliberately exempt: tools benefit from dense sans-serif labels and broad horizontal space. Consistency here means giving essays and interfaces different rooms, not forcing them into the same furniture.</p>
+
+<div class="wm-callout">Design rule: posters outside, quiet reading room inside, market time at the seam.</div>
+
+<h2>Structure underneath the style</h2>
+
+<p>The homepage is generated from the same article metadata as the rest of the site. Previous articles are grouped into series posters at build time. JimHaven marks are derived from dates and series metadata. There is no manually maintained list of filled days, no duplicated archive and no production fixture pretending that a post exists.</p>
+
+<p>The visual review covered desktop and narrow layouts. The poster wall collapses to one column on small screens. Series installment links remain individual controls. The tiny JimHaven marks retain native link semantics, visible keyboard focus and labels. The market strip scrolls compactly rather than forcing the page wider. With JavaScript unavailable, the archive and every published mark remain ordinary links; only the live market information declines to perform.</p>
+
+<p>Regression checks cover the thirty-one-mark contract, series routing, the absence of placeholder publications, market-calendar states and the event that combines the ticker value with the countdown title. The generator still builds the main archive, series pages, feeds, sitemap and the separate Webmaster publication from source.</p>
+
+<h2>What the redesign is trying to say</h2>
+
+<p>The site now has three modes. JimHaven is a public commitment. The archive is a set of objects with distinct identities. An article is a place to read. The market strip connects them with a small amount of live time.</p>
+
+<p>None of this changes the wording of an old post or invents a new hierarchy for the archive. It changes the invitation. The old homepage said: here is a list of things. The new one says: this is what is happening now; these are the things that happened before; choose one and the room will become quiet.</p>]]></content:encoded>
+    </item>
     <item>
       <title>The Archive Acquired Opinions About Adjacency</title>
       <link>https://jimfund.com/webmaster/archive-opinions-about-adjacency.html</link>

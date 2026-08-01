@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-08-01T19:10:18Z",
+  "built_at": "2026-08-01T19:25:37Z",
   "content": {
     "article_count": 12,
     "series_count": 4,
@@ -15,14 +15,14 @@
   },
   "webmaster": {
     "path": "webmaster/",
-    "post_count": 1,
+    "post_count": 2,
     "latest": {
-      "slug": "archive-opinions-about-adjacency",
-      "date": "2026-07-18"
+      "slug": "designing-jimhaven",
+      "date": "2026-08-02"
     },
     "feed": {
       "path": "webmaster/feed.xml",
-      "expected_items": 1
+      "expected_items": 2
     }
   },
   "radio": {
