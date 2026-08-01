@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#090b0f">
-        <title>jimhaven / jimfund</title>
+        <title>--:--:--</title>
         <meta name="description" content="One day, one post. JimHaven, August 2026.">
         <meta property="og:site_name" content="jimfund">
         <meta property="og:title" content="JimHaven / jimfund">
@@ -186,6 +186,36 @@
 
         </nav>
     </header>
+    <aside class="market-clock" aria-label="Market hours">
+        <div class="market-clock__dynamic">
+            <div class="market-clock__time" data-market-time>--:--</div>
+            <div class="market-clock__markets" data-market-clock aria-live="polite">
+                <div class="market-clock__market">
+                    <span class="market-clock__state" aria-hidden="true"></span>
+                    <span class="market-clock__name">US</span>
+                    <span class="market-clock__local" data-market-local>--:-- NY</span>
+                    <span class="market-clock__status">Checking...</span>
+                </div>
+                <div class="market-clock__market">
+                    <span class="market-clock__state" aria-hidden="true"></span>
+                    <span class="market-clock__name">JP</span>
+                    <span class="market-clock__local" data-market-local>--:-- Tokyo</span>
+                    <span class="market-clock__status">Checking...</span>
+                </div>
+            </div>
+            <div class="market-ticker" data-sp500-ticker aria-live="polite">
+                <span class="market-ticker__label">S&amp;P 500</span>
+                <a class="market-ticker__value" href="https://app.hyperliquid.xyz/trade/xyz:SP500" target="_blank" rel="noopener noreferrer" data-sp500-value>--</a>
+                <svg class="market-sparkline" viewBox="0 0 56 18" role="img" aria-label="S&amp;P 500 recent ticks" data-sp500-chart>
+                    <polyline points="" vector-effect="non-scaling-stroke"></polyline>
+                </svg>
+            </div>
+        </div>
+        <noscript>
+            <style>.market-clock__dynamic { display: none; }</style>
+            <div class="market-clock__noscript">Market clock requires JavaScript.</div>
+        </noscript>
+    </aside>
     <section class="poster-gallery" aria-label="Previous series and essays">
 
 
@@ -276,6 +306,8 @@
 
     </section>
 </section>
+<script src="market-clock.js" defer></script>
+<script src="sp500-ticker.js" defer></script>
 
             </main>
 
