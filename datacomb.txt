@@ -3,7 +3,7 @@ jimfund datacomb
 
 scattered signal from beneath the archive
 
-01 //// 20260801 //// JimHaven //// a-simple-model
+01 //// 20260801 //// jimhaven //// a-simple-model
       A Simple Model
       https://jimfund.com/a-simple-model.html
 
