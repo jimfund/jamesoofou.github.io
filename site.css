@@ -1087,7 +1087,11 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-page--post {
-    max-width: 720px;
+    max-width: 780px;
+    padding: 46px 54px 52px;
+    border: 0;
+    background: linear-gradient(180deg, #10151b 0%, #0d1217 100%);
+    box-shadow: 0 0 0 1px rgba(58, 74, 89, 0.42);
 }
 
 .article-page[data-slug="2026-vi"] {
@@ -1096,6 +1100,9 @@ body:has(.article-page[data-slug="2026-vi"]) {
     min-width: 0;
     overflow: hidden;
     padding: 22px 24px 28px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: none;
 }
 
 .breadcrumbs {
@@ -1116,9 +1123,10 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-page--post .article-header {
-    max-width: 650px;
-    margin: 0;
-    padding: 0 0 18px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 0 28px;
+    border-bottom-color: color-mix(in srgb, var(--line-strong) 72%, transparent);
 }
 
 .article-page[data-slug="2026-vi"] .article-header,
@@ -1141,8 +1149,10 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-page--post .article-header h1 {
-    font-size: clamp(1.55rem, 4vw, 2.25rem);
-    line-height: 1.08;
+    max-width: 16em;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
 }
 
 .article-content {
@@ -1152,9 +1162,17 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-page--post .article-content {
-    max-width: 650px;
-    margin: 24px 0 0;
+    max-width: 640px;
+    margin: 32px auto 0;
     color: var(--article-text);
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.78;
+    text-rendering: optimizeLegibility;
+}
+
+.article-page[data-slug="2026-vi"] .article-content {
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 1.045rem;
     line-height: 1.7;
 }
@@ -1173,7 +1191,54 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-page--post .article-content p {
-    margin-bottom: 1.45rem;
+    margin-bottom: 1.6rem;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content > p:first-child {
+    color: var(--accent-strong);
+    font-size: 1.06em;
+}
+
+.article-page--post .entry-meta {
+    gap: 8px 16px;
+    margin-bottom: 18px;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content h2,
+.article-page--post:not([data-slug="2026-vi"]) .article-content h3 {
+    color: var(--accent-strong);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content h2 {
+    margin: 2.6em 0 0.75em;
+    font-size: clamp(1.45rem, 3.5vw, 1.8rem);
+    line-height: 1.12;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content h3 {
+    margin: 2.2em 0 0.7em;
+    font-size: 1.22rem;
+    line-height: 1.2;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content ul,
+.article-page--post:not([data-slug="2026-vi"]) .article-content ol {
+    padding-left: 1.35em;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content li {
+    padding-left: 0.2em;
+    margin-bottom: 0.55em;
+}
+
+.article-page--post:not([data-slug="2026-vi"]) .article-content strong {
+    color: var(--accent-strong);
+    font-weight: 500;
 }
 
 .article-content .tool-deck {
@@ -1195,7 +1260,9 @@ body:has(.article-page[data-slug="2026-vi"]) {
 .article-content a {
     color: var(--accent);
     text-decoration: underline;
-    text-underline-offset: 0.15em;
+    text-decoration-color: color-mix(in srgb, currentColor 58%, transparent);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.19em;
 }
 
 .article-content a:hover {
@@ -1203,9 +1270,11 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-content blockquote {
-    padding-left: 16px;
-    border-left: 2px solid var(--line-strong);
-    color: var(--muted);
+    margin: 2.1rem 0 2.25rem;
+    padding: 0.2rem 0 0.2rem 22px;
+    border-left: 3px solid color-mix(in srgb, var(--signal) 78%, var(--accent));
+    color: var(--accent-strong);
+    font-size: 1.02em;
     font-style: italic;
 }
 
@@ -1213,12 +1282,13 @@ body:has(.article-page[data-slug="2026-vi"]) {
     width: 100%;
     border-collapse: collapse;
     font-family: "IBM Plex Sans", sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .article-content th,
 .article-content td {
-    padding: 12px 14px;
+    padding: 11px 12px;
     border-bottom: 1px solid var(--line);
     text-align: left;
 }
@@ -1288,15 +1358,16 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-content figure {
-    margin: 0 0 1.45rem;
+    margin: 2.2rem 0 2.35rem;
 }
 
 .article-content figcaption {
-    margin-top: 8px;
+    margin-top: 10px;
     color: var(--muted);
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.76rem;
-    line-height: 1.45;
+    font-size: 0.7rem;
+    letter-spacing: 0.035em;
+    line-height: 1.55;
 }
 
 .timehorizon-widget {
@@ -1328,8 +1399,8 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-nav {
-    max-width: 700px;
-    margin: 28px 0 0;
+    max-width: 640px;
+    margin: 46px auto 0;
     border-top: 1px solid var(--line);
 }
 
@@ -1338,7 +1409,7 @@ body:has(.article-page[data-slug="2026-vi"]) {
     grid-template-columns: 6rem minmax(0, 1fr);
     gap: 18px;
     align-items: baseline;
-    padding: 11px 0;
+    padding: 13px 0;
     border-bottom: 1px solid var(--line);
 }
 
@@ -1350,8 +1421,16 @@ body:has(.article-page[data-slug="2026-vi"]) {
 }
 
 .article-nav__link strong {
-    font-size: 1rem;
+    color: var(--text);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.95rem;
     font-weight: 500;
+    line-height: 1.35;
+}
+
+.article-nav__link:hover strong,
+.article-nav__link:focus-visible strong {
+    color: var(--signal);
 }
 
 .article-nav__elsewhere {
@@ -1829,6 +1908,30 @@ body:has(.article-page[data-slug="2026-vi"]) {
     .article-page {
         padding-left: 18px;
         padding-right: 18px;
+    }
+
+    .article-page--post {
+        padding-top: 30px;
+        padding-bottom: 36px;
+    }
+
+    .article-page--post .article-header {
+        padding-bottom: 22px;
+    }
+
+    .article-page--post .article-header h1 {
+        font-size: clamp(1.85rem, 9vw, 2.55rem);
+        line-height: 1.04;
+    }
+
+    .article-page--post .article-content {
+        margin-top: 26px;
+        font-size: 1.06rem;
+        line-height: 1.72;
+    }
+
+    .article-page--post:not([data-slug="2026-vi"]) .article-content h2 {
+        margin-top: 2.25em;
     }
 
     .article-header,
