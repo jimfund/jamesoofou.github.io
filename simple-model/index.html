@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Simple Model — projection widget</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f4f7fb;
+      --blue: #2563eb;
+      --line: #dbe3ee;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 280px; background: #f4f7fb; }
+    button, input, select { font: inherit; }
+    main { width: min(1180px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 26px; }
+    .card { border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 8px 24px rgb(15 23 42 / 0.06); }
+    .gate { max-width: 650px; margin: 0 auto; padding: clamp(20px, 5vw, 38px); }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 9px; font-size: clamp(1.35rem, 4vw, 2rem); letter-spacing: -0.025em; }
+    h2 { margin-bottom: 5px; font-size: 1rem; }
+    .intro { color: var(--muted); line-height: 1.55; }
+    .fixed { display: flex; flex-wrap: wrap; gap: 7px; margin: 18px 0 22px; }
+    .fixed span { border-radius: 999px; background: #eff6ff; color: #1e40af; padding: 6px 10px; font-size: .78rem; font-weight: 700; }
+    .guesses { display: grid; gap: 12px; }
+    label { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 14px; align-items: center; color: #334155; font-size: .9rem; font-weight: 650; }
+    .percent { position: relative; }
+    .percent::after { content: "%"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; }
+    input, select { width: 100%; border: 1px solid #cbd5e1; border-radius: 9px; background: #fff; color: #0f172a; padding: 9px 31px 9px 10px; }
+    input:focus, select:focus { outline: 3px solid rgb(37 99 235 / .14); border-color: var(--blue); }
+    button { border: 0; border-radius: 9px; background: var(--blue); color: #fff; padding: 10px 15px; cursor: pointer; font-weight: 750; }
+    button:hover { background: #1d4ed8; }
+    .reveal { width: 100%; margin-top: 18px; }
+    .error { margin: 12px 0 0; border-radius: 9px; background: #fef2f2; color: #b91c1c; padding: 10px 12px; font-size: .84rem; }
+    [hidden] { display: none !important; }
+    .results { display: grid; gap: 14px; }
+    .result-top { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; overflow: hidden; }
+    .metric { background: #fff; padding: 15px 17px; }
+    .metric span { display: block; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+    .metric strong { display: block; margin-top: 4px; font-size: 1rem; }
+    .chart-card { padding: 10px; overflow: hidden; }
+    .chart-tools { display: flex; justify-content: flex-end; align-items: center; gap: 9px; padding: 2px 4px 9px; }
+    .chart-tools label { display: flex; grid-template-columns: none; gap: 7px; font-size: .78rem; color: var(--muted); }
+    .chart-tools select { width: auto; padding: 6px 28px 6px 8px; font-size: .8rem; }
+    #chart { display: block; width: 100%; height: auto; }
+    .after-note { margin: 0; color: var(--muted); font-size: .78rem; text-align: right; }
+    @media (max-width: 620px) {
+      label { grid-template-columns: 1fr; gap: 5px; }
+      .result-top { grid-template-columns: 1fr; }
+      .metric { padding: 11px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="gate" class="card gate">
+      <h1>Guess the difficulty curve</h1>
+      <p class="intro">Before seeing the projection, estimate the remaining difficulty of doubling the time horizon at each point. Lower difficulty means a shorter doubling time.</p>
+      <div class="fixed" aria-label="Fixed assumptions">
+        <span>Starts at 14 hours</span>
+        <span>Starts Jan 1, 2026</span>
+        <span>Base doubling: 105 days</span>
+      </div>
+      <form id="guessForm">
+        <div class="guesses">
+          <label>At 25 hours <span class="percent"><input name="d25" type="number" min="0.000001" max="100" step="any" required autocomplete="off" aria-label="Difficulty at 25 hours"></span></label>
+          <label>At 1,000 hours <span class="percent"><input name="d1000" type="number" min="0.000001" max="100" step="any" required autocomplete="off" aria-label="Difficulty at 1,000 hours"></span></label>
+          <label>At 10,000 hours <span class="percent"><input name="d10000" type="number" min="0.000001" max="100" step="any" required autocomplete="off" aria-label="Difficulty at 10,000 hours"></span></label>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+        <button class="reveal" type="submit">Reveal projection</button>
+      </form>
+    </section>
+
+    <section id="results" class="results" hidden aria-live="polite">
+      <div class="card result-top">
+        <div class="metric"><span>Time to 100,000 hours</span><strong id="elapsed">—</strong></div>
+        <div class="metric"><span>Date reached</span><strong id="endDate">—</strong></div>
+        <div class="metric"><span>Difficulty at 100,000h</span><strong id="endDifficulty">—</strong></div>
+      </div>
+      <div class="card chart-card">
+        <div class="chart-tools">
+          <label>Vertical scale
+            <select id="scale"><option value="linear">Linear</option><option value="log">Logarithmic</option></select>
+          </label>
+        </div>
+        <svg id="chart" viewBox="0 0 1200 680" role="img" aria-label="Projected time horizon over time"></svg>
+      </div>
+      <p class="after-note">Change your percentages above to update the revealed projection.</p>
+    </section>
+  </main>
+
+  <script>
+    const INITIAL_HOURS = 14;
+    const TARGET_HOURS = 100000;
+    const BASE_DOUBLING_DAYS = 105;
+    const START_TIME = Date.UTC(2026, 0, 1);
+    const form = document.querySelector('#guessForm');
+    const results = document.querySelector('#results');
+    const errorBox = document.querySelector('#error');
+    const chart = document.querySelector('#chart');
+    const scale = document.querySelector('#scale');
+    let revealed = false;
+
+    function notifyHeight() {
+      requestAnimationFrame(() => {
+        parent.postMessage({ type: 'simple-model:resize', height: document.querySelector('main').scrollHeight + 10 }, '*');
+      });
+    }
+
+    function readAnchors() {
+      return [
+        { hours: 25, difficulty: Number(form.elements.d25.value) },
+        { hours: 1000, difficulty: Number(form.elements.d1000.value) },
+        { hours: 10000, difficulty: Number(form.elements.d10000.value) }
+      ];
+    }
+
+    function validate(anchors) {
+      if (anchors.some(anchor => !Number.isFinite(anchor.difficulty) || anchor.difficulty <= 0 || anchor.difficulty > 100)) {
+        return 'Enter a difficulty greater than 0% and no more than 100% at every point.';
+      }
+      if (!(anchors[0].difficulty > anchors[1].difficulty && anchors[1].difficulty > anchors[2].difficulty)) {
+        return 'Difficulty must decrease as the time horizon increases.';
+      }
+      return '';
+    }
+
+    function difficultyFunction(anchors) {
+      const x = anchors.map(anchor => Math.log(anchor.hours));
+      const y = anchors.map(anchor => Math.log(anchor.difficulty / 100));
+      const widths = x.slice(0, -1).map((value, i) => x[i + 1] - value);
+      const secants = widths.map((width, i) => (y[i + 1] - y[i]) / width);
+      const slopes = [secants[0], 0, secants.at(-1)];
+      const w1 = 2 * widths[1] + widths[0];
+      const w2 = widths[1] + 2 * widths[0];
+      slopes[1] = (w1 + w2) / (w1 / secants[0] + w2 / secants[1]);
+
+      return hours => {
+        if (hours <= anchors[0].hours) return anchors[0].difficulty / 100;
+        const logHours = Math.log(hours);
+        if (hours >= anchors.at(-1).hours) {
+          return Math.exp(y.at(-1) + secants.at(-1) * (logHours - x.at(-1)));
+        }
+        const segment = hours <= anchors[1].hours ? 0 : 1;
+        const width = widths[segment];
+        const t = (logHours - x[segment]) / width;
+        const t2 = t * t;
+        const t3 = t2 * t;
+        return Math.exp(
+          (2 * t3 - 3 * t2 + 1) * y[segment] +
+          (t3 - 2 * t2 + t) * width * slopes[segment] +
+          (-2 * t3 + 3 * t2) * y[segment + 1] +
+          (t3 - t2) * width * slopes[segment + 1]
+        );
+      };
+    }
+
+    function integrate(difficulty) {
+      const count = 4500;
+      const startLog = Math.log(INITIAL_HOURS);
+      const step = (Math.log(TARGET_HOURS) - startLog) / count;
+      const factor = BASE_DOUBLING_DAYS / Math.log(2);
+      const samples = [{ days: 0, hours: INITIAL_HOURS }];
+      let elapsed = 0;
+      let previous = difficulty(INITIAL_HOURS);
+      for (let i = 1; i <= count; i++) {
+        const hours = Math.exp(startLog + i * step);
+        const current = difficulty(hours);
+        elapsed += factor * (previous + current) * .5 * step;
+        samples.push({ days: elapsed, hours: i === count ? TARGET_HOURS : hours });
+        previous = current;
+      }
+      return samples;
+    }
+
+    function formatHours(value) {
+      return `${Math.round(value).toLocaleString('en-US')}h`;
+    }
+
+    function monthTicks(endTime) {
+      const totalMonths = (new Date(endTime).getUTCFullYear() - 2026) * 12 + new Date(endTime).getUTCMonth() + 1;
+      const interval = totalMonths <= 25 ? 1 : totalMonths <= 61 ? 3 : 12;
+      const ticks = [];
+      for (let i = 0; i < totalMonths; i += interval) {
+        const date = new Date(Date.UTC(2026 + Math.floor(i / 12), i % 12, 1));
+        const year = date.getUTCFullYear();
+        const month = date.getUTCMonth();
+        const label = interval === 12 || (month === 0 && year !== 2026)
+          ? String(year)
+          : date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+        ticks.push({ time: date.getTime(), label });
+      }
+      return ticks;
+    }
+
+    function draw(anchors) {
+      const difficulty = difficultyFunction(anchors);
+      const samples = integrate(difficulty);
+      const spanDays = samples.at(-1).days;
+      const endTime = START_TIME + spanDays * 86400000;
+      const logScale = scale.value === 'log';
+      const W = 1200, H = 680, left = 96, right = 28, top = 22, bottom = 62;
+      const plotW = W - left - right, plotH = H - top - bottom;
+      const x = days => left + days / spanDays * plotW;
+      const y = hours => {
+        const fraction = logScale
+          ? (Math.log(hours) - Math.log(10)) / (Math.log(TARGET_HOURS) - Math.log(10))
+          : hours / TARGET_HOURS;
+        return top + plotH - fraction * plotH;
+      };
+      const svg = ['<rect width="1200" height="680" fill="white"/>'];
+      const yTicks = logScale ? [10, 100, 1000, 10000, 100000] : [0, 20000, 40000, 60000, 80000, 100000];
+      yTicks.forEach(tick => {
+        const yy = y(tick);
+        svg.push(`<line x1="${left}" y1="${yy}" x2="${W - right}" y2="${yy}" stroke="#e2e8f0"/>`);
+        svg.push(`<text x="${left - 13}" y="${yy + 5}" text-anchor="end" font-size="14" fill="#64748b">${formatHours(tick)}</text>`);
+      });
+      monthTicks(endTime).forEach(tick => {
+        const days = (tick.time - START_TIME) / 86400000;
+        const xx = x(days);
+        svg.push(`<line x1="${xx}" y1="${top}" x2="${xx}" y2="${top + plotH}" stroke="#f1f5f9"/>`);
+        svg.push(`<text x="${xx}" y="${top + plotH + 32}" text-anchor="middle" font-size="14" fill="#64748b">${tick.label}</text>`);
+      });
+      const path = samples.map((sample, i) => `${i ? 'L' : 'M'} ${x(sample.days).toFixed(2)} ${y(sample.hours).toFixed(2)}`).join(' ');
+      svg.push(`<path d="${path}" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`);
+      svg.push(`<line x1="${left}" y1="${top}" x2="${left}" y2="${top + plotH}" stroke="#94a3b8" stroke-width="1.5"/>`);
+      svg.push(`<line x1="${left}" y1="${top + plotH}" x2="${W - right}" y2="${top + plotH}" stroke="#94a3b8" stroke-width="1.5"/>`);
+      svg.push(`<text x="24" y="${top + plotH / 2}" transform="rotate(-90 24 ${top + plotH / 2})" text-anchor="middle" font-size="15" font-weight="650" fill="#475569">Time horizon</text>`);
+      chart.innerHTML = svg.join('');
+
+      document.querySelector('#elapsed').textContent = `${spanDays.toLocaleString('en-US', { maximumFractionDigits: 1 })} days`;
+      document.querySelector('#endDate').textContent = new Date(endTime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+      document.querySelector('#endDifficulty').textContent = `${(difficulty(TARGET_HOURS) * 100).toLocaleString('en-US', { maximumSignificantDigits: 4 })}%`;
+      notifyHeight();
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const anchors = readAnchors();
+      const error = validate(anchors);
+      if (error) {
+        errorBox.textContent = error;
+        errorBox.hidden = false;
+        notifyHeight();
+        return;
+      }
+      errorBox.hidden = true;
+      revealed = true;
+      results.hidden = false;
+      draw(anchors);
+    });
+
+    form.addEventListener('input', () => {
+      if (!revealed) return;
+      const anchors = readAnchors();
+      if (!validate(anchors)) draw(anchors);
+    });
+    scale.addEventListener('change', () => { if (revealed) draw(readAnchors()); });
+    window.addEventListener('load', notifyHeight);
+    window.addEventListener('resize', notifyHeight);
+    window.addEventListener('message', event => {
+      if (event.data && event.data.type === 'simple-model:measure') notifyHeight();
+    });
+  </script>
+</body>
+</html>

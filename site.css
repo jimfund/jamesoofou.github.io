@@ -1398,6 +1398,16 @@ body:has(.article-page[data-slug="2026-vi"]) {
     background: #090b0f;
 }
 
+.simple-model-widget {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 430px;
+    border: 1px solid var(--line);
+    background: #f4f7fb;
+}
+
 .article-nav {
     max-width: 640px;
     margin: 46px auto 0;

@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "built_at": "2026-08-01T11:24:40Z",
+  "built_at": "2026-08-01T19:10:18Z",
   "content": {
-    "article_count": 11,
-    "series_count": 3,
+    "article_count": 12,
+    "series_count": 4,
     "latest": {
-      "slug": "2026-vi",
-      "date": "2026-07-10"
+      "slug": "a-simple-model",
+      "date": "2026-08-01"
     }
   },
   "feed": {
     "path": "feed.xml",
-    "expected_items": 11
+    "expected_items": 12
   },
   "webmaster": {
     "path": "webmaster/",

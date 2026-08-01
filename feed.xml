@@ -5,8 +5,50 @@
     <link>https://jimfund.com/</link>
     <description>Archive of essays and fiction.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 10 Jul 2026 00:00:00 GMT</lastBuildDate>
-    <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+    <lastBuildDate>Sat, 01 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+    <item>
+      <title>A Simple Model</title>
+      <link>https://jimfund.com/a-simple-model.html</link>
+      <guid isPermaLink="true">https://jimfund.com/a-simple-model.html</guid>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+      <description>I’m rushing this out so I don’t fail jimhaven day one Let’s take initial time horizon initial doubling time doubling difficulty curve Then project time horizon. This model will not take into account AI contribution to…</description>
+      <content:encoded><![CDATA[<p><em>I’m rushing this out so I don’t fail jimhaven day one</em></p>
+
+<p>Let’s take</p>
+
+<ul>
+    <li>initial time horizon</li>
+    <li>initial doubling time</li>
+    <li>doubling difficulty curve</li>
+</ul>
+
+<p>Then project time horizon.</p>
+
+<p>This model will not take into account AI contribution to AI progress. This will demonstrate clearly the importance of the possibility of a tendency to infinite time horizons.</p>
+
+<p>Let’s define our parameters. Initial values are for Jan 1 2026.</p>
+
+<h2>Initial time horizon</h2>
+
+<p>Initial time horizon is METR 50% time horizon, but instead of tracking released model time horizon, it tracks internal model time horizon. This is because intelligence takeoff will happen internally. So, we adjust forward 66 days—this is METR’s estimate of how far ahead internal models were in early 2026. Let’s say 14 hours.</p>
+
+<h2>Initial doubling time</h2>
+
+<p>We’ll use METR’s estimate of 105 days.</p>
+
+<h2>Doubling difficulty</h2>
+
+<p>I’ll update this to explain doubling difficulty tomorrow</p>
+
+<h2>Widget</h2>
+
+<div class="article-wide-embed">
+    <iframe class="simple-model-widget" src="simple-model/index.html" title="Simple time-horizon projection model" loading="eager" scrolling="no"></iframe>
+</div>
+
+<script src="simple-model/embed.js" defer></script>]]></content:encoded>
+    </item>
     <item>
       <title>2026 VI</title>
       <link>https://jimfund.com/2026-vi.html</link>
