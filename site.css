@@ -182,6 +182,295 @@ body:has(.article-page[data-slug="2026-vi"]) {
     z-index: 1;
 }
 
+.jimhaven-home {
+    --haven-paper: #d8ff45;
+    --haven-ink: #0b0d0a;
+}
+
+.jimhaven-hero {
+    position: relative;
+    z-index: 1;
+    padding: 20px 28px 18px;
+    border-bottom: 1px solid var(--line);
+    background:
+        linear-gradient(90deg, transparent 49.9%, rgba(11, 13, 10, 0.12) 50%, transparent 50.1%),
+        var(--haven-paper);
+    background-size: 36px 100%, auto;
+    color: var(--haven-ink);
+}
+
+.jimhaven-hero__topline,
+.jimhaven-progress {
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+}
+
+.jimhaven-hero__topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(11, 13, 10, 0.38);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+}
+
+.jimhaven-hero__title-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 22px 0 16px;
+}
+
+.jimhaven-hero h1 {
+    margin: 0;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: clamp(3.4rem, 8vw, 5.7rem);
+    font-weight: 700;
+    letter-spacing: -0.09em;
+    line-height: 0.72;
+}
+
+.jimhaven-progress {
+    display: grid;
+    justify-items: end;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.jimhaven-progress strong {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+}
+
+.jimhaven-progress span {
+    margin-top: 8px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
+.jimhaven-progress__track {
+    display: grid;
+    grid-template-columns: repeat(31, 1fr);
+    gap: 3px;
+}
+
+.jimhaven-progress__track span,
+.jimhaven-progress__track a {
+    position: relative;
+    display: block;
+    height: 5px;
+    border: 1px solid rgba(11, 13, 10, 0.52);
+}
+
+.jimhaven-progress__track .is-filled {
+    background: var(--haven-ink);
+}
+
+.jimhaven-progress__track a::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    z-index: 3;
+    width: max-content;
+    max-width: min(24rem, 72vw);
+    padding: 7px 9px;
+    background: var(--haven-ink);
+    color: var(--haven-paper);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
+    opacity: 0;
+    pointer-events: none;
+    text-align: left;
+    transform: translateX(-50%) translateY(3px);
+    transition: opacity 100ms ease, transform 100ms ease;
+}
+
+.jimhaven-progress__track a:hover::after,
+.jimhaven-progress__track a:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.jimhaven-progress__track a:nth-child(-n + 4)::after {
+    left: 0;
+    transform: translateY(3px);
+}
+
+.jimhaven-progress__track a:nth-child(-n + 4):hover::after,
+.jimhaven-progress__track a:nth-child(-n + 4):focus-visible::after {
+    transform: translateY(0);
+}
+
+.jimhaven-progress__track a:nth-last-child(-n + 4)::after {
+    right: 0;
+    left: auto;
+    transform: translateY(3px);
+}
+
+.jimhaven-progress__track a:nth-last-child(-n + 4):hover::after,
+.jimhaven-progress__track a:nth-last-child(-n + 4):focus-visible::after {
+    transform: translateY(0);
+}
+
+.jimhaven-progress__track a:focus-visible {
+    outline: 2px solid var(--haven-ink);
+    outline-offset: 3px;
+}
+
+.poster-gallery {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    padding-top: 1px;
+    background: var(--line);
+}
+
+.archive-poster {
+    --poster-bg: #e7e3d4;
+    --poster-fg: #10120f;
+    --poster-accent: #e33821;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    min-width: 0;
+    min-height: 220px;
+    padding: 20px 22px 18px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--poster-accent) 24%, transparent) 0 7%, transparent 7.2%),
+        var(--poster-bg);
+    color: var(--poster-fg);
+    isolation: isolate;
+}
+
+.archive-poster:first-child {
+    grid-column: 1 / -1;
+    min-height: 248px;
+}
+
+.archive-poster--1 {
+    --poster-bg: #2443ff;
+    --poster-fg: #f2f5ff;
+    --poster-accent: #d8ff45;
+}
+
+.archive-poster--2 {
+    --poster-bg: #e33821;
+    --poster-fg: #130d0b;
+    --poster-accent: #ffd9c7;
+}
+
+.archive-poster--3 {
+    --poster-bg: #10151b;
+    --poster-fg: #dce3ea;
+    --poster-accent: #d8ff45;
+}
+
+.archive-poster--4 {
+    --poster-bg: #e6bdd7;
+    --poster-fg: #171016;
+    --poster-accent: #2443ff;
+}
+
+.archive-poster__topline,
+.archive-poster__open,
+.archive-poster__parts {
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+}
+
+.archive-poster__topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid color-mix(in srgb, var(--poster-fg) 40%, transparent);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
+.archive-poster h2 {
+    align-self: end;
+    max-width: 88%;
+    margin: 24px 0 18px;
+    overflow-wrap: anywhere;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+}
+
+.archive-poster:first-child h2 {
+    font-size: clamp(3.6rem, 10vw, 7.4rem);
+    line-height: 0.82;
+}
+
+.archive-poster h2 a:hover,
+.archive-poster h2 a:focus-visible,
+.archive-poster__open:hover,
+.archive-poster__open:focus-visible,
+.archive-poster__parts a:hover,
+.archive-poster__parts a:focus-visible {
+    color: var(--poster-accent);
+}
+
+.archive-poster h2 a:focus-visible,
+.archive-poster__open:focus-visible,
+.archive-poster__parts a:focus-visible {
+    outline-color: currentColor;
+}
+
+.archive-poster p {
+    align-self: end;
+    display: -webkit-box;
+    max-width: 32rem;
+    margin: 0 0 18px;
+    overflow: hidden;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    opacity: 0.76;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.archive-poster__parts {
+    align-self: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0 0 18px;
+}
+
+.archive-poster__parts a {
+    min-width: 2rem;
+    padding: 3px 6px;
+    border: 1px solid color-mix(in srgb, var(--poster-fg) 52%, transparent);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.archive-poster__open {
+    justify-self: start;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
 .earnings-countdown {
     --earnings-yellow: #f4d63f;
     --earnings-ink: #171500;
@@ -1330,6 +1619,56 @@ body:has(.article-page[data-slug="2026-vi"]) {
 
     .site-footer {
         justify-content: flex-start;
+    }
+
+    .jimhaven-hero {
+        padding: 14px 16px 13px;
+    }
+
+    .jimhaven-hero__topline {
+        gap: 12px;
+        font-size: 0.58rem;
+    }
+
+    .jimhaven-hero__title-row {
+        align-items: end;
+        flex-direction: row;
+        gap: 12px;
+        padding: 18px 0 13px;
+    }
+
+    .jimhaven-hero h1 {
+        font-size: clamp(2.7rem, 14vw, 4rem);
+    }
+
+    .jimhaven-progress {
+        justify-items: end;
+    }
+
+    .jimhaven-progress strong {
+        font-size: 1.6rem;
+    }
+
+    .jimhaven-progress span {
+        font-size: 0.52rem;
+    }
+
+    .poster-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .archive-poster,
+    .archive-poster:first-child {
+        grid-column: 1;
+        min-height: 190px;
+        padding: 16px;
+    }
+
+    .archive-poster h2,
+    .archive-poster:first-child h2 {
+        margin: 22px 0 15px;
+        font-size: clamp(2.5rem, 13vw, 4rem);
+        line-height: 0.9;
     }
 
     .earnings-countdown {
