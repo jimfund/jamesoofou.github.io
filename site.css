@@ -584,7 +584,7 @@ body:has(.article-page[data-slug="2026-vi"]) {
 
 .market-clock__dynamic {
     display: grid;
-    grid-template-columns: 5.7rem minmax(18rem, 1fr) minmax(12rem, 14rem);
+    grid-template-columns: 5.7rem minmax(11.5rem, 13rem) minmax(18rem, 1fr) minmax(12rem, 14rem);
     align-items: stretch;
     height: 36px;
 }
@@ -596,6 +596,31 @@ body:has(.article-page[data-slug="2026-vi"]) {
     border-right: 1px solid var(--line);
     color: var(--accent);
     white-space: nowrap;
+}
+
+.jimhaven-deadline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+    padding: 8px 12px;
+    border-right: 1px solid var(--line);
+    white-space: nowrap;
+}
+
+.jimhaven-deadline time {
+    color: var(--accent-strong);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.jimhaven-deadline.is-overdue time {
+    color: var(--signal);
+}
+
+.jimhaven-deadline.is-complete time {
+    color: var(--positive);
 }
 
 .market-clock__markets {
@@ -1824,6 +1849,12 @@ body:has(.article-page[data-slug="2026-vi"]) {
         flex: 0 0 auto;
         padding: 8px 9px 8px 12px;
         border-right: 1px solid var(--line);
+        border-bottom: 0;
+    }
+
+    .jimhaven-deadline {
+        flex: 0 0 auto;
+        padding: 8px 9px;
         border-bottom: 0;
     }
 
