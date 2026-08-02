@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-07-17T20:49:26Z",
+  "observed_at": "2026-08-02T07:41:03Z",
   "overall": "nominal",
   "checks": {
     "feed": {
       "state": "nominal",
-      "items": 11,
+      "items": 12,
       "detail": "RSS parsed successfully"
     },
     "hyperliquid": {
       "state": "nominal",
       "detail": "SP500 quote feed responded",
-      "observed_price": "7451.0"
+      "observed_price": "7501.4"
     },
     "radio": {
       "state": "nominal",
@@ -65,9 +65,9 @@
     "yahoo": {
       "state": "nominal",
       "symbols": {
-        "SKM": "2026-07-17",
-        "9984.T": "2026-07-17",
-        "JPY=X": "2026-07-17"
+        "SKM": "2026-07-31",
+        "9984.T": "2026-07-31",
+        "JPY=X": "2026-08-02"
       },
       "detail": "daily chart feeds responded"
     }
