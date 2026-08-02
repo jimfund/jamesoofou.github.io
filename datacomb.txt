@@ -3,51 +3,55 @@ jimfund datacomb
 
 scattered signal from beneath the archive
 
-01 //// 20260801 //// jimhaven //// a-simple-model
+01 //// 20260802 //// jimhaven //// decreasing-doubling-difficulty
+      Decreasing Doubling Difficulty
+      https://jimfund.com/decreasing-doubling-difficulty.html
+
+02 //// 20260801 //// jimhaven //// a-simple-model
       A Simple Model
       https://jimfund.com/a-simple-model.html
 
-02 //// 20260710 //// 2026 //// 2026-vi
+03 //// 20260710 //// 2026 //// 2026-vi
       2026 VI
       https://jimfund.com/2026-vi.html
 
-03 //// 20260512 //// 2026 //// 2026-v
+04 //// 20260512 //// 2026 //// 2026-v
       2026 V
       https://jimfund.com/2026-v.html
 
-04 //// 20260226 //// fiction //// fiction
+05 //// 20260226 //// fiction //// fiction
       Fiction I
       https://jimfund.com/fiction.html
 
-05 //// 20260226 //// 2026 //// 2026-iv
+06 //// 20260226 //// 2026 //// 2026-iv
       2026 IV
       https://jimfund.com/2026-iv.html
 
-06 //// 20260222 //// 2026 //// 2026-iii
+07 //// 20260222 //// 2026 //// 2026-iii
       2026 III
       https://jimfund.com/2026-iii.html
 
-07 //// 20260221 //// 2026 //// 2026-ii
+08 //// 20260221 //// 2026 //// 2026-ii
       2026 II
       https://jimfund.com/2026-ii.html
 
-08 //// 20260212 //// 2026 //// 2026
+09 //// 20260212 //// 2026 //// 2026
       2026 I
       https://jimfund.com/2026.html
 
-09 //// 20250326 //// Mind Upload //// upload-ii
+10 //// 20250326 //// Mind Upload //// upload-ii
       Mind Upload II
       https://jimfund.com/upload-ii.html
 
-10 //// 20250308 //// Mind Upload //// upload
+11 //// 20250308 //// Mind Upload //// upload
       Mind Upload I
       https://jimfund.com/upload.html
 
-11 //// 20250306 //// unseries //// math
+12 //// 20250306 //// unseries //// math
       Scaling Inference-Time Reasoning Will Enable Fully-Autonomous Mathematics Researchers
       https://jimfund.com/math.html
 
-12 //// 20241010 //// unseries //// near-future-fiction
+13 //// 20241010 //// unseries //// near-future-fiction
       Near-Future Fiction
       https://jimfund.com/near-future-fiction.html
 

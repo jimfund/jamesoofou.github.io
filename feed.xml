@@ -5,8 +5,42 @@
     <link>https://jimfund.com/</link>
     <description>Archive of essays and fiction.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Aug 2026 00:00:00 GMT</lastBuildDate>
-    <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+    <lastBuildDate>Sun, 02 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+    <item>
+      <title>Decreasing Doubling Difficulty</title>
+      <link>https://jimfund.com/decreasing-doubling-difficulty.html</link>
+      <guid isPermaLink="true">https://jimfund.com/decreasing-doubling-difficulty.html</guid>
+      <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+      <description>AGI is AI which can do all the cognitive work humans can do. METR tasks are tasks which humans can do. AGI will be able to do all METR tasks. This implies infinite time horizon. This means that as we approach AGI we…</description>
+      <content:encoded><![CDATA[<p>AGI is AI which can do all the cognitive work humans can do.</p>
+
+<p>METR tasks are tasks which humans can do.</p>
+
+<p>AGI will be able to do all METR tasks.</p>
+
+<p>This implies infinite time horizon.</p>
+
+<p>This means that as we approach AGI we should expect doubling time to decrease.</p>
+
+<p>This decrease will be defined by a curve.</p>
+
+<p>We call this the doubling difficulty curve.</p>
+
+<p>This makes sense. Human problem-solving ability just isn’t very honed at long time horizon tasks. We’re very good at tasks measured in seconds, minutes, hours, days, weeks, and even pretty good at a season (or, in the modern business world, a quarter). But beyond that, we’re weaker.</p>
+
+<p>And while we’re pretty good at tasks of seconds–hours, by the time we get to weeks we’re relying pretty heavily on abstract reasoning. It’s less that our evolutionary history bestowed upon us bountiful feedback for sitting and working on difficult problems for a week. Over the last 4000 years or so, sure, in the agricultural era as infrastructure projects and advanced machines of war became a thing, but that’s not much time, and one can see that human populations which avoided this feedback are not generally incapable of long tasks.</p>
+
+<p>So, for these month+ length tasks we’re mostly relying on cultural and technological tools. We’re not trained for long tasks. We don’t have cognitive architecture designed to handle long tasks. We just have some cultural and tech stuff… stuff that LLMs can pick up from us easily.</p>
+
+<p>So, what happens to the rate of progress as an AI keeps improving at a certain domain. It reaches human-level in its spikes. And then it keeps going. Well, as it approaches human-level in this domain, that is, it approaches the ability to solve tasks of lengths 1000s of hours, Well, humans are barely working on more complicated tasks when they do 10,000 hour tasks than 1,000 hour tasks. So the AI barely has to make any progress, right?</p>
+
+<p>Like, METR time horizon fundamentally measures task complexity at an abstract level: long tasks are not merely a succession of simple tasks, but are defined by an irreducible overarching complexity. The factor by which a 10 second task is more complicated than a 1 second task is much greater than the factor by which a 10,000 hour task is more complicated than a 1,000 hour task. I’m not even fully confident we have 10,000 hour tasks. What comes to mind with 10,000 hour tasks are difficult research problems, characterised perhaps by the gradual expansion of one’s understanding of the problem, but it seems unlikely that this isn’t decomposable to many subtasks of research attempts (the overarching bit, which is of course there, being no more complicated than the similar overarching bit of a 1,000 hour research problem). Well, I think there is some gap, it’s just very small, which is my point. So doubling difficulty at 1,000 hours, probably not too great.</p>
+
+<p>Note however that these are 50% time horizons. Being just 50% at a horizon could be taken as evidence that the model isn’t quite fully there, so our intuitions about what it means to be at 1,000 hours could be a bit off. Like, yeah, 10,000 hour tasks aren’t much more complicated than 1,000 hour tasks, but also we can’t do half the 1,000 hour tasks. So, maybe it’s more like when you’re at 80% of 1,000 hour tasks then obviously you have your head around things well enough that it becomes clear that you can just about already do 10,000 hour tasks? I mean, models can probably already do 10,000 hour tasks at a certain (very low) frequency in (the one or two verifiable-but-sufficiently-complicated) domains, but doubling time isn’t near-zero, so the number must be somewhere between {very low number} and 100%, but is 50% the right number? Could it be significantly lower, or higher?</p>
+
+<p>Well, one natural point of supposition would be that the important moment is when LLMs can do 10k hour tasks not merely because of some intersection between things that LLMs are strong at by their nature and humans weak, but rather can do those tasks which their LLM nature offers no particular benefit, nor to humans any particular weakness. 50% time horizon sounds something like a soft upper bound to this problem. Surely LLMs aren’t particularly advantaged at <em>50%</em> of these tasks? So, at 50% time horizon of 1,000 hours, we’d expect LLMs to truly be roughly at human-level. Sure, there’s a chunk of problems human experts can do that LLMs cannot, but there will nearsimilarly be a chunk of problems which human experts cannot do that LLMs can. So, the 50% time horizon seems to be a fair enough choice. A little more or less might be better, but not 80%, and 50% and 80% are the two figures that are well worked out, so we’ll stick with 50%.</p>]]></content:encoded>
+    </item>
     <item>
       <title>A Simple Model</title>
       <link>https://jimfund.com/a-simple-model.html</link>

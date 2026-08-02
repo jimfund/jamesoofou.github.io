@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "built_at": "2026-08-01T19:30:56Z",
+  "built_at": "2026-08-02T18:20:31Z",
   "content": {
-    "article_count": 12,
+    "article_count": 13,
     "series_count": 4,
     "latest": {
-      "slug": "a-simple-model",
-      "date": "2026-08-01"
+      "slug": "decreasing-doubling-difficulty",
+      "date": "2026-08-02"
     }
   },
   "feed": {
     "path": "feed.xml",
-    "expected_items": 12
+    "expected_items": 13
   },
   "webmaster": {
     "path": "webmaster/",
