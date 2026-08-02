@@ -222,9 +222,16 @@
         return days > 0 ? `${days}D ${clock}` : clock;
     }
 
+    function setDocumentTitle(title) {
+        if (document.hidden || document.title === title) {
+            return;
+        }
+        document.title = title;
+    }
+
     function renderTitleCountdown(now) {
         function setTitle(marketText) {
-            document.title = sp500TitleValue ? `${sp500TitleValue} / ${marketText}` : marketText;
+            setDocumentTitle(sp500TitleValue ? `${sp500TitleValue} / ${marketText}` : marketText);
         }
 
         const usMarket = markets.find((market) => market.key === "US");
@@ -360,7 +367,7 @@
             row.querySelector(".market-clock__status").textContent = "Calendar unavailable";
             row.title = error instanceof Error ? error.message : "Unable to load market calendar";
         });
-        document.title = sp500TitleValue ? `${sp500TitleValue} / --:--:--` : "--:--:--";
+        setDocumentTitle(sp500TitleValue ? `${sp500TitleValue} / --:--:--` : "--:--:--");
         document.documentElement.dataset.marketState = "unknown";
         document.dispatchEvent(new CustomEvent("jimfund:market-state", {
             detail: { anyOpen: false, openCount: 0, markets: [], unknown: true },
@@ -386,6 +393,11 @@
                 window.setInterval(render, refreshInterval);
             }, millisecondsUntilRefresh);
             compactClock.addEventListener("change", render);
+            document.addEventListener("visibilitychange", () => {
+                if (!document.hidden) {
+                    render();
+                }
+            });
         } catch (error) {
             renderUnavailable(error);
         }
