@@ -222,7 +222,7 @@ body:has(.article-page[data-slug="2026-vi"]) {
     align-items: end;
     justify-content: space-between;
     gap: 28px;
-    padding: 22px 0 16px;
+    padding: 16px 0 22px;
 }
 
 .jimhaven-hero h1 {
@@ -1723,7 +1723,7 @@ body:has(.article-page[data-slug="2026-vi"]) {
         align-items: end;
         flex-direction: row;
         gap: 12px;
-        padding: 18px 0 13px;
+        padding: 12px 0 19px;
     }
 
     .jimhaven-hero h1 {
