@@ -299,6 +299,11 @@ body:has(.article-page[data-slug="2026-vi"]) {
     background: var(--haven-ink);
 }
 
+.jimhaven-progress__track .is-failed {
+    border-color: var(--signal);
+    background: var(--signal);
+}
+
 .jimhaven-progress__track a::after {
     content: attr(data-title);
     position: absolute;

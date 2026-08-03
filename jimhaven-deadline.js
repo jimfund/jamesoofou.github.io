@@ -18,9 +18,10 @@
         return;
     }
 
-    function firstUnfilledDay() {
+    function firstPendingDay() {
         const index = Array.from(track.children).findIndex(
-            (mark) => !mark.classList.contains("is-filled"),
+            (mark) => !mark.classList.contains("is-filled")
+                && !mark.classList.contains("is-failed"),
         );
         return index < 0 ? null : index + 1;
     }
@@ -42,7 +43,7 @@
     }
 
     function render() {
-        const nextDay = firstUnfilledDay();
+        const nextDay = firstPendingDay();
         if (nextDay === null) {
             label.textContent = "jimhaven";
             value.textContent = "Complete";
