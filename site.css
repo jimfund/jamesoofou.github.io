@@ -304,7 +304,7 @@ body:has(.article-page[data-slug="2026-vi"]) {
     background: var(--signal);
 }
 
-.jimhaven-progress__track a::after {
+.jimhaven-progress__track [data-title]::after {
     content: attr(data-title);
     position: absolute;
     bottom: calc(100% + 10px);
@@ -327,34 +327,34 @@ body:has(.article-page[data-slug="2026-vi"]) {
     transition: opacity 100ms ease, transform 100ms ease;
 }
 
-.jimhaven-progress__track a:hover::after,
-.jimhaven-progress__track a:focus-visible::after {
+.jimhaven-progress__track [data-title]:hover::after,
+.jimhaven-progress__track [data-title]:focus-visible::after {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
 
-.jimhaven-progress__track a:nth-child(-n + 4)::after {
+.jimhaven-progress__track [data-title]:nth-child(-n + 4)::after {
     left: 0;
     transform: translateY(3px);
 }
 
-.jimhaven-progress__track a:nth-child(-n + 4):hover::after,
-.jimhaven-progress__track a:nth-child(-n + 4):focus-visible::after {
+.jimhaven-progress__track [data-title]:nth-child(-n + 4):hover::after,
+.jimhaven-progress__track [data-title]:nth-child(-n + 4):focus-visible::after {
     transform: translateY(0);
 }
 
-.jimhaven-progress__track a:nth-last-child(-n + 4)::after {
+.jimhaven-progress__track [data-title]:nth-last-child(-n + 4)::after {
     right: 0;
     left: auto;
     transform: translateY(3px);
 }
 
-.jimhaven-progress__track a:nth-last-child(-n + 4):hover::after,
-.jimhaven-progress__track a:nth-last-child(-n + 4):focus-visible::after {
+.jimhaven-progress__track [data-title]:nth-last-child(-n + 4):hover::after,
+.jimhaven-progress__track [data-title]:nth-last-child(-n + 4):focus-visible::after {
     transform: translateY(0);
 }
 
-.jimhaven-progress__track a:focus-visible {
+.jimhaven-progress__track [data-title]:focus-visible {
     outline: 2px solid var(--haven-ink);
     outline-offset: 3px;
 }
