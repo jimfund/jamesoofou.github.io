@@ -392,8 +392,21 @@ body:has(.article-page[data-slug="2026-vi"]) {
     min-height: 248px;
 }
 
-.archive-poster:first-child:has(.archive-poster__doodle) {
+.archive-poster[data-doodle-key="series-2026"] {
     background: var(--poster-bg);
+}
+
+.archive-poster[data-doodle-key="series-2026"]::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 22%;
+    left: 82%;
+    width: 10.79%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--poster-accent) 24%, transparent);
 }
 
 .archive-poster--1 {
@@ -517,6 +530,15 @@ body:has(.article-page[data-slug="2026-vi"]) {
     user-select: none;
 }
 
+.archive-poster[data-doodle-key="series-2026"] .archive-poster__doodle {
+    top: 22%;
+    right: auto;
+    bottom: auto;
+    left: -0.707%;
+    height: auto;
+    transform: translateY(-22.997%);
+}
+
 body.is-doodling {
     padding-bottom: 76px;
 }
@@ -532,12 +554,6 @@ body.is-doodling {
 
 .is-doodling .archive-poster__doodle {
     display: none;
-}
-
-.is-doodling .archive-poster:first-child:has(.archive-poster__doodle) {
-    background:
-        radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--poster-accent) 24%, transparent) 0 7%, transparent 7.2%),
-        var(--poster-bg);
 }
 
 .doodle-canvas {
