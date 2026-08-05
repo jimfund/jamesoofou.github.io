@@ -503,6 +503,125 @@ body:has(.article-page[data-slug="2026-vi"]) {
     letter-spacing: 0.12em;
 }
 
+.archive-poster__doodle {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    user-select: none;
+}
+
+body.is-doodling {
+    padding-bottom: 76px;
+}
+
+.is-doodling .archive-poster {
+    cursor: crosshair;
+}
+
+.is-doodling .archive-poster.is-doodle-active {
+    outline: 3px solid #fff;
+    outline-offset: -6px;
+}
+
+.is-doodling .archive-poster__doodle {
+    display: none;
+}
+
+.doodle-canvas {
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+
+.doodle-toolbar {
+    position: fixed;
+    z-index: 1000;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #5d6269;
+    background: rgba(9, 11, 15, 0.96);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    color: #f4f0e8;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+}
+
+.doodle-toolbar button,
+.doodle-toolbar input {
+    accent-color: #d8ff45;
+    font: inherit;
+}
+
+.doodle-toolbar button {
+    padding: 6px 9px;
+    border: 1px solid #787e87;
+    background: #181c22;
+    color: inherit;
+    cursor: pointer;
+}
+
+.doodle-toolbar button:hover,
+.doodle-toolbar button:focus-visible {
+    border-color: #d8ff45;
+    color: #d8ff45;
+}
+
+.doodle-toolbar__poster {
+    min-width: min(220px, 40vw);
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doodle-toolbar__field {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.doodle-toolbar__color {
+    width: 30px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.doodle-toolbar__size {
+    width: 82px;
+}
+
+.doodle-toolbar__status {
+    margin-left: auto;
+    color: #b8bec8;
+}
+
+@media (max-width: 680px) {
+    body.is-doodling {
+        padding-bottom: 132px;
+    }
+
+    .doodle-toolbar__poster,
+    .doodle-toolbar__status {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
 .earnings-countdown {
     --earnings-yellow: #f4d63f;
     --earnings-ink: #171500;
@@ -1798,6 +1917,10 @@ body:has(.article-page[data-slug="2026-vi"]) {
         margin: 22px 0 15px;
         font-size: clamp(2.5rem, 13vw, 4rem);
         line-height: 0.9;
+    }
+
+    .archive-poster--essay:has(.archive-poster__doodle) {
+        aspect-ratio: 518.5 / 603.45;
     }
 
     .earnings-countdown {
