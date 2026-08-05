@@ -392,6 +392,10 @@ body:has(.article-page[data-slug="2026-vi"]) {
     min-height: 248px;
 }
 
+.archive-poster:first-child:has(.archive-poster__doodle) {
+    background: var(--poster-bg);
+}
+
 .archive-poster--1 {
     --poster-bg: #2443ff;
     --poster-fg: #f2f5ff;
@@ -528,6 +532,12 @@ body.is-doodling {
 
 .is-doodling .archive-poster__doodle {
     display: none;
+}
+
+.is-doodling .archive-poster:first-child:has(.archive-poster__doodle) {
+    background:
+        radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--poster-accent) 24%, transparent) 0 7%, transparent 7.2%),
+        var(--poster-bg);
 }
 
 .doodle-canvas {
