@@ -1938,6 +1938,11 @@ body.is-doodling {
         padding: 16px;
     }
 
+    .archive-poster[data-doodle-key="series-2026"]::before,
+    .archive-poster[data-doodle-key="series-2026"] .archive-poster__doodle {
+        top: 30%;
+    }
+
     .archive-poster h2,
     .archive-poster:first-child h2 {
         margin: 22px 0 15px;
