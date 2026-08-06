@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3eee3">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="description" content="An interactive atlas of the world's language families, comparing traditional homelands with Atlas-era distributions.">
+    <title>Language families of the world</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23174f45'/%3E%3Cpath d='M32 8 56 32 32 56 8 32Z' fill='%23dcbd4c' stroke='%23fffdf8' stroke-width='4'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#family-map">Skip to the map</a>
+
+    <main class="atlas-shell">
+      <header class="atlas-header">
+        <div class="title-block">
+          <p class="kicker">A comparative atlas</p>
+          <h1>Language families of the world</h1>
+          <p class="dek">Genealogical lineages, not countries or ethnicities. Areas may overlap; uncovered land may simply be absent from the source.</p>
+        </div>
+        <div class="header-actions">
+          <button id="sources-button" class="quiet-button" type="button" aria-haspopup="dialog">Sources &amp; method</button>
+          <button id="layers-button" class="quiet-button mobile-only" type="button" aria-controls="control-panel" aria-expanded="false">Layers</button>
+        </div>
+      </header>
+
+      <section class="search-strip" aria-label="Find a language family">
+        <div class="search-box">
+          <label for="lineage-search">Find a family or language</label>
+          <div class="search-input-wrap">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m15.5 15.5 5 5"></path></svg>
+            <input id="lineage-search" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" placeholder="Try English, Indo-European, or a Glottocode">
+          </div>
+          <ul id="search-results" class="search-results" role="listbox" hidden></ul>
+        </div>
+
+        <div class="view-switch" role="group" aria-label="Map view">
+          <button id="view-traditional" type="button" aria-pressed="false">Traditional</button>
+          <button id="view-compare" type="button" aria-pressed="true">Compare</button>
+          <button id="view-contemporary" type="button" aria-pressed="false">Atlas-era</button>
+        </div>
+      </section>
+
+      <section class="atlas-workspace">
+        <div class="map-column">
+          <div id="map-frame" class="map-frame" aria-busy="true">
+            <svg id="family-map" role="img" aria-labelledby="map-title map-description" tabindex="0">
+              <title id="map-title">World map of language families</title>
+              <desc id="map-description">Pan and zoom the Equal Earth map. In comparison view, drag the reveal control to compare traditional or homeland areas on the left with Atlas-era contemporary areas on the right.</desc>
+            </svg>
+
+            <div class="map-key" aria-hidden="true">
+              <span class="key-chip key-chip--traditional">Traditional / homeland</span>
+              <span class="key-chip key-chip--contemporary">Atlas-era contemporary</span>
+            </div>
+
+            <div id="map-toolbar" class="map-toolbar" role="group" aria-label="Map navigation">
+              <button id="zoom-in" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+              <button id="zoom-out" type="button" title="Zoom out" aria-label="Zoom out">−</button>
+              <button id="reset-view" class="text-button" type="button">Reset</button>
+              <button id="pacific-view" class="text-button" type="button">Pacific</button>
+            </div>
+
+            <div id="comparison-control" class="comparison-control">
+              <label for="comparison-slider"><span class="sr-only">Comparison reveal</span></label>
+              <input id="comparison-slider" type="range" min="0" max="100" step="1" value="50" aria-label="Comparison reveal" aria-valuetext="Traditional 50 percent; Atlas-era contemporary 50 percent">
+              <span class="seam-handle" aria-hidden="true"><svg viewBox="0 0 28 38"><path d="M9 13 4 19l5 6M19 13l5 6-5 6"></path></svg></span>
+            </div>
+
+            <div id="map-tooltip" class="map-tooltip" role="status" hidden></div>
+            <div id="map-status" class="map-status" aria-live="polite"><span class="spinner" aria-hidden="true"></span> Preparing the atlas…</div>
+          </div>
+
+          <p class="map-caption"><span class="isolate-mark" aria-hidden="true"></span> Isolates are lineages with no demonstrated relatives. Colours distinguish neighbouring areas; the same colour may be reused elsewhere.</p>
+        </div>
+
+        <aside id="control-panel" class="control-panel" aria-label="Map layers">
+          <div class="sheet-grip mobile-only" aria-hidden="true"></div>
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Map display</p>
+              <h2>Layers</h2>
+            </div>
+            <button id="close-layers" class="icon-button mobile-only" type="button" aria-label="Close layers">×</button>
+          </div>
+
+          <fieldset class="layer-list">
+            <legend>Reference</legend>
+            <label class="toggle-row" for="toggle-countries">
+              <span><strong>Country boundaries</strong><small>Present-day reference only</small></span>
+              <input id="toggle-countries" type="checkbox">
+            </label>
+            <label class="toggle-row" for="toggle-points">
+              <span><strong>Supplemental points</strong><small>Lineages without mapped areas</small></span>
+              <input id="toggle-points" type="checkbox" checked>
+            </label>
+            <label class="toggle-row" for="toggle-historical">
+              <span><strong>Historical points</strong><small>Locations marked extinct</small></span>
+              <input id="toggle-historical" type="checkbox">
+            </label>
+          </fieldset>
+
+          <fieldset class="layer-list">
+            <legend>Additional datasets</legend>
+            <label class="toggle-row" for="toggle-sign">
+              <span><strong>Signed languages</strong><small>219 located of 222 L1 records</small></span>
+              <input id="toggle-sign" type="checkbox">
+            </label>
+            <label class="toggle-row" for="toggle-contact">
+              <span><strong>Contact languages</strong><small>APiCS sample; not genealogical</small></span>
+              <input id="toggle-contact" type="checkbox">
+            </label>
+          </fieldset>
+
+          <p class="panel-note">These overlays are point samples, not territories. Signed-language classifications can be tentative; APiCS is non-exhaustive.</p>
+        </aside>
+
+        <aside id="detail-panel" class="detail-panel" aria-label="Selected lineage" aria-live="polite">
+          <div id="detail-empty" class="detail-empty">
+            <p class="panel-kicker">Explore the atlas</p>
+            <h2>Select a coloured area</h2>
+            <p>Hover or tap to identify every lineage at a place. Select one to compare its mapped coverage and open its Glottolog record.</p>
+          </div>
+          <div id="detail-content" hidden>
+            <div class="panel-heading">
+              <p id="detail-type" class="panel-kicker"></p>
+              <button id="close-detail" class="icon-button" type="button" aria-label="Close lineage details">×</button>
+            </div>
+            <h2 id="detail-name"></h2>
+            <p id="detail-id" class="detail-id"></p>
+            <dl id="detail-facts" class="detail-facts"></dl>
+            <p id="detail-note" class="detail-note"></p>
+            <div id="detail-also" class="detail-also" hidden></div>
+            <a id="detail-link" class="primary-link" href="#" target="_blank" rel="noopener">View in Glottolog <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="sources-dialog" class="sources-dialog" aria-labelledby="sources-title">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-header">
+          <div>
+            <p class="panel-kicker">How to read this map</p>
+            <h2 id="sources-title">Sources &amp; method</h2>
+          </div>
+          <button id="close-sources" class="icon-button" value="close" aria-label="Close sources and method">×</button>
+        </div>
+        <div class="dialog-body">
+          <section>
+            <h3>What the areas mean</h3>
+            <p>Language families group languages by demonstrated common inheritance. The shapes are generalized scholarly distributions—not borders, populations, official-language status, or exclusive occupancy. Overlap is expected.</p>
+          </section>
+          <section>
+            <h3>Two imperfect time views</h3>
+            <p><strong>Traditional / homeland</strong> uses contact-era areas in the Americas and Australia and Atlas-era proxies elsewhere. <strong>Atlas-era contemporary</strong> usually reflects the source atlas around 2007; it is not a live 2026 survey.</p>
+          </section>
+          <section>
+            <h3>Classification and geography</h3>
+            <p id="source-summary">Loading the source manifest…</p>
+            <ul id="source-list" class="source-list"></ul>
+          </section>
+          <section>
+            <h3>Important limits</h3>
+            <p>Points locate documented languages or lineages but do not imply territory. Unmapped land means “no polygon in this source,” not “no language.” Pidgins, mixed and artificial languages, speech registers, and unclassifiable or unattested records are excluded from the genealogical fill.</p>
+          </section>
+        </div>
+      </form>
+    </dialog>
+
+    <noscript>This atlas needs JavaScript to draw and explore the map.</noscript>
+    <script src="vendor/d3.v7.min.js"></script>
+    <script src="vendor/topojson-client.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
