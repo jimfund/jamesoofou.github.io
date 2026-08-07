@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <title>White noise</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #0b0d10;
+      color: #e4e9ee;
+      --muted: #78828d;
+      --line: #2a3037;
+      --active: #dce7ef;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      display: grid;
+      min-width: 280px;
+      min-height: 100vh;
+      margin: 0;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 35%, rgb(255 255 255 / 0.035), transparent 34rem),
+        #0b0d10;
+    }
+
+    main {
+      width: min(360px, calc(100% - 40px));
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 9px;
+      font-size: clamp(1.25rem, 5vw, 1.55rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+    }
+
+    .status {
+      min-height: 1.4em;
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .toggle {
+      display: grid;
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 34px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid #3a424b;
+      border-radius: 50%;
+      background: #12161b;
+      color: var(--active);
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+    }
+
+    .toggle:hover { border-color: #717d88; }
+    .toggle:active { transform: scale(0.97); }
+    .toggle:focus-visible { outline: 2px solid #b7c5d1; outline-offset: 5px; }
+    .toggle[aria-pressed="true"] { background: #dce7ef; border-color: #dce7ef; color: #11151a; }
+
+    .icon {
+      width: 25px;
+      height: 25px;
+      fill: currentColor;
+    }
+
+    .pause { display: none; }
+    .toggle[aria-pressed="true"] .play { display: none; }
+    .toggle[aria-pressed="true"] .pause { display: block; }
+
+    .volume-row {
+      display: grid;
+      grid-template-columns: auto 1fr 3ch;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--active);
+      cursor: pointer;
+    }
+
+    output {
+      color: #aab4be;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .note {
+      margin: 28px 0 0;
+      color: #59626b;
+      font-size: 0.68rem;
+      line-height: 1.55;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .toggle { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>White noise</h1>
+    <p id="status" class="status" aria-live="polite">Ready</p>
+
+    <button id="toggle" class="toggle" type="button" aria-label="Start white noise" aria-pressed="false">
+      <svg class="icon play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.7v12.6a1 1 0 0 0 1.55.83l8.8-6.3a1 1 0 0 0 0-1.66l-8.8-6.3A1 1 0 0 0 8 5.7Z"/></svg>
+      <svg class="icon pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7zm7 0h3v14h-3z"/></svg>
+    </button>
+
+    <label class="volume-row" for="volume">
+      <span>Volume</span>
+      <input id="volume" type="range" min="0" max="100" value="35" aria-label="Volume">
+      <output id="volumeValue" for="volume">35</output>
+    </label>
+
+    <p class="note">Generated on this device. Keep the volume low when using headphones.</p>
+  </main>
+
+  <script>
+    const toggle = document.querySelector('#toggle');
+    const volume = document.querySelector('#volume');
+    const volumeValue = document.querySelector('#volumeValue');
+    const status = document.querySelector('#status');
+
+    let context;
+    let gain;
+    let source;
+    let playing = false;
+
+    function level() {
+      const value = Number(volume.value) / 100;
+      return value * value * 0.45;
+    }
+
+    function prepareAudio() {
+      if (context) return;
+
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) throw new Error('Web Audio is not supported by this browser.');
+
+      context = new AudioContext();
+      gain = context.createGain();
+      gain.gain.value = 0;
+      gain.connect(context.destination);
+    }
+
+    function makeNoise() {
+      const seconds = 4;
+      const buffer = context.createBuffer(2, context.sampleRate * seconds, context.sampleRate);
+
+      for (let channel = 0; channel < buffer.numberOfChannels; channel += 1) {
+        const samples = buffer.getChannelData(channel);
+        for (let i = 0; i < samples.length; i += 1) samples[i] = Math.random() * 2 - 1;
+      }
+
+      const nextSource = context.createBufferSource();
+      nextSource.buffer = buffer;
+      nextSource.loop = true;
+      nextSource.connect(gain);
+      return nextSource;
+    }
+
+    async function start() {
+      prepareAudio();
+      await context.resume();
+
+      source = makeNoise();
+      source.start();
+      gain.gain.cancelScheduledValues(context.currentTime);
+      gain.gain.setValueAtTime(0, context.currentTime);
+      gain.gain.linearRampToValueAtTime(level(), context.currentTime + 0.08);
+
+      playing = true;
+      toggle.setAttribute('aria-pressed', 'true');
+      toggle.setAttribute('aria-label', 'Stop white noise');
+      status.textContent = 'Playing';
+    }
+
+    function stop() {
+      if (!context || !source) return;
+
+      const oldSource = source;
+      gain.gain.cancelScheduledValues(context.currentTime);
+      gain.gain.setValueAtTime(gain.gain.value, context.currentTime);
+      gain.gain.linearRampToValueAtTime(0, context.currentTime + 0.08);
+      oldSource.stop(context.currentTime + 0.09);
+      source = null;
+
+      playing = false;
+      toggle.setAttribute('aria-pressed', 'false');
+      toggle.setAttribute('aria-label', 'Start white noise');
+      status.textContent = 'Stopped';
+    }
+
+    toggle.addEventListener('click', async () => {
+      if (playing) {
+        stop();
+        return;
+      }
+
+      try {
+        await start();
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    });
+
+    volume.addEventListener('input', () => {
+      volumeValue.value = volume.value;
+      if (!playing) return;
+
+      gain.gain.cancelScheduledValues(context.currentTime);
+      gain.gain.setTargetAtTime(level(), context.currentTime, 0.015);
+    });
+  </script>
+</body>
+</html>
