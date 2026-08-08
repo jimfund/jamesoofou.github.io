@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-07T01:51:50Z",
+  "generated_at": "2026-08-08T00:01:02Z",
   "source": {
     "name": "Yahoo Finance",
     "type": "unofficial chart feed",
@@ -23,23 +23,23 @@
     "return_method": "adjusted close with dividends reinvested"
   },
   "latest": {
-    "date": "2026-08-06",
-    "value_usd": 405441.19,
-    "profit_loss_usd": 5441.19,
-    "return_pct": 1.360297,
+    "date": "2026-08-07",
+    "value_usd": 391906.83,
+    "profit_loss_usd": -8093.17,
+    "return_pct": -2.023292,
     "skm": {
-      "close_usd": 35.67,
-      "value_usd": 221140.73,
-      "return_pct": 10.570366,
-      "weight_pct": 54.543233
+      "close_usd": 34.26,
+      "value_usd": 212399.26,
+      "return_pct": 6.199628,
+      "weight_pct": 54.196365
     },
     "softbank": {
-      "close_jpy": 5695.0,
-      "value_usd": 184300.46,
-      "return_pct": -7.849772,
-      "weight_pct": 45.456767
+      "close_jpy": 5552.0,
+      "value_usd": 179507.57,
+      "return_pct": -10.246213,
+      "weight_pct": 45.803635
     },
-    "usd_jpy": 157.600006
+    "usd_jpy": 157.744995
   },
   "series": [
     {
@@ -364,6 +364,25 @@
         "weight_pct": 45.456767
       },
       "usd_jpy": 157.600006
+    },
+    {
+      "date": "2026-08-07",
+      "value_usd": 391906.83,
+      "profit_loss_usd": -8093.17,
+      "return_pct": -2.023292,
+      "skm": {
+        "close_usd": 34.26,
+        "value_usd": 212399.26,
+        "return_pct": 6.199628,
+        "weight_pct": 54.196365
+      },
+      "softbank": {
+        "close_jpy": 5552.0,
+        "value_usd": 179507.57,
+        "return_pct": -10.246213,
+        "weight_pct": 45.803635
+      },
+      "usd_jpy": 157.744995
     }
   ]
 }
